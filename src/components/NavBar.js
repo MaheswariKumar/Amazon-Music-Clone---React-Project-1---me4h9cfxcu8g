@@ -1,5 +1,5 @@
 import React from "react";
-import HomeIcon from './Homeicon';
+import HomeIcon from './HomeIcon';
 import PodcastIcon from "./PodcastIcon";
 import MyMusicIcon from "./MyMusicIcon";
 import ProfileIcon from "./ProfileIcon";
