@@ -33,9 +33,8 @@ function NavBar(){
                 <ul className="right-lists">
                     <form>
                         <div className="search-container">
-                            <span class="fa fa-search"></span>
+                            <img className="icon" src="https://th.bing.com/th/id/OIP.6TcG8ShE1aAy3WyR4C3EoQAAAA?pid=ImgDet&rs=1"></img>
                             <input className="search" type="search" placeholder="Search"></input>
-                            {/* <i><SearchIcon color="inherit"/></i> */}
                         </div>
                     </form>
                     <div className="user-icon">
