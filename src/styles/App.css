@@ -192,25 +192,25 @@
     padding-top: 20px;
     display: flex;
     flex-direction: row;
-    gap: 12px;
+    gap: 20px;
 }
 
 .collections {
     display: flex;
     flex-direction: column;
-    padding: 4px 24px 4px 0px;
+    padding: 4px 16px 4px 0px;
     width: 180px;
 }
 
 .imgtab {
     border-radius: 8px;
     box-shadow: 0 5px 20px rgba(0, 0, 0, 0.6);
-    width: 160px;
-    height: 160px;
+    width: 166px;
+    height: 166px;
     cursor: pointer;
 }
 
-a.link {
+.link {
     font-size: 16px;
     font-family:  "Ember", "Helvetica", "Arial", "sans-serif";
     color: white;
@@ -255,13 +255,13 @@ a.link {
 
 .image-container:hover .icon-container {
     display: flex; 
-    justify-content: space-around;
+    justify-content: space-evenly;
     align-items: center;
     background-color: rgba(0, 0, 0, 0.5); 
     padding: 10px;
     z-index: 1; 
-    width: 166px;
-    height: 164px;
+    width: 175px;
+    height: 169px;
 }
 
 .play-container {
