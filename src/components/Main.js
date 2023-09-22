@@ -9,10 +9,10 @@ function Main(){
     let [featuredata, setFeaturedata] = useState([]);
     let [selectleft, setSelectLeft] = useState("rgba(255, 255, 255, 0.3)");
     let [selectright, setSelectRight] = useState("white");
-    const [scrollLeft, setScrollLeft] = useState(0);
-    const [selectall, setSelectAll] = useState(false);
-    const [limit, setLimit] = useState(12);
-    const containerRef = useRef(null);
+    let [scrollLeft, setScrollLeft] = useState(0);
+    let [selectall, setSelectAll] = useState(false);
+    let [limit, setLimit] = useState(12);
+    let containerRef = useRef(null);
 
     useEffect(()=>{
         async function fetchFeaturedMusic() {
@@ -34,7 +34,6 @@ function Main(){
                 setFeaturedata(data.data);
                 console.log(data.data);
                 console.log(data.data[0]);
-
         
             } catch (error) {
                 console.error('There was a problem with the fetch operation:', error);
@@ -43,7 +42,26 @@ function Main(){
         
         fetchFeaturedMusic();
         
-    }, [])
+    }, [limit])
+
+    useEffect(() => {
+        function handleScroll() {
+            if (
+              containerRef.current &&
+              containerRef.current.scrollTop + containerRef.current.clientHeight >=
+                containerRef.current.scrollHeight
+            ) {
+              // Detect when user has scrolled to the bottom
+              setLimit((prevLimit) => prevLimit + 12); // Increase the limit to load more data
+            }
+          }
+        
+          window.addEventListener("scroll", handleScroll);
+        
+          return () => {
+            window.removeEventListener("scroll", handleScroll);
+          };
+      }, [limit]);
 
     function handleLeftIcon() {
         if (containerRef.current) {
@@ -71,13 +89,19 @@ function Main(){
 
     function handleSelectAll() {
         setSelectAll(true);
-        setLimit(100);
     }
 
     return (
         <div className="Main-section">
             <div className="categories"></div>
-            <TrendingPlayLists containerRef={containerRef} featuredata={featuredata} handleLeftIcon={handleLeftIcon} handleRightIcon={handleRightIcon} selectleft={selectleft} selectright={selectright}/>
+            <TrendingPlayLists featuredata={featuredata} 
+                               handleLeftIcon={handleLeftIcon} 
+                               handleRightIcon={handleRightIcon} 
+                               selectleft={selectleft} 
+                               selectright={selectright} 
+                               containerRef={containerRef} 
+                               handleSelectAll={handleSelectAll}
+                               selectall={selectall} />
             <SoulSoothers />
             <WorkoutMix />
             <TrendingSongs />
@@ -86,7 +110,7 @@ function Main(){
     )
 }
 
-function TrendingPlayLists({featuredata, handleLeftIcon, handleRightIcon, selectleft, selectright, containerRef}){
+function TrendingPlayLists({featuredata, handleLeftIcon, handleRightIcon, selectleft, selectright, containerRef, handleSelectAll, selectall}){
     return (
         <div className="feature">
             <div className="headertab">
@@ -105,9 +129,9 @@ function TrendingPlayLists({featuredata, handleLeftIcon, handleRightIcon, select
                     <span className="all">SEE ALL</span>
                 </div>
             </div>
-            <div className="wrapper" ref={containerRef}>
+            <div className={selectall ? "wrapper-all" : "wrapper"} ref={containerRef}>
                 {featuredata.map((song, idx)=>(
-                <div className="collections" key={idx}>
+                <div className={selectall ? "collections-all" : "collections"} key={idx}>
                     <div className="image-container">
                     <img className="imgtab" src={song.image} alt={song.title}></img>
                     <div className="icon-container">
@@ -164,7 +188,7 @@ function SoulSoothers() {
                         <a className="link" href="/albums/B0CHVTM66G?trackAsin=B0CHVSH3WS">JALSA 2.0 (From "Mission Raniganj: The Great Bharat Rescue")</a>
                     </div> 
                     <div className="content-container">
-                        <span className="content">Satinder Sartaaj &amp; Prem &amp; Hardeep</span>
+                        <span className="content">Satinder Sartaaj&amp; Prem &amp; Hardeep</span>
                     </div>
                 </div>
                 

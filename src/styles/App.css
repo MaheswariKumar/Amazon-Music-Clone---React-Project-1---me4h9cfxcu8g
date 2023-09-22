@@ -201,10 +201,25 @@
     }
 }
 
+.wrapper-all {
+    padding-top: 20px;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
 .collections {
     display: flex;
     flex-direction: column;
     padding: 4px 16px 4px 0px;
+    width: 180px;
+}
+
+.collections-all {
+    display: flex;
+    flex-direction: column;
+    padding: 4px 16px 14px 0px;
     width: 180px;
 }
 
@@ -257,6 +272,7 @@
 .image-container {
     position: relative;
     display: inline-block;
+    border: 1px solid black;
   }
 
 .image-container:hover .icon-container {
