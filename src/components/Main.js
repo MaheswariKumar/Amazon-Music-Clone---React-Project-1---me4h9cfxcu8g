@@ -6,40 +6,68 @@ import ActionMoreIcon from "./ActionMoreIcon";
 import ActionAddIcon from "./ActionAddIcon";
 
 function Main(){
-    let [featuredata, setFeaturedata] = useState([]);
+    let [playlists, setPlayLists] = useState([]);
+    let [songlists, setSongLists] = useState([]);
+    let [artistlists, setArtistLists] = useState([]);
     let [selectleft, setSelectLeft] = useState("rgba(255, 255, 255, 0.3)");
     let [selectright, setSelectRight] = useState("white");
     let [scrollLeft, setScrollLeft] = useState(0);
     let [selectall, setSelectAll] = useState(false);
     let [limit, setLimit] = useState(12);
+    let [showTrendingPlaylists, setShowTrendingPlaylists] = useState(true);
+    let [showSoulSoothers, setShowSoulSoothers] = useState(true);
+    let [showWorkoutMix, setShowWorkoutMix] = useState(true);
+    let [showTrendingSongs, setShowTrendingSongs] = useState(true);
     let containerRef = useRef(null);
 
     useEffect(()=>{
         async function fetchFeaturedMusic() {
             try {
-                const response = await fetch(`https://academics.newtonschool.co/api/v1/music/album?limit=${limit}`, {
+                const response1 = await fetch(`https://academics.newtonschool.co/api/v1/music/album?limit=${limit}`, {
                     headers: {
                         'projectId': 'f104bi07c490'
                     }
                 });
-        
-                if (!response.ok) {
+                if (!response1.ok) {
                     throw new Error('Network response was not ok');
                 }
-        
-                const data = await response.json();
-        
-               
-                console.log(data);
-                setFeaturedata(data.data);
-                console.log(data.data);
-                console.log(data.data[0]);
-        
+                const data1 = await response1.json();
+                console.log(data1);
+                setPlayLists(data1.data);
+                console.log(data1.data);
+                console.log(data1.data[0]);
+
+                const response2 = await fetch(`https://academics.newtonschool.co/api/v1/music/song?limit=${limit}`, {
+                    headers: {
+                        'projectId': 'f104bi07c490'
+                    }
+                });
+                if (!response2.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                const data2 = await response2.json();
+                console.log(data2);
+                setSongLists(data2.data);
+                console.log(data2.data);
+                console.log(data2.data[0]);
+
+                const response3 = await fetch(`https://academics.newtonschool.co/api/v1/music/artist?limit=${limit}`, {
+                    headers: {
+                        'projectId': 'f104bi07c490'
+                    }
+                });
+                if (!response3.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                const data3 = await response3.json();
+                console.log(data3);
+                setArtistLists(data3.data);
+                console.log(data3.data);
+                console.log(data3.data[0]);
             } catch (error) {
                 console.error('There was a problem with the fetch operation:', error);
             }
         }
-        
         fetchFeaturedMusic();
         
     }, [limit])
@@ -94,23 +122,37 @@ function Main(){
     return (
         <div className="Main-section">
             <div className="categories"></div>
-            <TrendingPlayLists featuredata={featuredata} 
+            {showTrendingPlaylists && <TrendingPlayLists playlists={playlists} 
                                handleLeftIcon={handleLeftIcon} 
                                handleRightIcon={handleRightIcon} 
                                selectleft={selectleft} 
                                selectright={selectright} 
                                containerRef={containerRef} 
                                handleSelectAll={handleSelectAll}
-                               selectall={selectall} />
-            <SoulSoothers />
-            <WorkoutMix />
-            <TrendingSongs />
+                               selectall={selectall} /> }
+            {/* {showSoulSoothers && <TrendingSongs songlists={songlists}
+                               handleLeftIcon={handleLeftIcon} 
+                               handleRightIcon={handleRightIcon} 
+                               selectleft={selectleft} 
+                               selectright={selectright} 
+                               containerRef={containerRef} 
+                               handleSelectAll={handleSelectAll}
+                               selectall={selectall}/> }
+            {showWorkoutMix && <AllStars artistlists={artistlists} 
+                               handleLeftIcon={handleLeftIcon} 
+                               handleRightIcon={handleRightIcon} 
+                               selectleft={selectleft} 
+                               selectright={selectright} 
+                               containerRef={containerRef} 
+                               handleSelectAll={handleSelectAll}
+                               selectall={selectall}/> } */}
+            {showTrendingSongs && <HappyMode />}
         </div>
 
     )
 }
 
-function TrendingPlayLists({featuredata, handleLeftIcon, handleRightIcon, selectleft, selectright, containerRef, handleSelectAll, selectall}){
+function TrendingPlayLists({playlists, handleLeftIcon, handleRightIcon, selectleft, selectright, containerRef, handleSelectAll, selectall}){
     return (
         <div className="feature">
             <div className="headertab">
@@ -130,7 +172,7 @@ function TrendingPlayLists({featuredata, handleLeftIcon, handleRightIcon, select
                 </div>
             </div>
             <div className={selectall ? "wrapper-all" : "wrapper"} ref={containerRef}>
-                {featuredata.map((song, idx)=>(
+                {playlists.map((song, idx)=>(
                 <div className={selectall ? "collections-all" : "collections"} key={idx}>
                     <div className="image-container">
                     <img className="imgtab" src={song.image} alt={song.title}></img>
@@ -162,93 +204,97 @@ function TrendingPlayLists({featuredata, handleLeftIcon, handleRightIcon, select
                     </li>
                     ))} */}
 
-function SoulSoothers() {
-    return (
-        <div className="feature">
-            <div className="headertab">
-                <div className="header">
-                    <h2>Soul Soothers</h2>
-                </div>
-                <div className="options">
-                    <div>
-                        <ChevronCaretLeftIcon style={{ color: 'white' }}/>
-                    </div>
-                    <div>
-                        <ChevronCaretrightIcon style={{ color: 'white' }}/>
-                    </div>
-                </div>
-                <div className="alloptions">
-                    <span className="all">SEE ALL</span>
-                </div>
-            </div>
-            <div className="wrapper">
-                <div className="collections">
-                    <img className="imgtab" src="https://m.media-amazon.com/images/I/51z295C2UxL._UX210_FMjpg_QL85_.jpg"></img> 
-                    <div className="link-container">
-                        <a className="link" href="/albums/B0CHVTM66G?trackAsin=B0CHVSH3WS">JALSA 2.0 (From "Mission Raniganj: The Great Bharat Rescue")</a>
-                    </div> 
-                    <div className="content-container">
-                        <span className="content">Satinder Sartaaj&amp; Prem &amp; Hardeep</span>
-                    </div>
-                </div>
-                
-                <div className="collections">
-                    <img className="imgtab" src="https://m.media-amazon.com/images/I/51z295C2UxL._UX210_FMjpg_QL85_.jpg"></img> 
-                    <div className="link-container">
-                        <a className="link" href="/albums/B0CHVTM66G?trackAsin=B0CHVSH3WS">JALSA 2.0 (From "Mission Raniganj: The Great Bharat Rescue")</a>
-                    </div> 
-                    <div className="content-container">
-                        <span className="content">Satinder Sartaaj &amp; Prem &amp; Hardeep</span>
-                    </div>
-                </div>
-                
-            </div>
-        </div>
-    )
-}
+// function TrendingSongs({playlists, songlists, handleLeftIcon, handleRightIcon, selectleft, selectright, containerRef, handleSelectAll, selectall}) {
+//     return (
+//         <div className="feature">
+//             <div className="headertab">
+//                 <div className="header">
+//                     <h2>Trending Playlists</h2>
+//                 </div>
+//                 <div className="options">
+//                     <div onClick={handleLeftIcon}>
+//                         <ChevronCaretLeftIcon style={{ fontSize: '20px', color: `${selectleft}` }}/>
+//                     </div>
+//                     <div onClick={handleRightIcon}>
+//                         <ChevronCaretrightIcon style={{ fontSize: '20px', color: `${selectright}` }}/>
+//                     </div>
+//                 </div>
+//                 <div onClick={handleSelectAll} className="alloptions">
+//                     <span className="all">SEE ALL</span>
+//                 </div>
+//             </div>
+//             <div className={selectall ? "wrapper-all" : "wrapper"} ref={containerRef}>
+//                 {playlists.map((song, idx)=>(
+//                 <div className={selectall ? "collections-all" : "collections"} key={idx}>
+//                     <div className="image-container">
+//                     <img className="imgtab" src={song.image} alt={song.title}></img>
+//                     <div className="icon-container">
+//                         <ActionAddIcon />
+//                         <div className="play-container">
+//                             <PlaybackPlayIcon />
+//                         </div>
+//                         <ActionMoreIcon />
+//                     </div> 
+//                     </div>
+//                     <div className="link-container">
+//                         <span className="link">{song.title}</span>
+//                     </div> 
+//                     <div className="content-container">
+//                         <span className="content">{song.artist[0].name}</span>
+//                     </div>
+//                 </div>
+//                 ))}
+//             </div>
+//         </div>
+//     )
+// }
 
-function WorkoutMix() {
-    return (
-        <div className="feature">
-            <div className="headertab">
-                <div className="header">
-                    <h2>Workout Mix</h2>
-                </div>
-                <div className="options">
-                    <ChevronCaretLeftIcon style={{ color: 'white' }}/>
-                    <ChevronCaretrightIcon style={{ color: 'white' }}/>
-                </div>
-                <div className="alloptions">
-                    <span className="all">SEE ALL</span>
-                </div>
-            </div>
-            <div className="wrapper">
-                <div className="collections">
-                    <img className="imgtab" src="https://m.media-amazon.com/images/I/51z295C2UxL._UX210_FMjpg_QL85_.jpg"></img> 
-                    <div className="link-container">
-                        <a className="link" href="/albums/B0CHVTM66G?trackAsin=B0CHVSH3WS">JALSA 2.0 (From "Mission Raniganj: The Great Bharat Rescue")</a>
-                    </div> 
-                    <div className="content-container">
-                        <span className="content">Satinder Sartaaj &amp; Prem &amp; Hardeep</span>
-                    </div>
-                </div>
-                
-                <div className="collections">
-                    <img className="imgtab" src="https://m.media-amazon.com/images/I/51z295C2UxL._UX210_FMjpg_QL85_.jpg"></img> 
-                    <div className="link-container">
-                        <a className="link" href="/albums/B0CHVTM66G?trackAsin=B0CHVSH3WS">JALSA 2.0 (From "Mission Raniganj: The Great Bharat Rescue")</a>
-                    </div> 
-                    <div className="content-container">
-                        <span className="content">Satinder Sartaaj &amp; Prem &amp; Hardeep</span>
-                    </div>
-                </div>
-                
-            </div>
-        </div>
-    )
-}
+// function AllStars({playlists, artistlists, handleLeftIcon, handleRightIcon, selectleft, selectright, containerRef, handleSelectAll, selectall}) {
+//     return (
+//         <div className="feature">
+//             <div className="headertab">
+//                 <div className="header">
+//                     <h2>Trending Playlists</h2>
+//                 </div>
+//                 <div className="options">
+//                     <div onClick={handleLeftIcon}>
+//                         <ChevronCaretLeftIcon style={{ fontSize: '20px', color: `${selectleft}` }}/>
+//                     </div>
+//                     <div onClick={handleRightIcon}>
+//                         <ChevronCaretrightIcon style={{ fontSize: '20px', color: `${selectright}` }}/>
+//                     </div>
+//                 </div>
+//                 <div onClick={handleSelectAll} className="alloptions">
+//                     <span className="all">SEE ALL</span>
+//                 </div>
+//             </div>
+//             <div className={selectall ? "wrapper-all" : "wrapper"} ref={containerRef}>
+//                 {playlists.map((song, idx)=>(
+//                 <div className={selectall ? "collections-all" : "collections"} key={idx}>
+//                     <div className="image-container">
+//                     <img className="imgtab" src={song.image} alt={song.name}></img>
+//                     <div className="icon-container">
+//                         <ActionAddIcon />
+//                         <div className="play-container">
+//                             <PlaybackPlayIcon />
+//                         </div>
+//                         <ActionMoreIcon />
+//                     </div> 
+//                     </div>
+//                     <div className="link-container">
+//                         <span className="link">{song.title}</span>
+//                     </div> 
+//                     <div className="content-container">
+//                         <span className="content">{song.artist[0].name}</span>
+//                     </div>
+//                 </div>
+//                 ))}
+//             </div>
+//         </div>
+//     )
+// }
 
-function TrendingSongs() {
+function HappyMode() {
     return (
         <div className="feature">
             <div className="headertab">
