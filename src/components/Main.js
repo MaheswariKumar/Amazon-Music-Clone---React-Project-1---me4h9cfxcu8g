@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import ChevronCaretLeftIcon from "./ChevronCaretLeftIcon";
 import ChevronCaretrightIcon from "./ChevronCaretrightIcon";
 import PlaybackPlayIcon from "./PlaybackPlayIcon";
@@ -7,14 +7,17 @@ import ActionAddIcon from "./ActionAddIcon";
 
 function Main(){
     let [featuredata, setFeaturedata] = useState([]);
-    const [selectleft, setSelectLeft] = useState("rgba(255, 255, 255, 0.3)");
-    const [selectright, setSelectRight] = useState("white");
+    let [selectleft, setSelectLeft] = useState("rgba(255, 255, 255, 0.3)");
+    let [selectright, setSelectRight] = useState("white");
     const [scrollLeft, setScrollLeft] = useState(0);
+    const [selectall, setSelectAll] = useState(false);
+    const [limit, setLimit] = useState(12);
+    const containerRef = useRef(null);
 
     useEffect(()=>{
         async function fetchFeaturedMusic() {
             try {
-                const response = await fetch('https://academics.newtonschool.co/api/v1/music/album?limit=12', {
+                const response = await fetch(`https://academics.newtonschool.co/api/v1/music/album?limit=${limit}`, {
                     headers: {
                         'projectId': 'f104bi07c490'
                     }
@@ -43,29 +46,38 @@ function Main(){
     }, [])
 
     function handleLeftIcon() {
-        setSelectLeft("white");
-        setSelectRight("rgba(255, 255, 255, 0.3)");
+        if (containerRef.current) {
+            containerRef.current.scrollLeft -= 1000;
+        }
+
+        if (containerRef.current.scrollLeft <= 0){
+            setSelectLeft("rgba(255, 255, 255, 0.3)");
+            setSelectRight("white");
+        }
     }
 
     function handleRightIcon() {
-        setSelectRight("white");
-        setSelectLeft("rgba(255, 255, 255, 0.3)");
-        const scrollToX = 300; // Adjust this value as needed
+        console.log(containerRef.current.scrollLeft);
+        if (containerRef.current) {
+            containerRef.current.scrollLeft += 1000;
+        }
+        console.log(containerRef.current.scrollLeft);
+        if (containerRef.current.scrollLeft >= containerRef.current.scrollWidth - containerRef.current.clientWidth){
+            setSelectRight("rgba(255, 255, 255, 0.3)");
+            setSelectLeft("white");
+        }
+        console.log(containerRef.current.scrollLeft);
+    }
 
-        // Use window.scrollTo to scroll to the specified position on the X-axis
-        window.scrollTo({
-          left: scrollToX,
-          behavior: 'smooth', // Use 'auto' for instant scrolling
-        });
-    
-        // Update the state to reflect the new scroll position
-        setScrollLeft(scrollToX);
+    function handleSelectAll() {
+        setSelectAll(true);
+        setLimit(100);
     }
 
     return (
         <div className="Main-section">
             <div className="categories"></div>
-            <TrendingPlayLists featuredata={featuredata} handleLeftIcon={handleLeftIcon} handleRightIcon={handleRightIcon} selectleft={selectleft} selectright={selectright}/>
+            <TrendingPlayLists containerRef={containerRef} featuredata={featuredata} handleLeftIcon={handleLeftIcon} handleRightIcon={handleRightIcon} selectleft={selectleft} selectright={selectright}/>
             <SoulSoothers />
             <WorkoutMix />
             <TrendingSongs />
@@ -74,7 +86,7 @@ function Main(){
     )
 }
 
-function TrendingPlayLists({featuredata, handleLeftIcon, handleRightIcon, selectleft, selectright}){
+function TrendingPlayLists({featuredata, handleLeftIcon, handleRightIcon, selectleft, selectright, containerRef}){
     return (
         <div className="feature">
             <div className="headertab">
@@ -89,11 +101,11 @@ function TrendingPlayLists({featuredata, handleLeftIcon, handleRightIcon, select
                         <ChevronCaretrightIcon style={{ fontSize: '20px', color: `${selectright}` }}/>
                     </div>
                 </div>
-                <div className="alloptions">
+                <div onClick={handleSelectAll} className="alloptions">
                     <span className="all">SEE ALL</span>
                 </div>
             </div>
-            <div className="wrapper">
+            <div className="wrapper" ref={containerRef}>
                 {featuredata.map((song, idx)=>(
                 <div className="collections" key={idx}>
                     <div className="image-container">
