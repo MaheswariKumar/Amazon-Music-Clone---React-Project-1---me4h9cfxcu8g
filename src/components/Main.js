@@ -19,6 +19,7 @@ function Main(){
     let [showWorkoutMix, setShowWorkoutMix] = useState(true);
     let [showTrendingSongs, setShowTrendingSongs] = useState(true);
     let containerRef = useRef(null);
+    let songContainerRef = useRef(null);
 
     useEffect(()=>{
         async function fetchFeaturedMusic() {
@@ -50,6 +51,9 @@ function Main(){
                 setSongLists(data2.data);
                 console.log(data2.data);
                 console.log(data2.data[0]);
+                console.log(data2.data[0].artist[0].image);
+                console.log(data2.data[0].artist[0].name);
+                console.log(data2.data[0].title);
 
                 const response3 = await fetch(`https://academics.newtonschool.co/api/v1/music/artist?limit=${limit}`, {
                     headers: {
@@ -64,6 +68,9 @@ function Main(){
                 setArtistLists(data3.data);
                 console.log(data3.data);
                 console.log(data3.data[0]);
+                console.log(data3.data[0].image);
+                console.log(data3.data[0].name);
+                console.log(data3.data[0].description);
             } catch (error) {
                 console.error('There was a problem with the fetch operation:', error);
             }
@@ -79,8 +86,8 @@ function Main(){
               containerRef.current.scrollTop + containerRef.current.clientHeight >=
                 containerRef.current.scrollHeight
             ) {
-              // Detect when user has scrolled to the bottom
-              setLimit((prevLimit) => prevLimit + 12); // Increase the limit to load more data
+              
+              setLimit((prevLimit) => prevLimit + 12);
             }
           }
         
@@ -88,7 +95,7 @@ function Main(){
         
           return () => {
             window.removeEventListener("scroll", handleScroll);
-          };
+          }; 
       }, [limit]);
 
     function handleLeftIcon() {
@@ -107,12 +114,26 @@ function Main(){
         if (containerRef.current) {
             containerRef.current.scrollLeft += 1000;
         }
+        else if (songContainerRef.current) {
+            songContainerRef.current.scrollLeft += 1000;
+        }
+
+        console.log(containerRef);
+        console.log(songContainerRef);
+        console.log(songContainerRef === containerRef);
         console.log(containerRef.current.scrollLeft);
+        console.log(containerRef.current.selectleft);
+        console.log(containerRef.current.setSelectAll);
+        console.log(songContainerRef.current.scrollLeft);
         if (containerRef.current.scrollLeft >= containerRef.current.scrollWidth - containerRef.current.clientWidth){
             setSelectRight("rgba(255, 255, 255, 0.3)");
             setSelectLeft("white");
         }
-        console.log(containerRef.current.scrollLeft);
+
+        else if (songContainerRef.current.scrollLeft >= songContainerRef.current.scrollWidth - songContainerRef.current.clientWidth){
+            setSelectRight("rgba(255, 255, 255, 0.3)");
+            setSelectLeft("white");
+        }
     }
 
     function handleSelectAll() {
@@ -129,15 +150,17 @@ function Main(){
                                selectright={selectright} 
                                containerRef={containerRef} 
                                handleSelectAll={handleSelectAll}
-                               selectall={selectall} /> }
-            {/* {showSoulSoothers && <TrendingSongs songlists={songlists}
+                               selectall={selectall}
+                               identifier="trendingPlaylists" /> }
+            {showSoulSoothers && <TrendingSongs songlists={songlists}
                                handleLeftIcon={handleLeftIcon} 
                                handleRightIcon={handleRightIcon} 
                                selectleft={selectleft} 
                                selectright={selectright} 
-                               containerRef={containerRef} 
+                               songContainerRef={songContainerRef} 
                                handleSelectAll={handleSelectAll}
-                               selectall={selectall}/> }
+                               selectall={selectall}
+                               identifier="trendingSongs" /> }
             {showWorkoutMix && <AllStars artistlists={artistlists} 
                                handleLeftIcon={handleLeftIcon} 
                                handleRightIcon={handleRightIcon} 
@@ -145,14 +168,14 @@ function Main(){
                                selectright={selectright} 
                                containerRef={containerRef} 
                                handleSelectAll={handleSelectAll}
-                               selectall={selectall}/> } */}
+                               selectall={selectall}/> }
             {showTrendingSongs && <HappyMode />}
         </div>
 
     )
 }
 
-function TrendingPlayLists({playlists, handleLeftIcon, handleRightIcon, selectleft, selectright, containerRef, handleSelectAll, selectall}){
+function TrendingPlayLists({playlists, handleLeftIcon, handleRightIcon, selectleft, selectright, containerRef, handleSelectAll, selectall, identifier}){
     return (
         <div className="feature">
             <div className="headertab">
@@ -163,7 +186,7 @@ function TrendingPlayLists({playlists, handleLeftIcon, handleRightIcon, selectle
                     <div onClick={handleLeftIcon}>
                         <ChevronCaretLeftIcon style={{ fontSize: '20px', color: `${selectleft}` }}/>
                     </div>
-                    <div onClick={handleRightIcon}>
+                    <div onClick={() => handleRightIcon(identifier)}>
                         <ChevronCaretrightIcon style={{ fontSize: '20px', color: `${selectright}` }}/>
                     </div>
                 </div>
@@ -204,95 +227,95 @@ function TrendingPlayLists({playlists, handleLeftIcon, handleRightIcon, selectle
                     </li>
                     ))} */}
 
-// function TrendingSongs({playlists, songlists, handleLeftIcon, handleRightIcon, selectleft, selectright, containerRef, handleSelectAll, selectall}) {
-//     return (
-//         <div className="feature">
-//             <div className="headertab">
-//                 <div className="header">
-//                     <h2>Trending Playlists</h2>
-//                 </div>
-//                 <div className="options">
-//                     <div onClick={handleLeftIcon}>
-//                         <ChevronCaretLeftIcon style={{ fontSize: '20px', color: `${selectleft}` }}/>
-//                     </div>
-//                     <div onClick={handleRightIcon}>
-//                         <ChevronCaretrightIcon style={{ fontSize: '20px', color: `${selectright}` }}/>
-//                     </div>
-//                 </div>
-//                 <div onClick={handleSelectAll} className="alloptions">
-//                     <span className="all">SEE ALL</span>
-//                 </div>
-//             </div>
-//             <div className={selectall ? "wrapper-all" : "wrapper"} ref={containerRef}>
-//                 {playlists.map((song, idx)=>(
-//                 <div className={selectall ? "collections-all" : "collections"} key={idx}>
-//                     <div className="image-container">
-//                     <img className="imgtab" src={song.image} alt={song.title}></img>
-//                     <div className="icon-container">
-//                         <ActionAddIcon />
-//                         <div className="play-container">
-//                             <PlaybackPlayIcon />
-//                         </div>
-//                         <ActionMoreIcon />
-//                     </div> 
-//                     </div>
-//                     <div className="link-container">
-//                         <span className="link">{song.title}</span>
-//                     </div> 
-//                     <div className="content-container">
-//                         <span className="content">{song.artist[0].name}</span>
-//                     </div>
-//                 </div>
-//                 ))}
-//             </div>
-//         </div>
-//     )
-// }
+function TrendingSongs({songlists, handleLeftIcon, handleRightIcon, selectleft, selectright, songContainerRef, handleSelectAll, selectall, identifier}) {
+    return (
+        <div className="feature">
+            <div className="headertab">
+                <div className="header">
+                    <h2>Trending Playlists</h2>
+                </div>
+                <div className="options">
+                    <div onClick={handleLeftIcon}>
+                        <ChevronCaretLeftIcon style={{ fontSize: '20px', color: `${selectleft}` }}/>
+                    </div>
+                    <div onClick={()=> handleRightIcon(identifier)}>
+                        <ChevronCaretrightIcon style={{ fontSize: '20px', color: `${selectright}` }}/>
+                    </div>
+                </div>
+                <div onClick={handleSelectAll} className="alloptions">
+                    <span className="all">SEE ALL</span>
+                </div>
+            </div>
+            <div className={selectall ? "wrapper-all" : "wrapper"} ref={songContainerRef}>
+                {songlists.map((song, idx)=>(
+                <div className={selectall ? "collections-all" : "collections"} key={idx}>
+                    <div className="image-container">
+                    <img className="imgtab" src={song.artist[0].image} alt={song.title}></img>
+                    <div className="icon-container">
+                        <ActionAddIcon />
+                        <div className="play-container">
+                            <PlaybackPlayIcon />
+                        </div>
+                        <ActionMoreIcon />
+                    </div> 
+                    </div>
+                    <div className="link-container">
+                        <span className="link">{song.title}</span>
+                    </div> 
+                    <div className="content-container">
+                        <span className="content">{song.artist[0].name}</span>
+                    </div>
+                </div>
+                ))}
+            </div>
+        </div>
+    )
+}
 
-// function AllStars({playlists, artistlists, handleLeftIcon, handleRightIcon, selectleft, selectright, containerRef, handleSelectAll, selectall}) {
-//     return (
-//         <div className="feature">
-//             <div className="headertab">
-//                 <div className="header">
-//                     <h2>Trending Playlists</h2>
-//                 </div>
-//                 <div className="options">
-//                     <div onClick={handleLeftIcon}>
-//                         <ChevronCaretLeftIcon style={{ fontSize: '20px', color: `${selectleft}` }}/>
-//                     </div>
-//                     <div onClick={handleRightIcon}>
-//                         <ChevronCaretrightIcon style={{ fontSize: '20px', color: `${selectright}` }}/>
-//                     </div>
-//                 </div>
-//                 <div onClick={handleSelectAll} className="alloptions">
-//                     <span className="all">SEE ALL</span>
-//                 </div>
-//             </div>
-//             <div className={selectall ? "wrapper-all" : "wrapper"} ref={containerRef}>
-//                 {playlists.map((song, idx)=>(
-//                 <div className={selectall ? "collections-all" : "collections"} key={idx}>
-//                     <div className="image-container">
-//                     <img className="imgtab" src={song.image} alt={song.name}></img>
-//                     <div className="icon-container">
-//                         <ActionAddIcon />
-//                         <div className="play-container">
-//                             <PlaybackPlayIcon />
-//                         </div>
-//                         <ActionMoreIcon />
-//                     </div> 
-//                     </div>
-//                     <div className="link-container">
-//                         <span className="link">{song.title}</span>
-//                     </div> 
-//                     <div className="content-container">
-//                         <span className="content">{song.artist[0].name}</span>
-//                     </div>
-//                 </div>
-//                 ))}
-//             </div>
-//         </div>
-//     )
-// }
+function AllStars({artistlists, handleLeftIcon, handleRightIcon, selectleft, selectright, containerRef, handleSelectAll, selectall}) {
+    return (
+        <div className="feature">
+            <div className="headertab">
+                <div className="header">
+                    <h2>Trending Playlists</h2>
+                </div>
+                <div className="options">
+                    <div onClick={handleLeftIcon}>
+                        <ChevronCaretLeftIcon style={{ fontSize: '20px', color: `${selectleft}` }}/>
+                    </div>
+                    <div onClick={handleRightIcon}>
+                        <ChevronCaretrightIcon style={{ fontSize: '20px', color: `${selectright}` }}/>
+                    </div>
+                </div>
+                <div onClick={handleSelectAll} className="alloptions">
+                    <span className="all">SEE ALL</span>
+                </div>
+            </div>
+            <div className={selectall ? "wrapper-all" : "wrapper"} ref={containerRef}>
+                {artistlists.map((song, idx)=>(
+                <div className={selectall ? "collections-all" : "collections"} key={idx}>
+                    <div className="image-container">
+                    <img className="imgtab" src={song.image} alt={song.name}></img>
+                    <div className="icon-container">
+                        <ActionAddIcon />
+                        <div className="play-container">
+                            <PlaybackPlayIcon />
+                        </div>
+                        <ActionMoreIcon />
+                    </div> 
+                    </div>
+                    <div className="link-container">
+                        <span className="link">{song.description}</span>
+                    </div> 
+                    <div className="content-container">
+                        <span className="content">{song.name}</span>
+                    </div>
+                </div>
+                ))}
+            </div>
+        </div>
+    )
+}
 
 function HappyMode() {
     return (

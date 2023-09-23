@@ -194,11 +194,11 @@
     flex-direction: row;
     gap: 16px;
     overflow-x: scroll;
-    -ms-overflow-style: none;
+    /* -ms-overflow-style: none;
     &::-webkit-scrollbar {
         width: 0;
         height: 0;
-    }
+    } */
 }
 
 .wrapper-all {
