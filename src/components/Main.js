@@ -109,32 +109,59 @@ function Main(){
         }
     }
 
-    function handleRightIcon() {
-        console.log(containerRef.current.scrollLeft);
-        if (containerRef.current) {
-            containerRef.current.scrollLeft += 1000;
-        }
-        else if (songContainerRef.current) {
-            songContainerRef.current.scrollLeft += 1000;
+    // function handleRightIcon() {
+    //     console.log(containerRef.current.scrollLeft);
+    //     if (containerRef.current) {
+    //         containerRef.current.scrollLeft += 1000;
+    //     }
+    //     else if (songContainerRef.current) {
+    //         songContainerRef.current.scrollLeft += 1000;
+    //     }
+
+    //     console.log(containerRef);
+    //     console.log(containerRef.current);
+    //     console.log(containerRef.current);
+    //     console.log(songContainerRef.current);
+    //     console.log(songContainerRef === containerRef);
+    //     console.log(containerRef.current.scrollLeft);
+    //     console.log(songContainerRef.current.scrollLeft);
+    //     if (containerRef.current.scrollLeft >= containerRef.current.scrollWidth - containerRef.current.clientWidth){
+    //         setSelectRight("rgba(255, 255, 255, 0.3)");
+    //         setSelectLeft("white");
+    //     }
+
+    //     else if (songContainerRef.current.scrollLeft >= songContainerRef.current.scrollWidth - songContainerRef.current.clientWidth){
+    //         setSelectRight("rgba(255, 255, 255, 0.3)");
+    //         setSelectLeft("white");
+    //     }
+    // }
+
+    function handleRightIcon(identifier) {
+        const container = identifier === "trendingPlaylists" ? containerRef : songContainerRef;
+        const isContainerRef = identifier === "trendingPlaylists";
+      
+        if (container.current) {
+          container.current.scrollLeft += 1000;
         }
 
-        console.log(containerRef);
-        console.log(songContainerRef);
-        console.log(songContainerRef === containerRef);
-        console.log(containerRef.current.scrollLeft);
-        console.log(containerRef.current.selectleft);
-        console.log(containerRef.current.setSelectAll);
-        console.log(songContainerRef.current.scrollLeft);
-        if (containerRef.current.scrollLeft >= containerRef.current.scrollWidth - containerRef.current.clientWidth){
-            setSelectRight("rgba(255, 255, 255, 0.3)");
-            setSelectLeft("white");
+        console.log(container);
+        console.log(isContainerRef);
+      
+        if (container.current.scrollLeft >= container.current.scrollWidth - container.current.clientWidth) {
+          setSelectRight("rgba(255, 255, 255, 0.3)");
+          setSelectLeft("white");
+        } else {
+          setSelectRight("white");
+          setSelectLeft("white");
         }
-
-        else if (songContainerRef.current.scrollLeft >= songContainerRef.current.scrollWidth - songContainerRef.current.clientWidth){
-            setSelectRight("rgba(255, 255, 255, 0.3)");
-            setSelectLeft("white");
+      
+        if (isContainerRef && songContainerRef.current) {
+          songContainerRef.current.scrollLeft += 1000;
+        } else if (!isContainerRef && containerRef.current) {
+          containerRef.current.scrollLeft += 1000;
         }
-    }
+      }
+      
 
     function handleSelectAll() {
         setSelectAll(true);
