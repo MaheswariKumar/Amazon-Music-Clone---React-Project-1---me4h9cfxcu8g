@@ -20,6 +20,8 @@ function Main(){
     let [showTrendingSongs, setShowTrendingSongs] = useState(true);
     let containerRef = useRef(null);
     let songContainerRef = useRef(null);
+    let artistContainerRef = useRef(null);
+    let [disable, setDisable] = useState(false);
 
     useEffect(()=>{
         async function fetchFeaturedMusic() {
@@ -140,26 +142,37 @@ function Main(){
         const container = identifier === "trendingPlaylists" ? containerRef : songContainerRef;
         const isContainerRef = identifier === "trendingPlaylists";
       
+
+        console.log(container.current);
         if (container.current) {
           container.current.scrollLeft += 1000;
         }
 
+        if (identifier !== "trendingPlaylists") {
+            setDisable(true);
+        }
+
+        console.log(container.current.selectright);
+        console.log(container.current);
         console.log(container);
         console.log(isContainerRef);
+        console.log(container===containerRef);
+        console.log(container===songContainerRef);
       
         if (container.current.scrollLeft >= container.current.scrollWidth - container.current.clientWidth) {
           setSelectRight("rgba(255, 255, 255, 0.3)");
           setSelectLeft("white");
-        } else {
-          setSelectRight("white");
-          setSelectLeft("white");
         }
+        // } else {
+        //   setSelectRight("white");
+        //   setSelectLeft("white");
+        // }
       
-        if (isContainerRef && songContainerRef.current) {
-          songContainerRef.current.scrollLeft += 1000;
-        } else if (!isContainerRef && containerRef.current) {
-          containerRef.current.scrollLeft += 1000;
-        }
+        // if (isContainerRef && containerRef.current) {
+        //   containerRef.current.scrollLeft += 1000;
+        // } else if (!isContainerRef && songContainerRef.current) {
+        //   songContainerRef.current.scrollLeft += 1000;
+        // }
       }
       
 
@@ -178,7 +191,8 @@ function Main(){
                                containerRef={containerRef} 
                                handleSelectAll={handleSelectAll}
                                selectall={selectall}
-                               identifier="trendingPlaylists" /> }
+                               identifier="trendingPlaylists"
+                               disable={disable} /> }
             {showSoulSoothers && <TrendingSongs songlists={songlists}
                                handleLeftIcon={handleLeftIcon} 
                                handleRightIcon={handleRightIcon} 
@@ -193,7 +207,7 @@ function Main(){
                                handleRightIcon={handleRightIcon} 
                                selectleft={selectleft} 
                                selectright={selectright} 
-                               containerRef={containerRef} 
+                               artistContainerRef={artistContainerRef} 
                                handleSelectAll={handleSelectAll}
                                selectall={selectall}/> }
             {showTrendingSongs && <HappyMode />}
@@ -202,7 +216,7 @@ function Main(){
     )
 }
 
-function TrendingPlayLists({playlists, handleLeftIcon, handleRightIcon, selectleft, selectright, containerRef, handleSelectAll, selectall, identifier}){
+function TrendingPlayLists({playlists, handleLeftIcon, handleRightIcon, selectleft, selectright, containerRef, handleSelectAll, selectall, identifier, disable}){
     return (
         <div className="feature">
             <div className="headertab">
@@ -213,7 +227,7 @@ function TrendingPlayLists({playlists, handleLeftIcon, handleRightIcon, selectle
                     <div onClick={handleLeftIcon}>
                         <ChevronCaretLeftIcon style={{ fontSize: '20px', color: `${selectleft}` }}/>
                     </div>
-                    <div onClick={() => handleRightIcon(identifier)}>
+                    <div className={disable ? "disabled-div" : ""} onClick={() => handleRightIcon(identifier)}>
                         <ChevronCaretrightIcon style={{ fontSize: '20px', color: `${selectright}` }}/>
                     </div>
                 </div>
@@ -299,7 +313,7 @@ function TrendingSongs({songlists, handleLeftIcon, handleRightIcon, selectleft, 
     )
 }
 
-function AllStars({artistlists, handleLeftIcon, handleRightIcon, selectleft, selectright, containerRef, handleSelectAll, selectall}) {
+function AllStars({artistlists, handleLeftIcon, handleRightIcon, selectleft, selectright, artistContainerRef, handleSelectAll, selectall}) {
     return (
         <div className="feature">
             <div className="headertab">
@@ -318,7 +332,7 @@ function AllStars({artistlists, handleLeftIcon, handleRightIcon, selectleft, sel
                     <span className="all">SEE ALL</span>
                 </div>
             </div>
-            <div className={selectall ? "wrapper-all" : "wrapper"} ref={containerRef}>
+            <div className={selectall ? "wrapper-all" : "wrapper"} ref={artistContainerRef}>
                 {artistlists.map((song, idx)=>(
                 <div className={selectall ? "collections-all" : "collections"} key={idx}>
                     <div className="image-container">

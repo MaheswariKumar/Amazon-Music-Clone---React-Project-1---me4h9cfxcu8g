@@ -188,6 +188,10 @@
     line-height: 16px;
 }
 
+.disabled-div {
+    pointer-events: none;
+}
+
 .wrapper {
     padding-top: 20px;
     display: flex;
