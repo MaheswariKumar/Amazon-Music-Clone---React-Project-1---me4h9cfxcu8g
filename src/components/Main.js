@@ -225,10 +225,10 @@ function TrendingPlayLists({playlists, handleLeftIcon, handleRightIcon, selectle
                 </div>
                 <div className="options">
                     <div onClick={handleLeftIcon}>
-                        <ChevronCaretLeftIcon style={{ fontSize: '20px', color: `${selectleft}` }}/>
+                        <ChevronCaretLeftIcon style={{ fontSize: '20px', color: disable ? "rgba(255, 255, 255, 0.3)" : `${selectleft}` }}/>
                     </div>
-                    <div className={disable ? "disabled-div" : ""} onClick={() => handleRightIcon(identifier)}>
-                        <ChevronCaretrightIcon style={{ fontSize: '20px', color: `${selectright}` }}/>
+                    <div onClick={() => handleRightIcon(identifier)}>
+                        <ChevronCaretrightIcon style={{ fontSize: '20px', color: disable ? "white" : `${selectright}` }}/>
                     </div>
                 </div>
                 <div onClick={handleSelectAll} className="alloptions">
