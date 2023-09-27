@@ -1,27 +1,35 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, Component } from "react";
 import ChevronCaretLeftIcon from "./ChevronCaretLeftIcon";
 import ChevronCaretrightIcon from "./ChevronCaretrightIcon";
 import PlaybackPlayIcon from "./PlaybackPlayIcon";
 import ActionMoreIcon from "./ActionMoreIcon";
 import ActionAddIcon from "./ActionAddIcon";
+import { Container } from "@mui/material";
 
 function Main(){
     let [playlists, setPlayLists] = useState([]);
     let [songlists, setSongLists] = useState([]);
     let [artistlists, setArtistLists] = useState([]);
-    let [selectleft, setSelectLeft] = useState("rgba(255, 255, 255, 0.3)");
-    let [selectright, setSelectRight] = useState("white");
+    let [selectleft, setSelectLeft] = useState({
+        trendingPlaylists: "rgba(255, 255, 255, 0.3)", 
+        trendingSongs: "rgba(255, 255, 255, 0.3)",
+        artistlists: "rgba(255, 255, 255, 0.3)",
+      });
+    let [selectright, setSelectRight] = useState({
+        trendingPlaylists: "white", 
+        trendingSongs: "white",
+        artistlists: "white",
+      });
     let [scrollLeft, setScrollLeft] = useState(0);
     let [selectall, setSelectAll] = useState(false);
     let [limit, setLimit] = useState(12);
     let [showTrendingPlaylists, setShowTrendingPlaylists] = useState(true);
-    let [showSoulSoothers, setShowSoulSoothers] = useState(true);
-    let [showWorkoutMix, setShowWorkoutMix] = useState(true);
     let [showTrendingSongs, setShowTrendingSongs] = useState(true);
+    let [showartists, setShowArtists] = useState(true);
+    let [showhappysongs, setShowHappySongs] = useState(true);
     let containerRef = useRef(null);
     let songContainerRef = useRef(null);
     let artistContainerRef = useRef(null);
-    let [disable, setDisable] = useState(false);
 
     useEffect(()=>{
         async function fetchFeaturedMusic() {
@@ -83,16 +91,14 @@ function Main(){
 
     useEffect(() => {
         function handleScroll() {
-            if (
-              containerRef.current &&
-              containerRef.current.scrollTop + containerRef.current.clientHeight >=
-                containerRef.current.scrollHeight
-            ) {
-              
+            // if (
+            //   containerRef.current &&
+            //   containerRef.current.scrollTop + containerRef.current.clientHeight >=
+            //     containerRef.current.scrollHeight
+            // ) {
               setLimit((prevLimit) => prevLimit + 12);
-            }
+            // }
           }
-        
           window.addEventListener("scroll", handleScroll);
         
           return () => {
@@ -100,15 +106,34 @@ function Main(){
           }; 
       }, [limit]);
 
-    function handleLeftIcon() {
-        if (containerRef.current) {
-            containerRef.current.scrollLeft -= 1000;
-        }
+    function handleLeftIcon(identifier) {
+        const container =   identifier === "trendingPlaylists" ? containerRef
+        : identifier === "trendingSongs"
+        ? songContainerRef
+        : artistContainerRef;
 
-        if (containerRef.current.scrollLeft <= 0){
-            setSelectLeft("rgba(255, 255, 255, 0.3)");
-            setSelectRight("white");
+        if (container.current) {
+          container.current.scrollLeft -= 1000;
         }
+      
+        if (container.current.scrollLeft <= 0) {
+            setSelectRight((prevSelectRight) => ({
+                ...prevSelectRight,
+                [identifier]: "white",
+            }));
+            setSelectLeft((prevSelectLeft) => ({
+                ...prevSelectLeft,
+                [identifier]: "rgba(255, 255, 255, 0.3)",
+            }));
+        }
+        // if (containerRef.current) {
+        //     containerRef.current.scrollLeft -= 1000;
+        // }
+
+        // if (containerRef.current.scrollLeft <= 0){
+        //     setSelectLeft("rgba(255, 255, 255, 0.3)");
+        //     setSelectRight("white");
+        // }
     }
 
     // function handleRightIcon() {
@@ -139,29 +164,24 @@ function Main(){
     // }
 
     function handleRightIcon(identifier) {
-        const container = identifier === "trendingPlaylists" ? containerRef : songContainerRef;
-        const isContainerRef = identifier === "trendingPlaylists";
-      
+        const container =   identifier === "trendingPlaylists" ? containerRef
+                                        : identifier === "trendingSongs"
+                                        ? songContainerRef
+                                        : artistContainerRef;
 
-        console.log(container.current);
         if (container.current) {
           container.current.scrollLeft += 1000;
         }
-
-        if (identifier !== "trendingPlaylists") {
-            setDisable(true);
-        }
-
-        console.log(container.current.selectright);
-        console.log(container.current);
-        console.log(container);
-        console.log(isContainerRef);
-        console.log(container===containerRef);
-        console.log(container===songContainerRef);
       
         if (container.current.scrollLeft >= container.current.scrollWidth - container.current.clientWidth) {
-          setSelectRight("rgba(255, 255, 255, 0.3)");
-          setSelectLeft("white");
+            setSelectRight((prevSelectRight) => ({
+                ...prevSelectRight,
+                [identifier]: "rgba(255, 255, 255, 0.3)",
+            }));
+            setSelectLeft((prevSelectLeft) => ({
+                ...prevSelectLeft,
+                [identifier]: "white",
+            }));
         }
         // } else {
         //   setSelectRight("white");
@@ -176,7 +196,18 @@ function Main(){
       }
       
 
-    function handleSelectAll() {
+    function handleSelectAll(identifier) {
+        if (identifier === "trendingPlaylists") {
+            setShowTrendingSongs(false);
+            setShowArtists(false);
+        } else if (identifier === "trendingSongs") {
+            setShowTrendingPlaylists(false);
+            setShowArtists(false);
+        } else {
+            setShowTrendingPlaylists(false);
+            setShowTrendingSongs(false);
+        }
+        setLimit((prevLimit)=> prevLimit+20);
         setSelectAll(true);
     }
 
@@ -186,37 +217,37 @@ function Main(){
             {showTrendingPlaylists && <TrendingPlayLists playlists={playlists} 
                                handleLeftIcon={handleLeftIcon} 
                                handleRightIcon={handleRightIcon} 
-                               selectleft={selectleft} 
-                               selectright={selectright} 
+                               selectleft={selectleft["trendingPlaylists"]} 
+                               selectright={selectright["trendingPlaylists"]} 
                                containerRef={containerRef} 
                                handleSelectAll={handleSelectAll}
                                selectall={selectall}
-                               identifier="trendingPlaylists"
-                               disable={disable} /> }
-            {showSoulSoothers && <TrendingSongs songlists={songlists}
+                               identifier="trendingPlaylists" /> }
+            {showTrendingSongs && <TrendingSongs songlists={songlists}
                                handleLeftIcon={handleLeftIcon} 
                                handleRightIcon={handleRightIcon} 
-                               selectleft={selectleft} 
-                               selectright={selectright} 
+                               selectleft={selectleft["trendingSongs"]} 
+                               selectright={selectright["trendingSongs"]} 
                                songContainerRef={songContainerRef} 
                                handleSelectAll={handleSelectAll}
                                selectall={selectall}
                                identifier="trendingSongs" /> }
-            {showWorkoutMix && <AllStars artistlists={artistlists} 
+            {showartists && <AllStars artistlists={artistlists} 
                                handleLeftIcon={handleLeftIcon} 
                                handleRightIcon={handleRightIcon} 
-                               selectleft={selectleft} 
-                               selectright={selectright} 
+                               selectleft={selectleft["artistlists"]} 
+                               selectright={selectright["artistlists"]} 
                                artistContainerRef={artistContainerRef} 
                                handleSelectAll={handleSelectAll}
-                               selectall={selectall}/> }
-            {showTrendingSongs && <HappyMode />}
+                               selectall={selectall}
+                               identifier="artistsongs"/> }
+            {/* {showhappysongs && <HappyMode />} */}
         </div>
 
     )
 }
 
-function TrendingPlayLists({playlists, handleLeftIcon, handleRightIcon, selectleft, selectright, containerRef, handleSelectAll, selectall, identifier, disable}){
+function TrendingPlayLists({playlists, handleLeftIcon, handleRightIcon, selectleft, selectright, containerRef, handleSelectAll, selectall, identifier}){
     return (
         <div className="feature">
             <div className="headertab">
@@ -224,14 +255,14 @@ function TrendingPlayLists({playlists, handleLeftIcon, handleRightIcon, selectle
                     <h2>Trending Playlists</h2>
                 </div>
                 <div className="options">
-                    <div onClick={handleLeftIcon}>
-                        <ChevronCaretLeftIcon style={{ fontSize: '20px', color: disable ? "rgba(255, 255, 255, 0.3)" : `${selectleft}` }}/>
+                    <div onClick={()=> handleLeftIcon(identifier) }>
+                        <ChevronCaretLeftIcon style={{ fontSize: '20px', color: `${selectleft}` }}/>
                     </div>
                     <div onClick={() => handleRightIcon(identifier)}>
-                        <ChevronCaretrightIcon style={{ fontSize: '20px', color: disable ? "white" : `${selectright}` }}/>
+                        <ChevronCaretrightIcon style={{ fontSize: '20px', color: `${selectright}` }}/>
                     </div>
                 </div>
-                <div onClick={handleSelectAll} className="alloptions">
+                <div onClick={()=> handleSelectAll(identifier)} className="alloptions">
                     <span className="all">SEE ALL</span>
                 </div>
             </div>
@@ -273,17 +304,17 @@ function TrendingSongs({songlists, handleLeftIcon, handleRightIcon, selectleft, 
         <div className="feature">
             <div className="headertab">
                 <div className="header">
-                    <h2>Trending Playlists</h2>
+                    <h2>Trending Songs</h2>
                 </div>
                 <div className="options">
-                    <div onClick={handleLeftIcon}>
+                    <div onClick={()=> handleLeftIcon(identifier)}>
                         <ChevronCaretLeftIcon style={{ fontSize: '20px', color: `${selectleft}` }}/>
                     </div>
                     <div onClick={()=> handleRightIcon(identifier)}>
                         <ChevronCaretrightIcon style={{ fontSize: '20px', color: `${selectright}` }}/>
                     </div>
                 </div>
-                <div onClick={handleSelectAll} className="alloptions">
+                <div onClick={()=> handleSelectAll(identifier)} className="alloptions">
                     <span className="all">SEE ALL</span>
                 </div>
             </div>
@@ -313,22 +344,22 @@ function TrendingSongs({songlists, handleLeftIcon, handleRightIcon, selectleft, 
     )
 }
 
-function AllStars({artistlists, handleLeftIcon, handleRightIcon, selectleft, selectright, artistContainerRef, handleSelectAll, selectall}) {
+function AllStars({artistlists, handleLeftIcon, handleRightIcon, selectleft, selectright, artistContainerRef, handleSelectAll, selectall, identifier}) {
     return (
         <div className="feature">
             <div className="headertab">
                 <div className="header">
-                    <h2>Trending Playlists</h2>
+                    <h2>All Stars</h2>
                 </div>
                 <div className="options">
-                    <div onClick={handleLeftIcon}>
+                    <div onClick={()=> handleLeftIcon(identifier)}>
                         <ChevronCaretLeftIcon style={{ fontSize: '20px', color: `${selectleft}` }}/>
                     </div>
-                    <div onClick={handleRightIcon}>
+                    <div onClick={()=> handleRightIcon(identifier)}>
                         <ChevronCaretrightIcon style={{ fontSize: '20px', color: `${selectright}` }}/>
                     </div>
                 </div>
-                <div onClick={handleSelectAll} className="alloptions">
+                <div onClick={()=> handleSelectAll(identifier)} className="alloptions">
                     <span className="all">SEE ALL</span>
                 </div>
             </div>
@@ -358,44 +389,44 @@ function AllStars({artistlists, handleLeftIcon, handleRightIcon, selectleft, sel
     )
 }
 
-function HappyMode() {
-    return (
-        <div className="feature">
-            <div className="headertab">
-                <div className="header">
-                    <h2>Workout Mix</h2>
-                </div>
-                <div className="options">
-                    <ChevronCaretLeftIcon style={{ color: 'white' }}/>
-                    <ChevronCaretrightIcon style={{ color: 'white' }}/>
-                </div>
-                <div className="alloptions">
-                    <span className="all">SEE ALL</span>
-                </div>
-            </div>
-            <div className="wrapper">
-                <div className="collections">
-                    <img className="imgtab" src="https://m.media-amazon.com/images/I/51z295C2UxL._UX210_FMjpg_QL85_.jpg"></img> 
-                    <div className="link-container">
-                        <a className="link" href="/albums/B0CHVTM66G?trackAsin=B0CHVSH3WS">JALSA 2.0 (From "Mission Raniganj: The Great Bharat Rescue")</a>
-                    </div> 
-                    <div className="content-container">
-                        <span className="content">Satinder Sartaaj &amp; Prem &amp; Hardeep</span>
-                    </div>
-                </div>
+// function HappyMode() {
+//     return (
+//         <div className="feature">
+//             <div className="headertab">
+//                 <div className="header">
+//                     <h2>Happy Mode</h2>
+//                 </div>
+//                 <div className="options">
+//                     <ChevronCaretLeftIcon style={{ color: 'white' }}/>
+//                     <ChevronCaretrightIcon style={{ color: 'white' }}/>
+//                 </div>
+//                 <div className="alloptions">
+//                     <span className="all">SEE ALL</span>
+//                 </div>
+//             </div>
+//             <div className="wrapper">
+//                 <div className="collections">
+//                     <img className="imgtab" src="https://m.media-amazon.com/images/I/51z295C2UxL._UX210_FMjpg_QL85_.jpg"></img> 
+//                     <div className="link-container">
+//                         <a className="link" href="/albums/B0CHVTM66G?trackAsin=B0CHVSH3WS">JALSA 2.0 (From "Mission Raniganj: The Great Bharat Rescue")</a>
+//                     </div> 
+//                     <div className="content-container">
+//                         <span className="content">Satinder Sartaaj &amp; Prem &amp; Hardeep</span>
+//                     </div>
+//                 </div>
                 
-                <div className="collections">
-                    <img className="imgtab" src="https://m.media-amazon.com/images/I/51z295C2UxL._UX210_FMjpg_QL85_.jpg"></img> 
-                    <div className="link-container">
-                        <a className="link" href="/albums/B0CHVTM66G?trackAsin=B0CHVSH3WS">JALSA 2.0 (From "Mission Raniganj: The Great Bharat Rescue")</a>
-                    </div> 
-                    <div className="content-container">
-                        <span className="content">Satinder Sartaaj &amp; Prem &amp; Hardeep</span>
-                    </div>
-                </div>
-            </div>
-        </div> 
-    )
-}
+//                 <div className="collections">
+//                     <img className="imgtab" src="https://m.media-amazon.com/images/I/51z295C2UxL._UX210_FMjpg_QL85_.jpg"></img> 
+//                     <div className="link-container">
+//                         <a className="link" href="/albums/B0CHVTM66G?trackAsin=B0CHVSH3WS">JALSA 2.0 (From "Mission Raniganj: The Great Bharat Rescue")</a>
+//                     </div> 
+//                     <div className="content-container">
+//                         <span className="content">Satinder Sartaaj &amp; Prem &amp; Hardeep</span>
+//                     </div>
+//                 </div>
+//             </div>
+//         </div> 
+//     )
+// }
 
 export default Main;
