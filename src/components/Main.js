@@ -10,15 +10,27 @@ function Main(){
     let [playlists, setPlayLists] = useState([]);
     let [songlists, setSongLists] = useState([]);
     let [artistlists, setArtistLists] = useState([]);
+    let [happylists, setHappyLists] = useState([]);
+    let [newlists, setNewLists] = useState([]);
+    let [sadlists, setSadLists] = useState([]);
+    let [romanticlists, setRomanticLists] = useState([]);
     let [selectleft, setSelectLeft] = useState({
         trendingPlaylists: "rgba(255, 255, 255, 0.3)", 
         trendingSongs: "rgba(255, 255, 255, 0.3)",
         artistlists: "rgba(255, 255, 255, 0.3)",
+        happySongs: "rgba(255, 255, 255, 0.3)",
+        newRelease: "rgba(255, 255, 255, 0.3)",
+        sadSongs: "rgba(255, 255, 255, 0.3)",
+        romanticSongs: "rgba(255, 255, 255, 0.3)",
       });
     let [selectright, setSelectRight] = useState({
         trendingPlaylists: "white", 
         trendingSongs: "white",
         artistlists: "white",
+        happySongs: "white",
+        newRelease: "white",
+        sadSongs: "white",
+        romanticSongs: "white",
       });
     let [scrollLeft, setScrollLeft] = useState(0);
     let [selectall, setSelectAll] = useState(false);
@@ -27,90 +39,239 @@ function Main(){
     let [showTrendingSongs, setShowTrendingSongs] = useState(true);
     let [showartists, setShowArtists] = useState(true);
     let [showhappysongs, setShowHappySongs] = useState(true);
+    let [shownewrelease, setShowNewRelease] = useState(true);
+    let [showsadsongs, setShowSadSongs] = useState(true);
+    let [showromanticsongs, setShowRomanticSongs] = useState(true);
     let containerRef = useRef(null);
     let songContainerRef = useRef(null);
     let artistContainerRef = useRef(null);
+    let happySongContainerRef = useRef(null);
+    let newReleaseContainerRef = useRef(null);
+    let sadSongContainerRef = useRef(null);
+    let romanticContainerRef = useRef(null);
+
+    async function fetchTrendingPlaylists() {
+        try {
+          const response = await fetch(
+            `https://academics.newtonschool.co/api/v1/music/album?limit=${limit}`,
+            {
+              headers: {
+                projectId: "f104bi07c490",
+              },
+            }
+          );
+          if (!response.ok) {
+            throw new Error("Network response was not ok");
+          }
+          const data = await response.json();
+          setPlayLists(data.data);
+        } catch (error) {
+          console.error("Error fetching trending playlists:", error);
+        }
+      }
+  
+      async function fetchTrendingSongs() {
+        try {
+          const response = await fetch(
+            `https://academics.newtonschool.co/api/v1/music/song?limit=${limit}`,
+            {
+              headers: {
+                projectId: "f104bi07c490",
+              },
+            }
+          );
+          if (!response.ok) {
+            throw new Error("Network response was not ok");
+          }
+          const data = await response.json();
+          setSongLists(data.data);
+        } catch (error) {
+          console.error("Error fetching trending songs:", error);
+        }
+      }
+  
+      async function fetchArtistLists() {
+        try {
+          const response = await fetch(
+            `https://academics.newtonschool.co/api/v1/music/artist?limit=${limit}`,
+            {
+              headers: {
+                projectId: "f104bi07c490",
+              },
+            }
+          );
+          if (!response.ok) {
+            throw new Error("Network response was not ok");
+          }
+          const data = await response.json();
+          setArtistLists(data.data);
+        } catch (error) {
+          console.error("Error fetching artist lists:", error);
+        }
+      }
+
+      async function fetchHappySongs() {
+        try {
+          const response = await fetch(
+            `https://academics.newtonschool.co/api/v1/music/song?filter={"mood":"happy"}&limit=${limit}`,
+            {
+              headers: {
+                projectId: "f104bi07c490",
+              },
+            }
+          );
+          if (!response.ok) {
+            throw new Error("Network response was not ok");
+          }
+          const data = await response.json();
+          setHappyLists(data.data);
+          console.log(data.data);
+          console.log(data.data[0]);
+        } catch (error) {
+          console.error("Error fetching artist lists:", error);
+        }
+      }
+
+      async function fetchNewRelease() {
+        try {
+          const response = await fetch(
+            `https://academics.newtonschool.co/api/v1/music/song?sort={"release":1}&limit=${limit}`,
+            {
+              headers: {
+                projectId: "f104bi07c490",
+              },
+            }
+          );
+          if (!response.ok) {
+            throw new Error("Network response was not ok");
+          }
+          const data = await response.json();
+          setNewLists(data.data);
+          console.log("new");
+          console.log(data.data);
+          console.log(data.data[0]);
+        } catch (error) {
+          console.error("Error fetching artist lists:", error);
+        }
+      }
+
+      async function fetchSadSongs() {
+        try {
+          const response = await fetch(
+            `https://academics.newtonschool.co/api/v1/music/song?filter={"mood":"happy"}&limit=${limit}`,
+            {
+              headers: {
+                projectId: "f104bi07c490",
+              },
+            }
+          );
+          if (!response.ok) {
+            throw new Error("Network response was not ok");
+          }
+          const data = await response.json();
+          setSadLists(data.data);
+          console.log(data.data);
+          console.log(data.data[0]);
+        } catch (error) {
+          console.error("Error fetching artist lists:", error);
+        }
+      }
+
+      async function fetchRomanticSongs() {
+        try {
+          const response = await fetch(
+            `https://academics.newtonschool.co/api/v1/music/song?sort={"release":1}&limit=${limit}`,
+            {
+              headers: {
+                projectId: "f104bi07c490",
+              },
+            }
+          );
+          if (!response.ok) {
+            throw new Error("Network response was not ok");
+          }
+          const data = await response.json();
+          setRomanticLists(data.data);
+          console.log(data.data);
+          console.log(data.data[0]);
+        } catch (error) {
+          console.error("Error fetching artist lists:", error);
+        }
+      }
 
     useEffect(()=>{
-        async function fetchFeaturedMusic() {
-            try {
-                const response1 = await fetch(`https://academics.newtonschool.co/api/v1/music/album?limit=${limit}`, {
-                    headers: {
-                        'projectId': 'f104bi07c490'
-                    }
-                });
-                if (!response1.ok) {
-                    throw new Error('Network response was not ok');
-                }
-                const data1 = await response1.json();
-                console.log(data1);
-                setPlayLists(data1.data);
-                console.log(data1.data);
-                console.log(data1.data[0]);
-
-                const response2 = await fetch(`https://academics.newtonschool.co/api/v1/music/song?limit=${limit}`, {
-                    headers: {
-                        'projectId': 'f104bi07c490'
-                    }
-                });
-                if (!response2.ok) {
-                    throw new Error('Network response was not ok');
-                }
-                const data2 = await response2.json();
-                console.log(data2);
-                setSongLists(data2.data);
-                console.log(data2.data);
-                console.log(data2.data[0]);
-                console.log(data2.data[0].artist[0].image);
-                console.log(data2.data[0].artist[0].name);
-                console.log(data2.data[0].title);
-
-                const response3 = await fetch(`https://academics.newtonschool.co/api/v1/music/artist?limit=${limit}`, {
-                    headers: {
-                        'projectId': 'f104bi07c490'
-                    }
-                });
-                if (!response3.ok) {
-                    throw new Error('Network response was not ok');
-                }
-                const data3 = await response3.json();
-                console.log(data3);
-                setArtistLists(data3.data);
-                console.log(data3.data);
-                console.log(data3.data[0]);
-                console.log(data3.data[0].image);
-                console.log(data3.data[0].name);
-                console.log(data3.data[0].description);
-            } catch (error) {
-                console.error('There was a problem with the fetch operation:', error);
-            }
-        }
-        fetchFeaturedMusic();
-        
-    }, [limit])
+          fetchTrendingPlaylists();
+          fetchTrendingSongs();
+          fetchArtistLists();
+          fetchHappySongs();
+          fetchNewRelease();
+          fetchSadSongs();
+          fetchRomanticSongs();
+          console.log("hello");
+          console.log(selectleft);
+          console.log(selectright);
+    }, [])
 
     useEffect(() => {
-        function handleScroll() {
-            // if (
-            //   containerRef.current &&
-            //   containerRef.current.scrollTop + containerRef.current.clientHeight >=
-            //     containerRef.current.scrollHeight
-            // ) {
-              setLimit((prevLimit) => prevLimit + 12);
-            // }
-          }
-          window.addEventListener("scroll", handleScroll);
+        if (showTrendingPlaylists) {
+            fetchTrendingPlaylists();
+            console.log("album");
+        }
+          
+        else if (showTrendingSongs) {
+            fetchTrendingSongs();
+            console.log("song");
+        }
+          
+        else if (showartists) {
+            fetchArtistLists();
+            console.log("artist");
+        }
+
+        else if (showhappysongs) {
+            fetchHappySongs();
+            console.log("happy");
+        }
+
+        else if (shownewrelease) {
+            fetchNewRelease();
+            console.log("new");
+        }
+
+        else if (showsadsongs) {
+            fetchSadSongs();
+            console.log("sad");
+        }
+
+        else if (showromanticsongs) {
+            fetchRomanticSongs();
+            console.log("rom");
+        }
+        console.log("hello");
+        // function handleScroll() {
+        //     // if (
+        //     //   containerRef.current &&
+        //     //   containerRef.current.scrollTop + containerRef.current.clientHeight >=
+        //     //     containerRef.current.scrollHeight
+        //     // ) {
+        //       setLimit((prevLimit) => prevLimit + 12);
+        //     // }
+        //   }
+        //   window.addEventListener("scroll", handleScroll);
         
-          return () => {
-            window.removeEventListener("scroll", handleScroll);
-          }; 
+        //   return () => {
+        //     window.removeEventListener("scroll", handleScroll);
+        //   }; 
       }, [limit]);
 
     function handleLeftIcon(identifier) {
         const container =   identifier === "trendingPlaylists" ? containerRef
-        : identifier === "trendingSongs"
-        ? songContainerRef
-        : artistContainerRef;
+        : identifier === "trendingSongs" ? songContainerRef
+        : identifier === "artistlists" ? artistContainerRef
+        : identifier === "happySongs" ? happySongContainerRef
+        : identifier === "newRelease" ? newReleaseContainerRef
+        : identifier === "sadSongs" ? sadSongContainerRef
+        : romanticContainerRef;
 
         if (container.current) {
           container.current.scrollLeft -= 1000;
@@ -126,48 +287,16 @@ function Main(){
                 [identifier]: "rgba(255, 255, 255, 0.3)",
             }));
         }
-        // if (containerRef.current) {
-        //     containerRef.current.scrollLeft -= 1000;
-        // }
-
-        // if (containerRef.current.scrollLeft <= 0){
-        //     setSelectLeft("rgba(255, 255, 255, 0.3)");
-        //     setSelectRight("white");
-        // }
     }
-
-    // function handleRightIcon() {
-    //     console.log(containerRef.current.scrollLeft);
-    //     if (containerRef.current) {
-    //         containerRef.current.scrollLeft += 1000;
-    //     }
-    //     else if (songContainerRef.current) {
-    //         songContainerRef.current.scrollLeft += 1000;
-    //     }
-
-    //     console.log(containerRef);
-    //     console.log(containerRef.current);
-    //     console.log(containerRef.current);
-    //     console.log(songContainerRef.current);
-    //     console.log(songContainerRef === containerRef);
-    //     console.log(containerRef.current.scrollLeft);
-    //     console.log(songContainerRef.current.scrollLeft);
-    //     if (containerRef.current.scrollLeft >= containerRef.current.scrollWidth - containerRef.current.clientWidth){
-    //         setSelectRight("rgba(255, 255, 255, 0.3)");
-    //         setSelectLeft("white");
-    //     }
-
-    //     else if (songContainerRef.current.scrollLeft >= songContainerRef.current.scrollWidth - songContainerRef.current.clientWidth){
-    //         setSelectRight("rgba(255, 255, 255, 0.3)");
-    //         setSelectLeft("white");
-    //     }
-    // }
-
+    
     function handleRightIcon(identifier) {
         const container =   identifier === "trendingPlaylists" ? containerRef
-                                        : identifier === "trendingSongs"
-                                        ? songContainerRef
-                                        : artistContainerRef;
+        : identifier === "trendingSongs" ? songContainerRef
+        : identifier === "artistlists" ? artistContainerRef
+        : identifier === "happySongs" ? happySongContainerRef
+        : identifier === "newRelease" ? newReleaseContainerRef
+        : identifier === "sadSongs" ? sadSongContainerRef
+        : romanticContainerRef;
 
         if (container.current) {
           container.current.scrollLeft += 1000;
@@ -183,16 +312,6 @@ function Main(){
                 [identifier]: "white",
             }));
         }
-        // } else {
-        //   setSelectRight("white");
-        //   setSelectLeft("white");
-        // }
-      
-        // if (isContainerRef && containerRef.current) {
-        //   containerRef.current.scrollLeft += 1000;
-        // } else if (!isContainerRef && songContainerRef.current) {
-        //   songContainerRef.current.scrollLeft += 1000;
-        // }
       }
       
 
@@ -200,15 +319,70 @@ function Main(){
         if (identifier === "trendingPlaylists") {
             setShowTrendingSongs(false);
             setShowArtists(false);
+            setShowHappySongs(false);
+            setShowNewRelease(false);
+            setShowSadSongs(false);
+            setShowRomanticSongs(false);
         } else if (identifier === "trendingSongs") {
             setShowTrendingPlaylists(false);
             setShowArtists(false);
-        } else {
+            setShowHappySongs(false);
+            setShowNewRelease(false);
+            setShowSadSongs(false);
+            setShowRomanticSongs(false);
+        } else if (identifier=== "artistlists") {
             setShowTrendingPlaylists(false);
             setShowTrendingSongs(false);
+            setShowHappySongs(false);
+            setShowNewRelease(false);
+            setShowSadSongs(false);
+            setShowRomanticSongs(false);
+        } else if (identifier=== "happySongs") {
+            setShowTrendingPlaylists(false);
+            setShowTrendingSongs(false);
+            setShowArtists(false);
+            setShowNewRelease(false);
+            setShowSadSongs(false);
+            setShowRomanticSongs(false);
+        } else if (identifier=== "newRelease") {
+            setShowTrendingPlaylists(false);
+            setShowTrendingSongs(false);
+            setShowArtists(false);
+            setShowHappySongs(false);
+            setShowSadSongs(false);
+            setShowRomanticSongs(false);
+        } else if (identifier=== "sadSongs") {
+            setShowTrendingPlaylists(false);
+            setShowTrendingSongs(false);
+            setShowArtists(false);
+            setShowHappySongs(false);
+            setShowNewRelease(false);
+            setShowRomanticSongs(false);
+        }
+        else {
+            setShowTrendingPlaylists(false);
+            setShowTrendingSongs(false);
+            setShowArtists(false);
+            setShowHappySongs(false);
+            setShowNewRelease(false);
+            setShowSadSongs(false);
         }
         setLimit((prevLimit)=> prevLimit+20);
         setSelectAll(true);
+        function handleScroll() {
+            // if (
+            //   containerRef.current &&
+            //   containerRef.current.scrollTop + containerRef.current.clientHeight >=
+            //     containerRef.current.scrollHeight
+            // ) {
+              setLimit((prevLimit) => prevLimit + 12);
+            // }
+          }
+          window.addEventListener("scroll", handleScroll);
+        
+          return () => {
+            window.removeEventListener("scroll", handleScroll);
+          }; 
     }
 
     return (
@@ -232,7 +406,7 @@ function Main(){
                                handleSelectAll={handleSelectAll}
                                selectall={selectall}
                                identifier="trendingSongs" /> }
-            {showartists && <AllStars artistlists={artistlists} 
+            {showartists && <ArtistShowcase artistlists={artistlists} 
                                handleLeftIcon={handleLeftIcon} 
                                handleRightIcon={handleRightIcon} 
                                selectleft={selectleft["artistlists"]} 
@@ -240,8 +414,26 @@ function Main(){
                                artistContainerRef={artistContainerRef} 
                                handleSelectAll={handleSelectAll}
                                selectall={selectall}
-                               identifier="artistsongs"/> }
-            {/* {showhappysongs && <HappyMode />} */}
+                               identifier="artistlists"/> }
+            {showhappysongs && <HappyHarmonies happylists={happylists}
+                               handleLeftIcon={handleLeftIcon}
+                               handleRightIcon={handleRightIcon}
+                               selectleft={selectleft}
+                               selectright={selectright}
+                               happySongContainerRef={happySongContainerRef}
+                               handleSelectAll={handleSelectAll}
+                               selectall={selectall}
+                               identifier="happySongs" />}
+            {shownewrelease && <NewMusicShowcase newlists={newlists}
+                               handleLeftIcon={handleLeftIcon}
+                               handleRightIcon={handleRightIcon}
+                               selectleft={selectleft}
+                               selectright={selectright}
+                               newReleaseContainerRef={newReleaseContainerRef}
+                               handleSelectAll={handleSelectAll}
+                               selectall={selectall}
+                               identifier="newRelease" />}
+
         </div>
 
     )
@@ -283,7 +475,13 @@ function TrendingPlayLists({playlists, handleLeftIcon, handleRightIcon, selectle
                         <span className="link">{song.title}</span>
                     </div> 
                     <div className="content-container">
-                        <span className="content">{song.artists[0].name}</span>
+                        {/* <span className="content">{song.artist[0].name}</span> */}
+                          {song.artists.map((artist, idx) => (
+                            <span className="content" key={idx}>
+                            {artist.name}
+                            {idx < song.artists.length - 1 ? ', ' : ''}
+                            </span>
+                        ))}
                     </div>
                 </div>
                 ))}
@@ -322,7 +520,7 @@ function TrendingSongs({songlists, handleLeftIcon, handleRightIcon, selectleft, 
                 {songlists.map((song, idx)=>(
                 <div className={selectall ? "collections-all" : "collections"} key={idx}>
                     <div className="image-container">
-                    <img className="imgtab" src={song.artist[0].image} alt={song.title}></img>
+                    <img className="imgtab" src={song.thumbnail} alt={song.title}></img>
                     <div className="icon-container">
                         <ActionAddIcon />
                         <div className="play-container">
@@ -335,7 +533,13 @@ function TrendingSongs({songlists, handleLeftIcon, handleRightIcon, selectleft, 
                         <span className="link">{song.title}</span>
                     </div> 
                     <div className="content-container">
-                        <span className="content">{song.artist[0].name}</span>
+                        {/* <span className="content">{song.artist[0].name}</span> */}
+                          {song.artist.map((artist, idx) => (
+                            <span className="content" key={idx}>
+                            {artist.name}
+                            {idx < song.artist.length - 1 ? ', ' : ''}
+                            </span>
+                        ))}
                     </div>
                 </div>
                 ))}
@@ -344,12 +548,12 @@ function TrendingSongs({songlists, handleLeftIcon, handleRightIcon, selectleft, 
     )
 }
 
-function AllStars({artistlists, handleLeftIcon, handleRightIcon, selectleft, selectright, artistContainerRef, handleSelectAll, selectall, identifier}) {
+function ArtistShowcase({artistlists, handleLeftIcon, handleRightIcon, selectleft, selectright, artistContainerRef, handleSelectAll, selectall, identifier}) {
     return (
         <div className="feature">
             <div className="headertab">
                 <div className="header">
-                    <h2>All Stars</h2>
+                    <h2>Artist Showcase</h2>
                 </div>
                 <div className="options">
                     <div onClick={()=> handleLeftIcon(identifier)}>
@@ -389,44 +593,107 @@ function AllStars({artistlists, handleLeftIcon, handleRightIcon, selectleft, sel
     )
 }
 
-// function HappyMode() {
-//     return (
-//         <div className="feature">
-//             <div className="headertab">
-//                 <div className="header">
-//                     <h2>Happy Mode</h2>
-//                 </div>
-//                 <div className="options">
-//                     <ChevronCaretLeftIcon style={{ color: 'white' }}/>
-//                     <ChevronCaretrightIcon style={{ color: 'white' }}/>
-//                 </div>
-//                 <div className="alloptions">
-//                     <span className="all">SEE ALL</span>
-//                 </div>
-//             </div>
-//             <div className="wrapper">
-//                 <div className="collections">
-//                     <img className="imgtab" src="https://m.media-amazon.com/images/I/51z295C2UxL._UX210_FMjpg_QL85_.jpg"></img> 
-//                     <div className="link-container">
-//                         <a className="link" href="/albums/B0CHVTM66G?trackAsin=B0CHVSH3WS">JALSA 2.0 (From "Mission Raniganj: The Great Bharat Rescue")</a>
-//                     </div> 
-//                     <div className="content-container">
-//                         <span className="content">Satinder Sartaaj &amp; Prem &amp; Hardeep</span>
-//                     </div>
-//                 </div>
-                
-//                 <div className="collections">
-//                     <img className="imgtab" src="https://m.media-amazon.com/images/I/51z295C2UxL._UX210_FMjpg_QL85_.jpg"></img> 
-//                     <div className="link-container">
-//                         <a className="link" href="/albums/B0CHVTM66G?trackAsin=B0CHVSH3WS">JALSA 2.0 (From "Mission Raniganj: The Great Bharat Rescue")</a>
-//                     </div> 
-//                     <div className="content-container">
-//                         <span className="content">Satinder Sartaaj &amp; Prem &amp; Hardeep</span>
-//                     </div>
-//                 </div>
-//             </div>
-//         </div> 
-//     )
-// }
+function HappyHarmonies({happylists, handleLeftIcon, handleRightIcon, selectleft, selectright, happySongContainerRef, handleSelectAll, selectall, identifier}) {
+    return (
+        <div className="feature">
+            <div className="headertab">
+                <div className="header">
+                    <h2>Happy Harmonies</h2>
+                </div>
+                <div className="options">
+                    <div onClick={()=> handleLeftIcon(identifier)}>
+                        <ChevronCaretLeftIcon style={{ fontSize: '20px', color: `${selectleft}` }}/>
+                    </div>
+                    <div onClick={()=> handleRightIcon(identifier)}>
+                        <ChevronCaretrightIcon style={{ fontSize: '20px', color: `${selectright}` }}/>
+                    </div>
+                </div>
+                <div onClick={()=> handleSelectAll(identifier)} className="alloptions">
+                    <span className="all">SEE ALL</span>
+                </div>
+            </div>
+            <div className={selectall ? "wrapper-all" : "wrapper"} ref={happySongContainerRef}>
+                {happylists.map((song, idx)=>(
+                <div className={selectall ? "collections-all" : "collections"} key={idx}>
+                    <div className="image-container">
+                    <img className="imgtab" src={song.thumbnail} alt={song.title}></img>
+                    <div className="icon-container">
+                        <ActionAddIcon />
+                        <div className="play-container">
+                            <PlaybackPlayIcon />
+                        </div>
+                        <ActionMoreIcon />
+                    </div> 
+                    </div>
+                    <div className="link-container">
+                        <span className="link">{song.title}</span>
+                    </div> 
+                    <div className="content-container">
+                        {/* <span className="content">{song.artist[0].name}</span> */}
+                          {song.artist.map((artist, idx) => (
+                            <span className="content" key={idx}>
+                            {artist.name}
+                            {idx < song.artist.length - 1 ? ', ' : ''}
+                            </span>
+                        ))}
+                    </div>
+                </div>
+                ))}
+            </div>
+        </div>
+    )
+}
+
+function NewMusicShowcase({newlists, handleLeftIcon, handleRightIcon, selectleft, selectright, newReleaseContainerRef, handleSelectAll, selectall, identifier}) {
+    return (
+        <div className="feature">
+            <div className="headertab">
+                <div className="header">
+                    <h2>New Music Showcase</h2>
+                </div>
+                <div className="options">
+                    <div onClick={()=> handleLeftIcon(identifier)}>
+                        <ChevronCaretLeftIcon style={{ fontSize: '20px', color: `${selectleft}` }}/>
+                    </div>
+                    <div onClick={()=> handleRightIcon(identifier)}>
+                        <ChevronCaretrightIcon style={{ fontSize: '20px', color: `${selectright}` }}/>
+                    </div>
+                </div>
+                <div onClick={()=> handleSelectAll(identifier)} className="alloptions">
+                    <span className="all">SEE ALL</span>
+                </div>
+            </div>
+            <div className={selectall ? "wrapper-all" : "wrapper"} ref={newReleaseContainerRef}>
+                {newlists.map((song, idx)=>(
+                <div className={selectall ? "collections-all" : "collections"} key={idx}>
+                    <div className="image-container">
+                    <img className="imgtab" src={song.thumbnail} alt={song.title}></img>
+                    <div className="icon-container">
+                        <ActionAddIcon />
+                        <div className="play-container">
+                            <PlaybackPlayIcon />
+                        </div>
+                        <ActionMoreIcon />
+                    </div> 
+                    </div>
+                    <div className="link-container">
+                        <span className="link">{song.title}</span>
+                    </div> 
+                    <div className="content-container">
+                        {/* <span className="content">{song.artist[0].name}</span> */}
+                          {song.artist.map((artist, idx) => (
+                            <span className="content" key={idx}>
+                            {artist.name}
+                            {idx < song.artist.length - 1 ? ', ' : ''}
+                            </span>
+                        ))}
+                    </div>
+                </div>
+                ))}
+            </div>
+        </div>
+    )
+}
+
 
 export default Main;
