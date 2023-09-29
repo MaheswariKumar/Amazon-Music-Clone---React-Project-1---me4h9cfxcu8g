@@ -32,7 +32,7 @@
     gap: 15px;
     list-style-type: none;
     padding: 10px;
-    height: 50px;
+    height: 53px;
 } 
 
 .left-icons {
@@ -58,6 +58,7 @@
     align-items: center;
     gap: 10px;
     cursor: pointer;
+    height: 35px;
 }
 
 /* .search {
@@ -134,7 +135,7 @@
     margin-left: 25px;
     padding-right: 25px;
     margin-right: 25px;
-    margin-bottom: 35px;
+    margin-bottom: 45px;
 }
 
 .categories {
@@ -299,6 +300,34 @@
     justify-content: center;
     align-items: center;
 }
+
+/* Responsive styles for nav and main compoennt */
+@media (max-width: 750px) {
+    .home-div li:not(:first-child),
+    .pod-div li:not(:first-child),
+    .lib-div li:not(:first-child) {
+        display: none;
+    }
+}
+
+@media (max-width: 750px) {
+    .left-lists {
+        gap: 30px;
+    }
+
+    .logo-div, .home-div, .pod-div, .lib-div {
+        height: 40px;
+    }
+
+    .logo {
+        height: auto;
+        width: 45px;
+    }
+    .logo[src="https://d5fx445wy2wpk.cloudfront.net/static/logo.svg"] {
+        content: url("https://d5fx445wy2wpk.cloudfront.net/static/logo_stacked.svg");
+    }
+}
+
 
 
 

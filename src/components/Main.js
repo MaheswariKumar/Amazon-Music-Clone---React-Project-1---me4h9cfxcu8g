@@ -1,10 +1,18 @@
 import React, { useState, useEffect, useRef, Component } from "react";
+import TrendingPlayLists from "./TrendingPlaylists";
+import TrendingSongs from "./TrendingSongs";
+import ArtistShowcase from "./ArtistShowcase";
+import HappyHarmonies from "./HappyHarmonies";
+import NewMusicShowcase from "./NewMusicShowcase";
+import SoulfulHealing from "./SoulfulHealing";
+import RomanticRhythms from "./RomanticRhythms";
 import ChevronCaretLeftIcon from "./ChevronCaretLeftIcon";
 import ChevronCaretrightIcon from "./ChevronCaretrightIcon";
 import PlaybackPlayIcon from "./PlaybackPlayIcon";
 import ActionMoreIcon from "./ActionMoreIcon";
 import ActionAddIcon from "./ActionAddIcon";
 import { Container } from "@mui/material";
+// import { runtime } from "webpack";
 
 function Main(){
     let [playlists, setPlayLists] = useState([]);
@@ -35,6 +43,23 @@ function Main(){
     let [scrollLeft, setScrollLeft] = useState(0);
     let [selectall, setSelectAll] = useState(false);
     let [limit, setLimit] = useState(12);
+
+    // let initialState = {
+    //   showTrendingPlaylists : true,
+    //   showTrendingSongs : true,
+    //   showartists : true,
+    //   showhappysongs : true,
+    //   shownewrelease : true,
+    //   showsadsongs : true,
+    //   showromanticsongs : true,
+    // }
+
+    // function reducer(state, action) {
+      
+    // }
+
+    // const [state, dispatch] = useReducer(reducer, initialState);
+
     let [showTrendingPlaylists, setShowTrendingPlaylists] = useState(true);
     let [showTrendingSongs, setShowTrendingSongs] = useState(true);
     let [showartists, setShowArtists] = useState(true);
@@ -42,6 +67,7 @@ function Main(){
     let [shownewrelease, setShowNewRelease] = useState(true);
     let [showsadsongs, setShowSadSongs] = useState(true);
     let [showromanticsongs, setShowRomanticSongs] = useState(true);
+    let [showmusiccomp, setShowMusicComp] = useState(false);
     let containerRef = useRef(null);
     let songContainerRef = useRef(null);
     let artistContainerRef = useRef(null);
@@ -158,7 +184,7 @@ function Main(){
       async function fetchSadSongs() {
         try {
           const response = await fetch(
-            `https://academics.newtonschool.co/api/v1/music/song?filter={"mood":"happy"}&limit=${limit}`,
+            `https://academics.newtonschool.co/api/v1/music/song?filter={"mood":"sad"}&limit=${limit}`,
             {
               headers: {
                 projectId: "f104bi07c490",
@@ -170,6 +196,7 @@ function Main(){
           }
           const data = await response.json();
           setSadLists(data.data);
+          console.log("new");
           console.log(data.data);
           console.log(data.data[0]);
         } catch (error) {
@@ -180,7 +207,7 @@ function Main(){
       async function fetchRomanticSongs() {
         try {
           const response = await fetch(
-            `https://academics.newtonschool.co/api/v1/music/song?sort={"release":1}&limit=${limit}`,
+            `https://academics.newtonschool.co/api/v1/music/song?filter={"mood":"romantic"}&limit=${limit}`,
             {
               headers: {
                 projectId: "f104bi07c490",
@@ -248,20 +275,7 @@ function Main(){
             console.log("rom");
         }
         console.log("hello");
-        // function handleScroll() {
-        //     // if (
-        //     //   containerRef.current &&
-        //     //   containerRef.current.scrollTop + containerRef.current.clientHeight >=
-        //     //     containerRef.current.scrollHeight
-        //     // ) {
-        //       setLimit((prevLimit) => prevLimit + 12);
-        //     // }
-        //   }
-        //   window.addEventListener("scroll", handleScroll);
-        
-        //   return () => {
-        //     window.removeEventListener("scroll", handleScroll);
-        //   }; 
+        console.log(selectleft["happySongs"]);
       }, [limit]);
 
     function handleLeftIcon(identifier) {
@@ -433,267 +447,78 @@ function Main(){
                                handleSelectAll={handleSelectAll}
                                selectall={selectall}
                                identifier="newRelease" />}
-
+            {showsadsongs && <SoulfulHealing sadlists={sadlists}
+                               handleLeftIcon={handleLeftIcon}
+                               handleRightIcon={handleRightIcon}
+                               selectleft={selectleft}
+                               selectright={selectright}
+                               sadSongContainerRef={sadSongContainerRef}
+                               handleSelectAll={handleSelectAll}
+                               selectall={selectall}
+                               identifier="sadSongs" />}
+            {showromanticsongs && <RomanticRhythms romanticlists={romanticlists}
+                               handleLeftIcon={handleLeftIcon}
+                               handleRightIcon={handleRightIcon}
+                               selectleft={selectleft}
+                               selectright={selectright}
+                               romanticContainerRef={romanticContainerRef}
+                               handleSelectAll={handleSelectAll}
+                               selectall={selectall}
+                               identifier="romanticSongs" />}
+            {/* {showmusiccomp && <MusicComponent />} */}
         </div>
 
     )
 }
 
-function TrendingPlayLists({playlists, handleLeftIcon, handleRightIcon, selectleft, selectright, containerRef, handleSelectAll, selectall, identifier}){
-    return (
-        <div className="feature">
-            <div className="headertab">
-                <div className="header">
-                    <h2>Trending Playlists</h2>
-                </div>
-                <div className="options">
-                    <div onClick={()=> handleLeftIcon(identifier) }>
-                        <ChevronCaretLeftIcon style={{ fontSize: '20px', color: `${selectleft}` }}/>
-                    </div>
-                    <div onClick={() => handleRightIcon(identifier)}>
-                        <ChevronCaretrightIcon style={{ fontSize: '20px', color: `${selectright}` }}/>
-                    </div>
-                </div>
-                <div onClick={()=> handleSelectAll(identifier)} className="alloptions">
-                    <span className="all">SEE ALL</span>
-                </div>
-            </div>
-            <div className={selectall ? "wrapper-all" : "wrapper"} ref={containerRef}>
-                {playlists.map((song, idx)=>(
-                <div className={selectall ? "collections-all" : "collections"} key={idx}>
-                    <div className="image-container">
-                    <img className="imgtab" src={song.image} alt={song.title}></img>
-                    <div className="icon-container">
-                        <ActionAddIcon />
-                        <div className="play-container">
-                            <PlaybackPlayIcon />
-                        </div>
-                        <ActionMoreIcon />
-                    </div> 
-                    </div>
-                    <div className="link-container">
-                        <span className="link">{song.title}</span>
-                    </div> 
-                    <div className="content-container">
-                        {/* <span className="content">{song.artist[0].name}</span> */}
-                          {song.artists.map((artist, idx) => (
-                            <span className="content" key={idx}>
-                            {artist.name}
-                            {idx < song.artists.length - 1 ? ', ' : ''}
-                            </span>
-                        ))}
-                    </div>
-                </div>
-                ))}
-            </div>
-        </div>
-    )
-}
-                    {/* {featuredSongs.map((song) => (
-                    <li key={song._id}>
-                        <img src={song.thumbnail} alt={song.title} />
-                        <p>{song.title}</p>
-                        <p>{song.artist.map((artist) => artist.name).join(', ')}</p>
-                    </li>
-                    ))} */}
-
-function TrendingSongs({songlists, handleLeftIcon, handleRightIcon, selectleft, selectright, songContainerRef, handleSelectAll, selectall, identifier}) {
-    return (
-        <div className="feature">
-            <div className="headertab">
-                <div className="header">
-                    <h2>Trending Songs</h2>
-                </div>
-                <div className="options">
-                    <div onClick={()=> handleLeftIcon(identifier)}>
-                        <ChevronCaretLeftIcon style={{ fontSize: '20px', color: `${selectleft}` }}/>
-                    </div>
-                    <div onClick={()=> handleRightIcon(identifier)}>
-                        <ChevronCaretrightIcon style={{ fontSize: '20px', color: `${selectright}` }}/>
-                    </div>
-                </div>
-                <div onClick={()=> handleSelectAll(identifier)} className="alloptions">
-                    <span className="all">SEE ALL</span>
-                </div>
-            </div>
-            <div className={selectall ? "wrapper-all" : "wrapper"} ref={songContainerRef}>
-                {songlists.map((song, idx)=>(
-                <div className={selectall ? "collections-all" : "collections"} key={idx}>
-                    <div className="image-container">
-                    <img className="imgtab" src={song.thumbnail} alt={song.title}></img>
-                    <div className="icon-container">
-                        <ActionAddIcon />
-                        <div className="play-container">
-                            <PlaybackPlayIcon />
-                        </div>
-                        <ActionMoreIcon />
-                    </div> 
-                    </div>
-                    <div className="link-container">
-                        <span className="link">{song.title}</span>
-                    </div> 
-                    <div className="content-container">
-                        {/* <span className="content">{song.artist[0].name}</span> */}
-                          {song.artist.map((artist, idx) => (
-                            <span className="content" key={idx}>
-                            {artist.name}
-                            {idx < song.artist.length - 1 ? ', ' : ''}
-                            </span>
-                        ))}
-                    </div>
-                </div>
-                ))}
-            </div>
-        </div>
-    )
-}
-
-function ArtistShowcase({artistlists, handleLeftIcon, handleRightIcon, selectleft, selectright, artistContainerRef, handleSelectAll, selectall, identifier}) {
-    return (
-        <div className="feature">
-            <div className="headertab">
-                <div className="header">
-                    <h2>Artist Showcase</h2>
-                </div>
-                <div className="options">
-                    <div onClick={()=> handleLeftIcon(identifier)}>
-                        <ChevronCaretLeftIcon style={{ fontSize: '20px', color: `${selectleft}` }}/>
-                    </div>
-                    <div onClick={()=> handleRightIcon(identifier)}>
-                        <ChevronCaretrightIcon style={{ fontSize: '20px', color: `${selectright}` }}/>
-                    </div>
-                </div>
-                <div onClick={()=> handleSelectAll(identifier)} className="alloptions">
-                    <span className="all">SEE ALL</span>
-                </div>
-            </div>
-            <div className={selectall ? "wrapper-all" : "wrapper"} ref={artistContainerRef}>
-                {artistlists.map((song, idx)=>(
-                <div className={selectall ? "collections-all" : "collections"} key={idx}>
-                    <div className="image-container">
-                    <img className="imgtab" src={song.image} alt={song.name}></img>
-                    <div className="icon-container">
-                        <ActionAddIcon />
-                        <div className="play-container">
-                            <PlaybackPlayIcon />
-                        </div>
-                        <ActionMoreIcon />
-                    </div> 
-                    </div>
-                    <div className="link-container">
-                        <span className="link">{song.description}</span>
-                    </div> 
-                    <div className="content-container">
-                        <span className="content">{song.name}</span>
-                    </div>
-                </div>
-                ))}
-            </div>
-        </div>
-    )
-}
-
-function HappyHarmonies({happylists, handleLeftIcon, handleRightIcon, selectleft, selectright, happySongContainerRef, handleSelectAll, selectall, identifier}) {
-    return (
-        <div className="feature">
-            <div className="headertab">
-                <div className="header">
-                    <h2>Happy Harmonies</h2>
-                </div>
-                <div className="options">
-                    <div onClick={()=> handleLeftIcon(identifier)}>
-                        <ChevronCaretLeftIcon style={{ fontSize: '20px', color: `${selectleft}` }}/>
-                    </div>
-                    <div onClick={()=> handleRightIcon(identifier)}>
-                        <ChevronCaretrightIcon style={{ fontSize: '20px', color: `${selectright}` }}/>
-                    </div>
-                </div>
-                <div onClick={()=> handleSelectAll(identifier)} className="alloptions">
-                    <span className="all">SEE ALL</span>
-                </div>
-            </div>
-            <div className={selectall ? "wrapper-all" : "wrapper"} ref={happySongContainerRef}>
-                {happylists.map((song, idx)=>(
-                <div className={selectall ? "collections-all" : "collections"} key={idx}>
-                    <div className="image-container">
-                    <img className="imgtab" src={song.thumbnail} alt={song.title}></img>
-                    <div className="icon-container">
-                        <ActionAddIcon />
-                        <div className="play-container">
-                            <PlaybackPlayIcon />
-                        </div>
-                        <ActionMoreIcon />
-                    </div> 
-                    </div>
-                    <div className="link-container">
-                        <span className="link">{song.title}</span>
-                    </div> 
-                    <div className="content-container">
-                        {/* <span className="content">{song.artist[0].name}</span> */}
-                          {song.artist.map((artist, idx) => (
-                            <span className="content" key={idx}>
-                            {artist.name}
-                            {idx < song.artist.length - 1 ? ', ' : ''}
-                            </span>
-                        ))}
-                    </div>
-                </div>
-                ))}
-            </div>
-        </div>
-    )
-}
-
-function NewMusicShowcase({newlists, handleLeftIcon, handleRightIcon, selectleft, selectright, newReleaseContainerRef, handleSelectAll, selectall, identifier}) {
-    return (
-        <div className="feature">
-            <div className="headertab">
-                <div className="header">
-                    <h2>New Music Showcase</h2>
-                </div>
-                <div className="options">
-                    <div onClick={()=> handleLeftIcon(identifier)}>
-                        <ChevronCaretLeftIcon style={{ fontSize: '20px', color: `${selectleft}` }}/>
-                    </div>
-                    <div onClick={()=> handleRightIcon(identifier)}>
-                        <ChevronCaretrightIcon style={{ fontSize: '20px', color: `${selectright}` }}/>
-                    </div>
-                </div>
-                <div onClick={()=> handleSelectAll(identifier)} className="alloptions">
-                    <span className="all">SEE ALL</span>
-                </div>
-            </div>
-            <div className={selectall ? "wrapper-all" : "wrapper"} ref={newReleaseContainerRef}>
-                {newlists.map((song, idx)=>(
-                <div className={selectall ? "collections-all" : "collections"} key={idx}>
-                    <div className="image-container">
-                    <img className="imgtab" src={song.thumbnail} alt={song.title}></img>
-                    <div className="icon-container">
-                        <ActionAddIcon />
-                        <div className="play-container">
-                            <PlaybackPlayIcon />
-                        </div>
-                        <ActionMoreIcon />
-                    </div> 
-                    </div>
-                    <div className="link-container">
-                        <span className="link">{song.title}</span>
-                    </div> 
-                    <div className="content-container">
-                        {/* <span className="content">{song.artist[0].name}</span> */}
-                          {song.artist.map((artist, idx) => (
-                            <span className="content" key={idx}>
-                            {artist.name}
-                            {idx < song.artist.length - 1 ? ', ' : ''}
-                            </span>
-                        ))}
-                    </div>
-                </div>
-                ))}
-            </div>
-        </div>
-    )
-}
-
+// function MusicComponent() {
+//   return (
+//     <div className="feature">
+//       <div className="headertab">
+//         <div className="header">
+//           <h2>Trending Playlists</h2>
+//         </div>
+//         <div className="options">
+//           <div onClick={() => handleLeftIcon(identifier)}>
+//             <ChevronCaretLeftIcon style={{ fontSize: "20px", color: `${selectleft}` }} />
+//           </div>
+//           <div onClick={() => handleRightIcon(identifier)}>
+//             <ChevronCaretrightIcon style={{ fontSize: "20px", color: `${selectright}` }} />
+//           </div>
+//         </div>
+//         <div onClick={() => handleSelectAll(identifier)} className="alloptions">
+//           <span className="all">SEE ALL</span>
+//         </div>
+//       </div>
+//       <div className={selectall ? "wrapper-all" : "wrapper"} ref={containerRef}>
+//         {playlists.map((song, idx) => (
+//           <div className={selectall ? "collections-all" : "collections"} key={idx}>
+//             <div className="image-container">
+//               <img className="imgtab" src={song.image} alt={song.title}></img>
+//               <div className="icon-container">
+//                 <ActionAddIcon />
+//                 <div className="play-container">
+//                   <PlaybackPlayIcon />
+//                 </div>
+//                 <ActionMoreIcon />
+//               </div>
+//             </div>
+//             <div className="link-container">
+//               <span className="link">{song.title}</span>
+//             </div>
+//             <div className="content-container">
+//               {song.artists.map((artist, idx) => (
+//                 <span className="content" key={idx}>
+//                   {artist.name}
+//                   {idx < song.artists.length - 1 ? ", " : ""}
+//                 </span>
+//               ))}
+//             </div>
+//           </div>
+//         ))}
+//       </div>
+//     </div>
+//   )
+// }
 
 export default Main;
