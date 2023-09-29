@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef, Component } from "react";
-import TrendingPlayLists from "./TrendingPlaylists";
+import TrendingPlayLists from "./TrendingPlayLists";
 import TrendingSongs from "./TrendingSongs";
 import ArtistShowcase from "./ArtistShowcase";
 import HappyHarmonies from "./HappyHarmonies";
