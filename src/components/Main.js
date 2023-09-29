@@ -67,7 +67,7 @@ function Main(){
     let [shownewrelease, setShowNewRelease] = useState(true);
     let [showsadsongs, setShowSadSongs] = useState(true);
     let [showromanticsongs, setShowRomanticSongs] = useState(true);
-    let [showmusiccomp, setShowMusicComp] = useState(false);
+    // let [showmusiccomp, setShowMusicComp] = useState(false);
     let containerRef = useRef(null);
     let songContainerRef = useRef(null);
     let artistContainerRef = useRef(null);
