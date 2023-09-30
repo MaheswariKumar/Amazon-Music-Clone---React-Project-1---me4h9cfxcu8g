@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef, Component } from "react";
+import React, { useState, useEffect, useRef, useReducer, Component } from "react";
 import TrendingPlayLists from "./TrendingPlayLists";
 import TrendingSongs from "./TrendingSongs";
 import ArtistShowcase from "./ArtistShowcase";
@@ -11,6 +11,12 @@ import ChevronCaretrightIcon from "./ChevronCaretrightIcon";
 import PlaybackPlayIcon from "./PlaybackPlayIcon";
 import ActionMoreIcon from "./ActionMoreIcon";
 import ActionAddIcon from "./ActionAddIcon";
+import MyCustomNextIcon from "./MyCustomNextIcon";
+import MyCustomShuffleIcon from "./MyCustomShuffleIcon";
+import MyCustomPrevIcon from "./MyCustomPrevIcon";
+import MyCustomVolumeIcon from "./MyCustomVolumeIcon";
+import MyCustomSkipIcon from "./MyCustomskipIcon";
+import MyCustomPauseIcon from "./MyCustomPauseIcon";
 import { Container } from "@mui/material";
 // import { runtime } from "webpack";
 
@@ -53,13 +59,6 @@ function Main(){
     //   showsadsongs : true,
     //   showromanticsongs : true,
     // }
-
-    // function reducer(state, action) {
-      
-    // }
-
-    // const [state, dispatch] = useReducer(reducer, initialState);
-
     let [showTrendingPlaylists, setShowTrendingPlaylists] = useState(true);
     let [showTrendingSongs, setShowTrendingSongs] = useState(true);
     let [showartists, setShowArtists] = useState(true);
@@ -67,7 +66,7 @@ function Main(){
     let [shownewrelease, setShowNewRelease] = useState(true);
     let [showsadsongs, setShowSadSongs] = useState(true);
     let [showromanticsongs, setShowRomanticSongs] = useState(true);
-    // let [showmusiccomp, setShowMusicComp] = useState(false);
+    let [showmusiccomp, setShowMusicComp] = useState(true);
     let containerRef = useRef(null);
     let songContainerRef = useRef(null);
     let artistContainerRef = useRef(null);
@@ -75,6 +74,22 @@ function Main(){
     let newReleaseContainerRef = useRef(null);
     let sadSongContainerRef = useRef(null);
     let romanticContainerRef = useRef(null);
+
+    let initialState = {
+      play : true,
+      pause : false,
+    }
+
+    function reducer(state, action) {
+      switch(action.type) {
+        case "playandpause" :
+          return {...state,  play : !state.play, pause : !state.pause};
+        default:
+          return state;
+      }      
+    }
+
+    const [state, dispatch] = useReducer(reducer, initialState);
 
     async function fetchTrendingPlaylists() {
         try {
@@ -91,6 +106,9 @@ function Main(){
           }
           const data = await response.json();
           setPlayLists(data.data);
+          console.log("trend");
+          console.log(data.data);
+          console.log(data.data[0]);
         } catch (error) {
           console.error("Error fetching trending playlists:", error);
         }
@@ -465,60 +483,48 @@ function Main(){
                                handleSelectAll={handleSelectAll}
                                selectall={selectall}
                                identifier="romanticSongs" />}
-            {/* {showmusiccomp && <MusicComponent />} */}
+            {showmusiccomp && <MusicComponent state={state} dispatch={dispatch} />}
         </div>
 
     )
 }
 
-// function MusicComponent() {
-//   return (
-//     <div className="feature">
-//       <div className="headertab">
-//         <div className="header">
-//           <h2>Trending Playlists</h2>
-//         </div>
-//         <div className="options">
-//           <div onClick={() => handleLeftIcon(identifier)}>
-//             <ChevronCaretLeftIcon style={{ fontSize: "20px", color: `${selectleft}` }} />
-//           </div>
-//           <div onClick={() => handleRightIcon(identifier)}>
-//             <ChevronCaretrightIcon style={{ fontSize: "20px", color: `${selectright}` }} />
-//           </div>
-//         </div>
-//         <div onClick={() => handleSelectAll(identifier)} className="alloptions">
-//           <span className="all">SEE ALL</span>
-//         </div>
-//       </div>
-//       <div className={selectall ? "wrapper-all" : "wrapper"} ref={containerRef}>
-//         {playlists.map((song, idx) => (
-//           <div className={selectall ? "collections-all" : "collections"} key={idx}>
-//             <div className="image-container">
-//               <img className="imgtab" src={song.image} alt={song.title}></img>
-//               <div className="icon-container">
-//                 <ActionAddIcon />
-//                 <div className="play-container">
-//                   <PlaybackPlayIcon />
-//                 </div>
-//                 <ActionMoreIcon />
-//               </div>
-//             </div>
-//             <div className="link-container">
-//               <span className="link">{song.title}</span>
-//             </div>
-//             <div className="content-container">
-//               {song.artists.map((artist, idx) => (
-//                 <span className="content" key={idx}>
-//                   {artist.name}
-//                   {idx < song.artists.length - 1 ? ", " : ""}
-//                 </span>
-//               ))}
-//             </div>
-//           </div>
-//         ))}
-//       </div>
-//     </div>
-//   )
-// }
+function MusicComponent({state, dispatch}) {
+  return (
+    <div className="music-container">
+      <div className="music-parts">
+        <div className="img-container">
+          <img className="img" src="https://newton-project-resume-backend.s3.amazonaws.com/thumbnail/64cee72fe41f6d0a8b0cd0a7.jpg" alt="hello"></img>
+        </div>
+        <div className="detail-container">
+          <span className="link-title">Kohinoor</span>
+          <span className="link-des">An enchanting journey through melodies that touch the soul. A tribute to love and life.</span>
+        </div>
+      </div>
+      <div className="music-icon-container">
+        <div className="skip-container">
+          <MyCustomSkipIcon style={{ fontSize: "18px"}}/>
+        </div>
+        <div className="prev-play-container">
+          <MyCustomPrevIcon style={{ fontSize: "18px"}}/>
+        </div>
+        <div onClick={()=> dispatch({type : "playandpause"})} className="play-pause-container">
+          {state.play ? <PlaybackPlayIcon /> : <MyCustomPauseIcon />}
+        </div>
+        <div className="next-play-container">
+          <MyCustomNextIcon style={{ fontSize: "18px"}}/>
+        </div>
+        <div className="shuffle-container">
+          <MyCustomShuffleIcon style={{ fontSize: "18px"}}/>
+        </div>
+      </div>
+      <div className="volume-icon">
+        <div className="volume-container">
+          <MyCustomVolumeIcon style={{ fontSize: "40px"}}/>
+        </div>
+      </div>
+    </div>
+  )
+}
 
 export default Main;
