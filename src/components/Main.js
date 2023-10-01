@@ -66,7 +66,7 @@ function Main(){
     let [shownewrelease, setShowNewRelease] = useState(true);
     let [showsadsongs, setShowSadSongs] = useState(true);
     let [showromanticsongs, setShowRomanticSongs] = useState(true);
-    let [showmusiccomp, setShowMusicComp] = useState(true);
+    // let [showmusiccomp, setShowMusicComp] = useState(true);
     let containerRef = useRef(null);
     let songContainerRef = useRef(null);
     let artistContainerRef = useRef(null);
@@ -78,12 +78,13 @@ function Main(){
     let initialState = {
       play : true,
       pause : false,
+      showmusiccomp : false,
     }
 
     function reducer(state, action) {
       switch(action.type) {
         case "playandpause" :
-          return {...state,  play : !state.play, pause : !state.pause};
+          return {...state,  play : !state.play, pause : !state.pause, showmusiccomp : !showmusiccomp};
         default:
           return state;
       }      
@@ -428,7 +429,9 @@ function Main(){
                                containerRef={containerRef} 
                                handleSelectAll={handleSelectAll}
                                selectall={selectall}
-                               identifier="trendingPlaylists" /> }
+                               identifier="trendingPlaylists"
+                               state={state} 
+                               dispatch={dispatch} /> }
             {showTrendingSongs && <TrendingSongs songlists={songlists}
                                handleLeftIcon={handleLeftIcon} 
                                handleRightIcon={handleRightIcon} 
@@ -455,7 +458,7 @@ function Main(){
                                happySongContainerRef={happySongContainerRef}
                                handleSelectAll={handleSelectAll}
                                selectall={selectall}
-                               identifier="happySongs" />}
+                               identifier="happySongs"/>}
             {shownewrelease && <NewMusicShowcase newlists={newlists}
                                handleLeftIcon={handleLeftIcon}
                                handleRightIcon={handleRightIcon}
@@ -464,7 +467,7 @@ function Main(){
                                newReleaseContainerRef={newReleaseContainerRef}
                                handleSelectAll={handleSelectAll}
                                selectall={selectall}
-                               identifier="newRelease" />}
+                               identifier="newRelease"/>}
             {showsadsongs && <SoulfulHealing sadlists={sadlists}
                                handleLeftIcon={handleLeftIcon}
                                handleRightIcon={handleRightIcon}
@@ -483,7 +486,7 @@ function Main(){
                                handleSelectAll={handleSelectAll}
                                selectall={selectall}
                                identifier="romanticSongs" />}
-            {showmusiccomp && <MusicComponent state={state} dispatch={dispatch} />}
+            {/* {showmusiccomp && <MusicComponent state={state} dispatch={dispatch} />} */}
         </div>
 
     )

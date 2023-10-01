@@ -5,7 +5,17 @@ import PlaybackPlayIcon from "./PlaybackPlayIcon";
 import ActionMoreIcon from "./ActionMoreIcon";
 import ActionAddIcon from "./ActionAddIcon";
 
-function TrendingPlayLists({ playlists, handleLeftIcon, handleRightIcon, selectleft, selectright, containerRef, handleSelectAll, selectall, identifier }) {
+function TrendingPlayLists({ playlists, 
+                             handleLeftIcon, 
+                             handleRightIcon, 
+                             selectleft, 
+                             selectright, 
+                             containerRef, 
+                             handleSelectAll, 
+                             selectall, 
+                             identifier,
+                             state,
+                             dispatch }) {
   return (
     <div className="feature">
       <div className="headertab">
@@ -31,7 +41,7 @@ function TrendingPlayLists({ playlists, handleLeftIcon, handleRightIcon, selectl
               <img className="imgtab" src={song.image} alt={song.title}></img>
               <div className="icon-container">
                 <ActionAddIcon />
-                <div className="play-container">
+                <div onClick={()=> dispatch({type : "playandpause"})} className="play-container">
                   <PlaybackPlayIcon />
                 </div>
                 <ActionMoreIcon />
