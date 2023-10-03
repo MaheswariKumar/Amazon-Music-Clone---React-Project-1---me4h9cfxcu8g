@@ -1,9 +1,10 @@
-import React from "react";
+import React, { useState, useEffect, useRef, useReducer, Component } from "react";
 import ChevronCaretLeftIcon from "./ChevronCaretLeftIcon";
 import ChevronCaretrightIcon from "./ChevronCaretrightIcon";
 import PlaybackPlayIcon from "./PlaybackPlayIcon";
 import ActionMoreIcon from "./ActionMoreIcon";
 import ActionAddIcon from "./ActionAddIcon";
+import MyCustomPauseIcon from "./MyCustomPauseIcon";
 
 function TrendingPlayLists({ playlists, 
                              handleLeftIcon, 
@@ -42,7 +43,7 @@ function TrendingPlayLists({ playlists,
               <div className="icon-container">
                 <ActionAddIcon />
                 <div onClick={()=> dispatch({type : "playandpause"})} className="play-container">
-                  <PlaybackPlayIcon />
+                  {state.play ? <PlaybackPlayIcon /> : <MyCustomPauseIcon />}
                 </div>
                 <ActionMoreIcon />
               </div>

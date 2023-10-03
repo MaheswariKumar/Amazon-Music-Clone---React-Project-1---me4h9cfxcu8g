@@ -3,7 +3,7 @@ import SvgIcon from '@mui/material/SvgIcon';
 
 const PlaybackPlayIcon = (props) => {
   return (
-    <SvgIcon {...props} style={{ fontSize: '35px' }}>
+    <SvgIcon {...props} style={{ fontSize: '33px' }}>
       <svg
         xmlns="http://www.w3.org/2000/svg"
         xmlnsXlink="http://www.w3.org/1999/xlink"

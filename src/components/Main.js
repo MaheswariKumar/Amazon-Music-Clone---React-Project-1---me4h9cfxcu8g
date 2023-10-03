@@ -84,7 +84,7 @@ function Main(){
     function reducer(state, action) {
       switch(action.type) {
         case "playandpause" :
-          return {...state,  play : !state.play, pause : !state.pause, showmusiccomp : !showmusiccomp};
+          return {...state,  play : !state.play, pause : !state.pause, showmusiccomp : !state.showmusiccomp};
         default:
           return state;
       }      
@@ -486,7 +486,7 @@ function Main(){
                                handleSelectAll={handleSelectAll}
                                selectall={selectall}
                                identifier="romanticSongs" />}
-            {/* {showmusiccomp && <MusicComponent state={state} dispatch={dispatch} />} */}
+            {state.showmusiccomp && <MusicComponent state={state} dispatch={dispatch} />}
         </div>
 
     )
@@ -512,7 +512,7 @@ function MusicComponent({state, dispatch}) {
           <MyCustomPrevIcon style={{ fontSize: "18px"}}/>
         </div>
         <div onClick={()=> dispatch({type : "playandpause"})} className="play-pause-container">
-          {state.play ? <PlaybackPlayIcon /> : <MyCustomPauseIcon />}
+          {state.play ? <PlaybackPlayIcon /> : <MyCustomPauseIcon /> }
         </div>
         <div className="next-play-container">
           <MyCustomNextIcon style={{ fontSize: "18px"}}/>
