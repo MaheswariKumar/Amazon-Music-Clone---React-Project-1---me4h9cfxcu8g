@@ -84,7 +84,11 @@ function Main(){
     function reducer(state, action) {
       switch(action.type) {
         case "playandpause" :
-          return {...state,  play : !state.play, pause : !state.pause, showmusiccomp : !state.showmusiccomp};
+          return {...state,  
+                  play : !state.play, 
+                  pause : !state.pause, 
+                  showmusiccomp : !state.showmusiccomp,
+                  title : action.songTitle};
         default:
           return state;
       }      
@@ -500,7 +504,7 @@ function MusicComponent({state, dispatch}) {
           <img className="img" src="https://newton-project-resume-backend.s3.amazonaws.com/thumbnail/64cee72fe41f6d0a8b0cd0a7.jpg" alt="hello"></img>
         </div>
         <div className="detail-container">
-          <span className="link-title">Kohinoor</span>
+          <span className="link-title">{songTitle}</span>
           <span className="link-des">An enchanting journey through melodies that touch the soul. A tribute to love and life.</span>
         </div>
       </div>
