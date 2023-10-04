@@ -76,19 +76,30 @@ function Main(){
     let romanticContainerRef = useRef(null);
 
     let initialState = {
-      play : true,
+      playlists: Array(100).fill().map(() => ({
+        play: true,
+      })),
       pause : false,
       showmusiccomp : false,
+      title : "",
+      img : "",
+      desc : "",
     }
 
     function reducer(state, action) {
       switch(action.type) {
         case "playandpause" :
+          const { playlistIndex } = action;
+          const playlists = [...state.playlists];
+          playlists[playlistIndex].play = !playlists[playlistIndex].play
           return {...state,  
                   play : !state.play, 
                   pause : !state.pause, 
                   showmusiccomp : !state.showmusiccomp,
-                  title : action.songTitle};
+                  title : action.songTitle,
+                  img : action.songImg,
+                  desc : action.songDesc,
+                  playlists  : state.playlists};
         default:
           return state;
       }      
@@ -490,22 +501,22 @@ function Main(){
                                handleSelectAll={handleSelectAll}
                                selectall={selectall}
                                identifier="romanticSongs" />}
-            {state.showmusiccomp && <MusicComponent state={state} dispatch={dispatch} />}
+            {state.showmusiccomp && <MusicComponent state={state} dispatch={dispatch} songTitle={state.title} songImg={state.img} songDesc={state.desc}/>}
         </div>
 
     )
 }
 
-function MusicComponent({state, dispatch}) {
+function MusicComponent({state, dispatch, songTitle, songImg, songDesc}) {
   return (
     <div className="music-container">
       <div className="music-parts">
         <div className="img-container">
-          <img className="img" src="https://newton-project-resume-backend.s3.amazonaws.com/thumbnail/64cee72fe41f6d0a8b0cd0a7.jpg" alt="hello"></img>
+          <img className="img" src={songImg} alt="hello"></img>
         </div>
         <div className="detail-container">
           <span className="link-title">{songTitle}</span>
-          <span className="link-des">An enchanting journey through melodies that touch the soul. A tribute to love and life.</span>
+          <span className="link-des">{songDesc}</span>
         </div>
       </div>
       <div className="music-icon-container">
