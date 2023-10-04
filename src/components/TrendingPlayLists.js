@@ -42,7 +42,13 @@ function TrendingPlayLists({ playlists,
               <img className="imgtab" src={song.image} alt={song.title}></img>
               <div className="icon-container">
                 <ActionAddIcon />
-                <div onClick={()=> dispatch({type : "playandpause", songTitle : song.title, songImg : song.image, songDesc : song.description, playlistIndex: idx})} className="play-container">
+                <div onClick={()=> dispatch({type : "playandpause", 
+                                            songTitle : song.title, 
+                                            songImg : song.image, 
+                                            songDesc : song.description, 
+                                            playlistIndex: idx, 
+                                            songAudio : song.songs[0].audio_url,
+                                            songPlay: !state.playlists[idx].play,})} className="play-container">
                   {state.playlists[idx].play ? <PlaybackPlayIcon /> : <MyCustomPauseIcon />}
                 </div>
                 <ActionMoreIcon />

@@ -79,11 +79,11 @@ function Main(){
       playlists: Array(100).fill().map(() => ({
         play: true,
       })),
-      pause : false,
       showmusiccomp : false,
       title : "",
       img : "",
       desc : "",
+      audio : "",
     }
 
     function reducer(state, action) {
@@ -93,12 +93,12 @@ function Main(){
           const playlists = [...state.playlists];
           playlists[playlistIndex].play = !playlists[playlistIndex].play
           return {...state,  
-                  play : !state.play, 
-                  pause : !state.pause, 
-                  showmusiccomp : !state.showmusiccomp,
+                  showmusiccomp : true,
                   title : action.songTitle,
                   img : action.songImg,
                   desc : action.songDesc,
+                  audio : action.songAudio,
+                  playAudio: action.songPlay,
                   playlists  : state.playlists};
         default:
           return state;
@@ -260,6 +260,27 @@ function Main(){
         }
       }
 
+      async function fetchSongs() {
+        try {
+          const response = await fetch(
+            'https://academics.newtonschool.co/api/v1/music/album/64cee72fe41f6d0a8b0cd0bd',
+            {
+              headers: {
+                projectId: "f104bi07c490",
+              },
+            }
+          );
+          if (!response.ok) {
+            throw new Error("Network response was not ok");
+          }
+          const data = await response.json();
+          console.log("songssssssss");
+          console.log(data);
+        } catch (error) {
+          console.error("Error fetching artist lists:", error);
+        }
+      }
+
     useEffect(()=>{
           fetchTrendingPlaylists();
           fetchTrendingSongs();
@@ -268,6 +289,7 @@ function Main(){
           fetchNewRelease();
           fetchSadSongs();
           fetchRomanticSongs();
+          fetchSongs();
           console.log("hello");
           console.log(selectleft);
           console.log(selectright);
@@ -501,17 +523,27 @@ function Main(){
                                handleSelectAll={handleSelectAll}
                                selectall={selectall}
                                identifier="romanticSongs" />}
-            {state.showmusiccomp && <MusicComponent state={state} dispatch={dispatch} songTitle={state.title} songImg={state.img} songDesc={state.desc}/>}
+            {state.showmusiccomp && <MusicComponent state={state} 
+                               dispatch={dispatch} 
+                               songTitle={state.title} 
+                               songImg={state.img} 
+                               songDesc={state.desc} 
+                               songAudio={state.audio}
+                               songPlay={state.songPlay} />}
         </div>
 
     )
 }
 
-function MusicComponent({state, dispatch, songTitle, songImg, songDesc}) {
+function MusicComponent({state, dispatch, songTitle, songImg, songDesc, songAudio, songPlay}) {
+  const isPlaying = state.playlists.some((song) => song.songPlay);
   return (
     <div className="music-container">
       <div className="music-parts">
         <div className="img-container">
+          <audio>
+            <source src={songAudio}></source>
+          </audio>
           <img className="img" src={songImg} alt="hello"></img>
         </div>
         <div className="detail-container">
@@ -527,7 +559,7 @@ function MusicComponent({state, dispatch, songTitle, songImg, songDesc}) {
           <MyCustomPrevIcon style={{ fontSize: "18px"}}/>
         </div>
         <div onClick={()=> dispatch({type : "playandpause"})} className="play-pause-container">
-          {state.play ? <PlaybackPlayIcon /> : <MyCustomPauseIcon /> }
+          {isPlaying  ? <MyCustomPauseIcon /> : <PlaybackPlayIcon />}
         </div>
         <div className="next-play-container">
           <MyCustomNextIcon style={{ fontSize: "18px"}}/>
