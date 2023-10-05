@@ -68,6 +68,7 @@ function Main(){
     let [showromanticsongs, setShowRomanticSongs] = useState(true);
     // let [showmusiccomp, setShowMusicComp] = useState(true);
     let containerRef = useRef(null);
+    let idxContainerRef = useRef(null);
     let songContainerRef = useRef(null);
     let artistContainerRef = useRef(null);
     let happySongContainerRef = useRef(null);
@@ -76,30 +77,38 @@ function Main(){
     let romanticContainerRef = useRef(null);
 
     let initialState = {
-      playlists: Array(100).fill().map(() => ({
-        play: true,
-      })),
+      // playlists: Array(100).fill().map(() => ({
+      //   play: true,
+      // })),
+      playing : true,
       showmusiccomp : false,
       title : "",
       img : "",
       desc : "",
       audio : "",
+      playAudio : false,
+      // index : 0,
+
+      
     }
 
     function reducer(state, action) {
       switch(action.type) {
         case "playandpause" :
-          const { playlistIndex } = action;
-          const playlists = [...state.playlists];
-          playlists[playlistIndex].play = !playlists[playlistIndex].play
+          // const { playlistIndex } = action;
+          // const playlists = [...state.playlists];
+          // playlists[playlistIndex].play = !playlists[playlistIndex].play;
+          console.log(state.playId);     
           return {...state,  
                   showmusiccomp : true,
                   title : action.songTitle,
                   img : action.songImg,
                   desc : action.songDesc,
                   audio : action.songAudio,
-                  playAudio: action.songPlay,
-                  playlists  : state.playlists};
+                  playAudio : action.songPlay,
+                  playId : action.playIdx,
+                  playing : !state.playing,
+                  index : action.idex};
         default:
           return state;
       }      
@@ -464,6 +473,7 @@ function Main(){
                                selectleft={selectleft["trendingPlaylists"]} 
                                selectright={selectright["trendingPlaylists"]} 
                                containerRef={containerRef} 
+                               idxContainerRef={idxContainerRef}
                                handleSelectAll={handleSelectAll}
                                selectall={selectall}
                                identifier="trendingPlaylists"
@@ -529,19 +539,28 @@ function Main(){
                                songImg={state.img} 
                                songDesc={state.desc} 
                                songAudio={state.audio}
-                               songPlay={state.songPlay} />}
+                               songPlay={state.playAudio}
+                               idex = {state.idex}
+                              />}
         </div>
 
     )
 }
 
-function MusicComponent({state, dispatch, songTitle, songImg, songDesc, songAudio, songPlay}) {
-  const isPlaying = state.playlists.some((song) => song.songPlay);
+function MusicComponent({state, dispatch, songTitle, songImg, songDesc, songAudio, songPlay, idex}) {
+  function componentDidMount() {
+    const audioEl = document.getElementsByClassName("audio-element")[0]
+    audioEl.play()
+  }
+
+  console.log(state.idex);
   return (
+    <>
+    <input className="audio-input" type="range"></input>
     <div className="music-container">
       <div className="music-parts">
         <div className="img-container">
-          <audio>
+          <audio className="audio-element" >
             <source src={songAudio}></source>
           </audio>
           <img className="img" src={songImg} alt="hello"></img>
@@ -558,8 +577,8 @@ function MusicComponent({state, dispatch, songTitle, songImg, songDesc, songAudi
         <div className="prev-play-container">
           <MyCustomPrevIcon style={{ fontSize: "18px"}}/>
         </div>
-        <div onClick={()=> dispatch({type : "playandpause"})} className="play-pause-container">
-          {isPlaying  ? <MyCustomPauseIcon /> : <PlaybackPlayIcon />}
+        <div onClick={()=> dispatch({type : "playandpause", songTitle, songImg, songDesc, songAudio, idex})} className="play-pause-container">
+          {state.playing ? <PlaybackPlayIcon /> : <MyCustomPauseIcon />}
         </div>
         <div className="next-play-container">
           <MyCustomNextIcon style={{ fontSize: "18px"}}/>
@@ -574,6 +593,7 @@ function MusicComponent({state, dispatch, songTitle, songImg, songDesc, songAudi
         </div>
       </div>
     </div>
+    </>
   )
 }
 

@@ -340,6 +340,14 @@
     right: 0;
 }
 
+.audio-input {
+    width: 100%;
+    position: fixed;
+    bottom: 77px;
+    left: 0;
+    right: 0;
+}
+
 .music-parts {
     display: flex;
     gap: 20px;

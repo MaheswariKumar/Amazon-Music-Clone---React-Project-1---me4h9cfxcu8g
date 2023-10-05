@@ -12,11 +12,13 @@ function TrendingPlayLists({ playlists,
                              selectleft, 
                              selectright, 
                              containerRef, 
+                             idxContainerRef,
                              handleSelectAll, 
                              selectall, 
                              identifier,
                              state,
                              dispatch}) {
+
   return (
     <div className="feature">
       <div className="headertab">
@@ -37,7 +39,7 @@ function TrendingPlayLists({ playlists,
       </div>
       <div className={selectall ? "wrapper-all" : "wrapper"} ref={containerRef}>
         {playlists.map((song, idx) => (
-          <div className={selectall ? "collections-all" : "collections"} key={idx}>
+          <div className={selectall ? "collections-all" : "collections"} ref={idxContainerRef} key={idx}>
             <div className="image-container">
               <img className="imgtab" src={song.image} alt={song.title}></img>
               <div className="icon-container">
@@ -47,9 +49,12 @@ function TrendingPlayLists({ playlists,
                                             songImg : song.image, 
                                             songDesc : song.description, 
                                             playlistIndex: idx, 
+                                            playIdx : idx,
                                             songAudio : song.songs[0].audio_url,
-                                            songPlay: !state.playlists[idx].play,})} className="play-container">
-                  {state.playlists[idx].play ? <PlaybackPlayIcon /> : <MyCustomPauseIcon />}
+                                            idex : idx,
+                                            // songPlay: state.playlists[idx].play, 
+                                            })} className="play-container">
+                  {idx || idxContainerRef && state.playing ? <PlaybackPlayIcon /> : <MyCustomPauseIcon />}
                 </div>
                 <ActionMoreIcon />
               </div>
