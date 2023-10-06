@@ -17,7 +17,7 @@ import MyCustomPrevIcon from "./MyCustomPrevIcon";
 import MyCustomVolumeIcon from "./MyCustomVolumeIcon";
 import MyCustomSkipIcon from "./MyCustomskipIcon";
 import MyCustomPauseIcon from "./MyCustomPauseIcon";
-import { Container } from "@mui/material";
+import { Container, Slider } from "@mui/material";
 // import { runtime } from "webpack";
 
 function Main(){
@@ -584,6 +584,8 @@ function MusicComponent({state, dispatch, songTitle, songImg, songDesc, songAudi
   return (
     <>
     <div className="music-container">
+      {/* <input className="audio-input" type="range"></input> */}
+      <Slider className="audio-input" max={100} min={0} size="small" />
       <div className="music-parts">
         <div className="img-container">
           <audio ref={audioRef} className="audio-element" >
@@ -598,25 +600,38 @@ function MusicComponent({state, dispatch, songTitle, songImg, songDesc, songAudi
       </div>
       <div className="music-icon-container">
         <div className="skip-container">
-          <MyCustomSkipIcon style={{ fontSize: "18px"}}/>
+          <MyCustomSkipIcon style={{ fontSize: "18px", color: "grey"}}/>
         </div>
         <div className="prev-play-container">
-          <MyCustomPrevIcon style={{ fontSize: "18px"}}/>
+          <MyCustomPrevIcon style={{ fontSize: "18px", color: "grey"}}/>
         </div>
         <div onClick={togglePlayPause} className="play-pause-container">
           {state.playing && state.id === id ? <MyCustomPauseIcon /> : <PlaybackPlayIcon />}
         </div>
         <div className="next-play-container">
-          <MyCustomNextIcon style={{ fontSize: "18px"}}/>
+          <MyCustomNextIcon style={{ fontSize: "18px", color: "grey"}}/>
         </div>
         <div className="shuffle-container">
-          <MyCustomShuffleIcon style={{ fontSize: "18px"}}/>
+          <MyCustomShuffleIcon style={{ fontSize: "18px", color: "grey"}}/>
         </div>
       </div>
+      <div className="adjust">
+      <Slider className="volume-adjust"
+  sx={{
+    '& input[type="range"]': {
+      WebkitAppearance: 'slider-vertical',
+    },
+  }}
+  orientation="vertical"
+  defaultValue={30}
+  aria-label="Temperature"
+  valueLabelDisplay="auto"
+/>
+      </div>
       <div className="volume-icon">
-        <div className="volume-container">
-          <MyCustomVolumeIcon style={{ fontSize: "40px"}}/>
-        </div>
+        {/* <div className="volume-container"> */}
+          <MyCustomVolumeIcon  fontSize="large" color="white" />
+        {/* </div> */}
       </div>
     </div>
     </>

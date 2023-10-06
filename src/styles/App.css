@@ -331,7 +331,7 @@
 .music-container {
     display: flex;
     justify-content: space-between;
-    border-top: 0.1px solid gray;
+    /* border-top: 1px solid gray; */
     background-color: rgba(0, 0, 0, 1); 
     /* z-index: 100;  */
     position: fixed;
@@ -340,18 +340,43 @@
     right: 0;
 }
 
-.audio-input {
+/* .audio-input {
     width: 100%;
     position: fixed;
     bottom: 77px;
     left: 0;
     right: 0;
-}
+} */
+
+.audio-input.MuiSlider-root {
+    width: 1512px;
+    height: 2.5px;
+    color: white;
+    position: fixed;
+    bottom: 68px;
+    left: 0;
+    right: 0;
+
+  }
+
+.audio-input.MuiSlider-root .MuiSlider-track {
+    background-color: white; /* Change to your desired color */
+  }
+
+  /* Change the color of the thumb (handle) */
+  .audio-input.MuiSlider-root .MuiSlider-thumb {
+    background-color: white;
+    box-shadow: none;
+    width: 15px;
+    height: 15px;
+  }
+
+
 
 .music-parts {
     display: flex;
     gap: 20px;
-    padding-left: 12px;
+    padding-left: 20px;
     padding-top: 8px;
     padding-bottom: 8px;
 }
@@ -359,8 +384,8 @@
 .img {
     border-radius: 8px;
     box-shadow: 0 5px 20px rgba(0, 0, 0, 0.6);
-    width: 60px;
-    height: 60px;
+    width: 58px;
+    height: 58px;
     cursor: pointer;
 }
 
@@ -382,11 +407,38 @@
 
 .volume-icon {
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
-    padding-right: 12px;
+    padding-right: 20px;
     padding-top: 8px;
     padding-bottom: 8px;
+}
+
+
+.MuiSlider-root.volume-adjust {
+    color: white;
+    width: 5px;
+    height: 80px;
+    position: fixed;
+    bottom: 65px;
+    left: 1463px;
+    right: 0px;
+    border-radius: 0%;
+}
+
+/* Change the color of the track */
+.MuiSlider-root.volume-adjust .MuiSlider-track {
+    background-color: white; /* Change to your desired color */
+    border-radius: 0%;
+}
+
+/* Change the color and size of the thumb (handle) */
+.MuiSlider-root.volume-adjust .MuiSlider-thumb {
+    background-color: white; /* Change to your desired color */
+    width: 15px; /* Change to your desired width */
+    height: 15px; /* Change to your desired height */
+    box-shadow: none;
 }
 
 .play-pause-container {
@@ -405,15 +457,15 @@
 }
 
 .link-title, .link-des  {
-    font-size: 16px;
+    font-size: 15px;
     font-family:  "Ember", "Helvetica", "Arial", "sans-serif";
-    color: white;
+    color: gray;
     text-decoration: none;
 }
 
 .link-title {
-    font-size: 20px;
-    font-weight: bold;
+    font-size: 17px;
+    color: white;
 }
 
 
