@@ -68,7 +68,7 @@ function Main(){
     let [showromanticsongs, setShowRomanticSongs] = useState(true);
     // let [showmusiccomp, setShowMusicComp] = useState(true);
     let containerRef = useRef(null);
-    let idxContainerRef = useRef(null);
+    let audioContainerRef = useRef(null);
     let songContainerRef = useRef(null);
     let artistContainerRef = useRef(null);
     let happySongContainerRef = useRef(null);
@@ -87,9 +87,8 @@ function Main(){
       desc : "",
       audio : "",
       playAudio : false,
-      // index : 0,
-
-      
+      playingIndex : -1,
+      id : null,
     }
 
     function reducer(state, action) {
@@ -105,10 +104,14 @@ function Main(){
                   img : action.songImg,
                   desc : action.songDesc,
                   audio : action.songAudio,
-                  playAudio : action.songPlay,
-                  playId : action.playIdx,
+                  playingIndex : action.playingIndex,
+                  // playAudio : action.songPlay,
+                  // playId : action.playIdx,
                   playing : !state.playing,
-                  index : action.idex};
+                  // index : action.idex,
+                  id : action.id,
+
+                };
         default:
           return state;
       }      
@@ -272,7 +275,7 @@ function Main(){
       async function fetchSongs() {
         try {
           const response = await fetch(
-            'https://academics.newtonschool.co/api/v1/music/album/64cee72fe41f6d0a8b0cd0bd',
+            'https://academics.newtonschool.co/api/v1/music/playlistsalbum/64cee72fe41f6d0a8b0cd0bd',
             {
               headers: {
                 projectId: "f104bi07c490",
@@ -472,8 +475,8 @@ function Main(){
                                handleRightIcon={handleRightIcon} 
                                selectleft={selectleft["trendingPlaylists"]} 
                                selectright={selectright["trendingPlaylists"]} 
-                               containerRef={containerRef} 
-                               idxContainerRef={idxContainerRef}
+                               containerRef={containerRef}
+                               audioContainerRef={audioContainerRef} 
                                handleSelectAll={handleSelectAll}
                                selectall={selectall}
                                identifier="trendingPlaylists"
@@ -540,28 +543,51 @@ function Main(){
                                songDesc={state.desc} 
                                songAudio={state.audio}
                                songPlay={state.playAudio}
-                               idex = {state.idex}
+                               id = {state.id}
+                              //  idex = {state.idex}
                               />}
         </div>
 
     )
 }
 
-function MusicComponent({state, dispatch, songTitle, songImg, songDesc, songAudio, songPlay, idex}) {
-  function componentDidMount() {
-    const audioEl = document.getElementsByClassName("audio-element")[0]
-    audioEl.play()
-  }
+function MusicComponent({state, dispatch, songTitle, songImg, songDesc, songAudio, songPlay, id}) {
+  let audioRef = useRef(null);
+  console.log(audioRef);
+  
+  useEffect(() => {
+    if (state.playing && state.id === id) {
+      audioRef.current = new Audio(songAudio);     
+    }
+    if (audioRef.current) {
+      if (state.playing && state.id === id) {
+        audioRef.current.play();
+      } else {
+        audioRef.current.pause();
+      }
+    }
+  }, [state.playing]);
 
-  console.log(state.idex);
+  const togglePlayPause = () => {
+    // if (audioRef.current) {
+    //   audioRef.current = new Audio(songAudio);
+    // }
+
+    // if (state.playing && state.id === id) {
+    //   audioRef.current.pause();
+    // } else {
+    //   audioRef.current.play();
+    // }
+    dispatch({ type: "playandpause", songTitle, songImg, songDesc, songAudio, id });
+  };
+
   return (
     <>
-    <input className="audio-input" type="range"></input>
     <div className="music-container">
       <div className="music-parts">
         <div className="img-container">
-          <audio className="audio-element" >
-            <source src={songAudio}></source>
+          <audio ref={audioRef} className="audio-element" >
+            <source  src={songAudio}></source>
           </audio>
           <img className="img" src={songImg} alt="hello"></img>
         </div>
@@ -577,8 +603,8 @@ function MusicComponent({state, dispatch, songTitle, songImg, songDesc, songAudi
         <div className="prev-play-container">
           <MyCustomPrevIcon style={{ fontSize: "18px"}}/>
         </div>
-        <div onClick={()=> dispatch({type : "playandpause", songTitle, songImg, songDesc, songAudio, idex})} className="play-pause-container">
-          {state.playing ? <PlaybackPlayIcon /> : <MyCustomPauseIcon />}
+        <div onClick={togglePlayPause} className="play-pause-container">
+          {state.playing && state.id === id ? <MyCustomPauseIcon /> : <PlaybackPlayIcon />}
         </div>
         <div className="next-play-container">
           <MyCustomNextIcon style={{ fontSize: "18px"}}/>

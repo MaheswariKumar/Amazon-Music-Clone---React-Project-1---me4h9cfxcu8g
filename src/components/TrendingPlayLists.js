@@ -11,13 +11,40 @@ function TrendingPlayLists({ playlists,
                              handleRightIcon, 
                              selectleft, 
                              selectright, 
-                             containerRef, 
-                             idxContainerRef,
+                             containerRef,
+                             audioContainerRef, 
                              handleSelectAll, 
                              selectall, 
                              identifier,
                              state,
                              dispatch}) {
+
+      async function fetchSongs() {
+        try {
+          const response = await fetch(
+            'https://academics.newtonschool.co/api/v1/music/playlistsalbum/64cee72fe41f6d0a8b0cd0bd',
+            {
+              headers: {
+                projectId: "f104bi07c490",
+              },
+            }
+          );
+          if (!response.ok) {
+            throw new Error("Network response was not ok");
+          }
+          const data = await response.json();
+          console.log("songssssssss");
+          console.log(data);
+        } catch (error) {
+          console.error("Error fetching artist lists:", error);
+        }
+      }
+
+      useEffect(()=>{
+        fetchSongs()          
+      }, [])
+
+      
 
   return (
     <div className="feature">
@@ -39,7 +66,7 @@ function TrendingPlayLists({ playlists,
       </div>
       <div className={selectall ? "wrapper-all" : "wrapper"} ref={containerRef}>
         {playlists.map((song, idx) => (
-          <div className={selectall ? "collections-all" : "collections"} ref={idxContainerRef} key={idx}>
+          <div className={selectall ? "collections-all" : "collections"} key={idx}>
             <div className="image-container">
               <img className="imgtab" src={song.image} alt={song.title}></img>
               <div className="icon-container">
@@ -48,13 +75,15 @@ function TrendingPlayLists({ playlists,
                                             songTitle : song.title, 
                                             songImg : song.image, 
                                             songDesc : song.description, 
-                                            playlistIndex: idx, 
-                                            playIdx : idx,
+                                            id : song._id,
+                                            // playingIndex : state.playing ? -1 : idx,
+                                            // playlistIndex: idx, 
+                                            // playIdx : idx,
                                             songAudio : song.songs[0].audio_url,
-                                            idex : idx,
+                                            // idex : idx,
                                             // songPlay: state.playlists[idx].play, 
                                             })} className="play-container">
-                  {idx || idxContainerRef && state.playing ? <PlaybackPlayIcon /> : <MyCustomPauseIcon />}
+                  {state.playing && state.id === song._id ? <MyCustomPauseIcon /> : <PlaybackPlayIcon />}
                 </div>
                 <ActionMoreIcon />
               </div>
@@ -75,6 +104,10 @@ function TrendingPlayLists({ playlists,
       </div>
     </div>
   );
+}
+
+function isPlaying(state, song) {
+
 }
 
 export default TrendingPlayLists;
