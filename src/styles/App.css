@@ -133,8 +133,8 @@
 .feature {
     padding-left: 25px;
     margin-left: 25px;
-    padding-right: 25px;
-    margin-right: 25px;
+    padding-right: 12px;
+    margin-right: 12px;
     margin-bottom: 45px;
 }
 
@@ -349,7 +349,7 @@
 } */
 
 .audio-input.MuiSlider-root {
-    width: 1512px;
+    width: 1513px;
     height: 2.5px;
     color: white;
     position: fixed;
@@ -361,17 +361,22 @@
 
 .audio-input.MuiSlider-root .MuiSlider-track {
     background-color: white; /* Change to your desired color */
-  }
+
+}
 
   /* Change the color of the thumb (handle) */
-  .audio-input.MuiSlider-root .MuiSlider-thumb {
+.audio-input.MuiSlider-root .MuiSlider-thumb {
     background-color: white;
     box-shadow: none;
     width: 15px;
     height: 15px;
-  }
+    cursor: grab;
+    display: none;
+}
 
-
+.audio-input.MuiSlider-root:hover .MuiSlider-thumb {
+    display: block;
+}
 
 .music-parts {
     display: flex;
@@ -379,6 +384,7 @@
     padding-left: 20px;
     padding-top: 8px;
     padding-bottom: 8px;
+    padding-right: 80px;
 }
 
 .img {
@@ -394,6 +400,7 @@
     flex-direction: column;
     justify-content: center;
     gap: 8px;
+    width: 500px;
 }
 
 .music-icon-container {
@@ -413,6 +420,7 @@
     padding-right: 20px;
     padding-top: 8px;
     padding-bottom: 8px;
+    cursor: pointer;
 }
 
 
@@ -425,6 +433,19 @@
     left: 1463px;
     right: 0px;
     border-radius: 0%;
+    display: none;
+}
+
+.MuiSlider-root.volume-adjust-visible {
+    color: white;
+    width: 5px;
+    height: 80px;
+    position: fixed;
+    bottom: 65px;
+    left: 1463px;
+    right: 0px;
+    border-radius: 0%;
+    display: block;
 }
 
 /* Change the color of the track */
@@ -456,16 +477,23 @@
     cursor: pointer;
 }
 
-.link-title, .link-des  {
+.link-des  {
     font-size: 15px;
     font-family:  "Ember", "Helvetica", "Arial", "sans-serif";
     color: gray;
-    text-decoration: none;
+    overflow: hidden; /* Hide overflowing content */
+    white-space: nowrap; /* Prevent text from wrapping to the next line */
+    text-overflow: ellipsis; /* Display ellipsis (...) for overflowed text */
 }
 
 .link-title {
-    font-size: 17px;
+    font-family:  "Ember", "Helvetica", "Arial", "sans-serif";
+    font-size: 18px;
     color: white;
+    overflow: hidden; /* Hide overflowing content */
+    white-space: nowrap; /* Prevent text from wrapping to the next line */
+    text-overflow: ellipsis; /* Display ellipsis (...) for overflowed text */
+    font-weight: 500;
 }
 
 

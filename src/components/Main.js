@@ -15,6 +15,7 @@ import MyCustomNextIcon from "./MyCustomNextIcon";
 import MyCustomShuffleIcon from "./MyCustomShuffleIcon";
 import MyCustomPrevIcon from "./MyCustomPrevIcon";
 import MyCustomVolumeIcon from "./MyCustomVolumeIcon";
+import MyCustomVolumeOffIcon from "./MyCustomVolumeOffIcon";
 import MyCustomSkipIcon from "./MyCustomskipIcon";
 import MyCustomPauseIcon from "./MyCustomPauseIcon";
 import { Container, Slider } from "@mui/material";
@@ -553,39 +554,79 @@ function Main(){
 
 function MusicComponent({state, dispatch, songTitle, songImg, songDesc, songAudio, songPlay, id}) {
   let audioRef = useRef(null);
-  console.log(audioRef);
+  let volumeSliderRef = useRef(null);
+  let [currentTime, setCurrentTime] = useState(0);
+  let [showVolumeSlider, setShowVolumeSlider] = useState(false);
+  let [volume, setVolume] = useState(30);
   
   useEffect(() => {
-    if (state.playing && state.id === id) {
+    if (audioRef.current.src !== songAudio && state.playing && state.id === id) {
       audioRef.current = new Audio(songAudio);     
     }
-    if (audioRef.current) {
+
       if (state.playing && state.id === id) {
         audioRef.current.play();
       } else {
         audioRef.current.pause();
       }
-    }
+      if (state.playing) {
+        const timer = setInterval(() => {
+          setCurrentTime(audioRef.current.currentTime);
+        }, 100); // Update every 100 milliseconds
+
+        audioRef.current.addEventListener('ended', handleSongEnded);
+        // Clean up the timer when component unmounts or when audio is paused
+        return () => {
+          clearInterval(timer);
+          audioRef.current.removeEventListener('ended', handleSongEnded); 
+        }
+      }
+
+
   }, [state.playing]);
 
-  const togglePlayPause = () => {
-    // if (audioRef.current) {
-    //   audioRef.current = new Audio(songAudio);
-    // }
-
-    // if (state.playing && state.id === id) {
-    //   audioRef.current.pause();
-    // } else {
-    //   audioRef.current.play();
-    // }
+  const handleSongEnded = () => {
     dispatch({ type: "playandpause", songTitle, songImg, songDesc, songAudio, id });
+  };
+
+
+
+  const togglePlayPause = () => {
+    dispatch({ type: "playandpause", songTitle, songImg, songDesc, songAudio, id });
+  };
+
+  const handleSliderChange = (_, newValue) => {
+    if (audioRef.current) {
+      audioRef.current.currentTime = newValue;
+  
+      // Update the current time in the component's state to keep the slider position updated
+      setCurrentTime(newValue);
+    }
+  };
+
+  const toggleVolumeSlider = () => {
+    // Toggle the visibility of the volume slider
+    setShowVolumeSlider(!showVolumeSlider);
+  };
+
+  const handleVolumeChange = (_, newValue) => {
+    if (audioRef.current) {
+      audioRef.current.volume = newValue / 100;
+      setVolume(newValue);
+    }
   };
 
   return (
     <>
     <div className="music-container">
       {/* <input className="audio-input" type="range"></input> */}
-      <Slider className="audio-input" max={100} min={0} size="small" />
+      <Slider className="audio-input"
+              // max={100} min={0} 
+              max={audioRef.current?.duration || 100}
+              min={0}
+              value={audioRef.current?.currentTime || 0}
+              onChange={handleSliderChange}
+              size="small" />
       <div className="music-parts">
         <div className="img-container">
           <audio ref={audioRef} className="audio-element" >
@@ -616,22 +657,23 @@ function MusicComponent({state, dispatch, songTitle, songImg, songDesc, songAudi
         </div>
       </div>
       <div className="adjust">
-      <Slider className="volume-adjust"
-  sx={{
-    '& input[type="range"]': {
-      WebkitAppearance: 'slider-vertical',
-    },
-  }}
-  orientation="vertical"
-  defaultValue={30}
-  aria-label="Temperature"
-  valueLabelDisplay="auto"
-/>
-      </div>
+          <Slider
+            className={`${showVolumeSlider ? 'volume-adjust-visible' : 'volume-adjust'}`}
+            sx={{
+              '& input[type="range"]': {
+                WebkitAppearance: 'slider-vertical',
+              },
+            }}
+            orientation="vertical"
+            defaultValue={volume}
+            valueLabelDisplay="off"
+            onChange={handleVolumeChange}
+          />
+        </div>
       <div className="volume-icon">
-        {/* <div className="volume-container"> */}
-          <MyCustomVolumeIcon  fontSize="large" color="white" />
-        {/* </div> */}
+        {volume === 0 ? ( <MyCustomVolumeOffIcon style={{ fontSize: '25px', color: 'white' }} /> )
+                      : ( <MyCustomVolumeIcon  fontSize="large" color="white" onClick={toggleVolumeSlider} /> )
+        }
       </div>
     </div>
     </>
