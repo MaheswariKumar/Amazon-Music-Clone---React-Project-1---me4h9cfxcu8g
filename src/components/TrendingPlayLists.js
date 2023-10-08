@@ -45,7 +45,7 @@ function TrendingPlayLists({ playlists,
       }, [])
 
       
-
+   let [showerrorcomp, setShowErrorComp] = useState(true);
   return (
     <div className="feature">
       <div className="headertab">
@@ -79,7 +79,7 @@ function TrendingPlayLists({ playlists,
                                             // playingIndex : state.playing ? -1 : idx,
                                             // playlistIndex: idx, 
                                             // playIdx : idx,
-                                            songAudio : song.songs[0].audio_url,
+                                            songAudio : song.songs[0].audio_url ? null : state.showerrorcomp === true,
                                             // idex : idx,
                                             // songPlay: state.playlists[idx].play, 
                                             })} className="play-container">
@@ -106,8 +106,5 @@ function TrendingPlayLists({ playlists,
   );
 }
 
-function isPlaying(state, song) {
-
-}
 
 export default TrendingPlayLists;

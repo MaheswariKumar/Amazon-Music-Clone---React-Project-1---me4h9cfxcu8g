@@ -67,7 +67,7 @@ function Main(){
     let [shownewrelease, setShowNewRelease] = useState(true);
     let [showsadsongs, setShowSadSongs] = useState(true);
     let [showromanticsongs, setShowRomanticSongs] = useState(true);
-    let [showerrorcomp, setShowErrorComp] = useState(true);
+    // let [showerrorcomp, setShowErrorComp] = useState(false);
     let containerRef = useRef(null);
     let audioContainerRef = useRef(null);
     let songContainerRef = useRef(null);
@@ -83,6 +83,7 @@ function Main(){
       // })),
       playing : true,
       showmusiccomp : false,
+      showerrorcomp : false,
       title : "",
       img : "",
       desc : "",
@@ -98,7 +99,17 @@ function Main(){
           // const { playlistIndex } = action;
           // const playlists = [...state.playlists];
           // playlists[playlistIndex].play = !playlists[playlistIndex].play;
-          console.log(state.playId);     
+          // console.log(audio);
+          // console.log(state.audio);
+          // console.log(action.audio);
+
+
+          // if (window.onerror) {
+          //   return {
+          //     ...state,
+          //     showerrorcomp: true,
+          //   };
+          // }  
           return {...state,  
                   showmusiccomp : true,
                   title : action.songTitle,
@@ -135,9 +146,13 @@ function Main(){
           }
           const data = await response.json();
           setPlayLists(data.data);
+          playlists.map((song, idx) => (
+            !song.songs[0].audio_url ? <PlaybackError key={idx} /> : null
+          ))
           console.log("trend");
           console.log(data.data);
           console.log(data.data[0]);
+
         } catch (error) {
           console.error("Error fetching trending playlists:", error);
         }
@@ -157,6 +172,7 @@ function Main(){
             throw new Error("Network response was not ok");
           }
           const data = await response.json();
+          
           setSongLists(data.data);
         } catch (error) {
           console.error("Error fetching trending songs:", error);
@@ -547,7 +563,8 @@ function Main(){
                                id = {state.id}
                               //  idex = {state.idex}
                               />}
-              {showerrorcomp && <PlayBackError />}
+              {/* {state.showerrorcomp && <PlayBackError />} */}
+              {state.showerrorcomp && <PlayBackError />}
         </div>
 
     )
@@ -689,5 +706,16 @@ function PlayBackError() {
     </div>
   )
 }
+
+// window.onerror = function PlayBackError() {
+//   return (
+//     <div className="errordiv">
+//       <p className="errormsg">Playback Error: Check Your Network</p>
+//     </div>
+//   )
+// }
+
+
+
 
 export default Main;
