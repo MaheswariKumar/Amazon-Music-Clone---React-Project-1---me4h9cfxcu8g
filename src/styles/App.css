@@ -496,10 +496,28 @@
     font-weight: 500;
 }
 
+.errordiv {
+    background: linear-gradient(90deg, grey, #f69f6f);
+    color: black;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0; 
+    width: 1410px;
+    height: 75px;
+    border-radius: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0px 50px 15px 50px;
+    margin: 0px 50px 15px 50px;
+    border: 1px solid gray;
+}
 
-
-
-
-
-
-
+.errormsg {
+    font-family: Arial, sans-serif;
+    padding-top: 5px;
+    margin-top: 5px;
+    font-size: 35px;
+    text-align: center;
+}

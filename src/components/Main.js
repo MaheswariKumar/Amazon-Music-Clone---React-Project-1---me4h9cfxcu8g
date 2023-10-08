@@ -67,7 +67,7 @@ function Main(){
     let [shownewrelease, setShowNewRelease] = useState(true);
     let [showsadsongs, setShowSadSongs] = useState(true);
     let [showromanticsongs, setShowRomanticSongs] = useState(true);
-    // let [showmusiccomp, setShowMusicComp] = useState(true);
+    let [showerrorcomp, setShowErrorComp] = useState(true);
     let containerRef = useRef(null);
     let audioContainerRef = useRef(null);
     let songContainerRef = useRef(null);
@@ -547,6 +547,7 @@ function Main(){
                                id = {state.id}
                               //  idex = {state.idex}
                               />}
+              {showerrorcomp && <PlayBackError />}
         </div>
 
     )
@@ -616,6 +617,7 @@ function MusicComponent({state, dispatch, songTitle, songImg, songDesc, songAudi
     }
   };
 
+
   return (
     <>
     <div className="music-container">
@@ -677,6 +679,14 @@ function MusicComponent({state, dispatch, songTitle, songImg, songDesc, songAudi
       </div>
     </div>
     </>
+  )
+}
+
+function PlayBackError() {
+  return (
+    <div className="errordiv">
+      <p className="errormsg">Playback Error: Check Your Network</p>
+    </div>
   )
 }
 
