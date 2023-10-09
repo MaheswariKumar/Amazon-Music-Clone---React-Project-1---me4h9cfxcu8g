@@ -44,8 +44,6 @@ function TrendingPlayLists({ playlists,
         fetchSongs()          
       }, [])
 
-      
-   let [showerrorcomp, setShowErrorComp] = useState(true);
   return (
     <div className="feature">
       <div className="headertab">
@@ -71,7 +69,7 @@ function TrendingPlayLists({ playlists,
               <img className="imgtab" src={song.image} alt={song.title}></img>
               <div className="icon-container">
                 <ActionAddIcon />
-                <div onClick={()=> dispatch({type : "playandpause", 
+                <div onClick={()=> {if (song.songs && song.songs.length > 0 && song.songs[0].audio_url) {dispatch({type : "playandpause", 
                                             songTitle : song.title, 
                                             songImg : song.image, 
                                             songDesc : song.description, 
@@ -79,14 +77,20 @@ function TrendingPlayLists({ playlists,
                                             // playingIndex : state.playing ? -1 : idx,
                                             // playlistIndex: idx, 
                                             // playIdx : idx,
-                                            songAudio : song.songs[0].audio_url ? null : state.showerrorcomp === true,
+                                            songAudio : song.songs[0].audio_url,
                                             // idex : idx,
                                             // songPlay: state.playlists[idx].play, 
-                                            })} className="play-container">
+                                            }) } 
+                                            else {dispatch({ type: "error" })}}} 
+                                             className="play-container">
                   {state.playing && state.id === song._id ? <MyCustomPauseIcon /> : <PlaybackPlayIcon />}
                 </div>
                 <ActionMoreIcon />
               </div>
+              {state.playing && state.id === song._id ?               
+              <div className="rythm-container">
+                <img src="https://m.media-amazon.com/images/G/01/digital/music/player/web/EQ_accent.gif" alt="Rythm" style={{ width: "40px", height: "40px"}}></img>
+              </div> :  null}
             </div>
             <div className="link-container">
               <span className="link">{song.title}</span>

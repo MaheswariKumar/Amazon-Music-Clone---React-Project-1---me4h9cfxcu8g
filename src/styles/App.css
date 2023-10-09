@@ -196,6 +196,8 @@
     gap: 16px;
     overflow-x: scroll;
     -ms-overflow-style: none;
+    background-color: rgba(0, 0, 0, 0.9);
+    /* z-index: 6; */
     &::-webkit-scrollbar {
         width: 0;
         height: 0;
@@ -270,6 +272,22 @@
     cursor: pointer;
 }
 
+.rythm-container {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    /* display: block;    */
+    display: flex; 
+    justify-content: center;
+    align-items: center;
+    background-color: rgba(0, 0, 0, 0.5); 
+    padding: 10px;
+    z-index: 1; 
+    width: 175px;
+    height: 169px;
+}
+
 .image-container {
     position: relative;
     display: inline-block;
@@ -282,13 +300,13 @@
     align-items: center;
     background-color: rgba(0, 0, 0, 0.5); 
     padding: 10px;
-    z-index: 1; 
+    z-index: 2; 
     width: 175px;
     height: 169px;
 }
 
 .play-container {
-    background-color: rgba(255, 255, 255, 0.15);
+    background-color: rgba(160, 108, 108, 0.15);
     color: white;
     border: 2px solid transparent;
     box-shadow: none;
@@ -300,6 +318,7 @@
     justify-content: center;
     align-items: center;
 }
+
 
 /* Responsive styles for nav and main compoennt */
 @media (max-width: 750px) {
@@ -333,7 +352,7 @@
     justify-content: space-between;
     /* border-top: 1px solid gray; */
     background-color: rgba(0, 0, 0, 1); 
-    /* z-index: 100;  */
+    z-index: 6; 
     position: fixed;
     bottom: 0;
     left: 0;
@@ -353,7 +372,7 @@
     height: 2.5px;
     color: white;
     position: fixed;
-    bottom: 68px;
+    bottom: 64px;
     left: 0;
     right: 0;
 
@@ -384,7 +403,19 @@
     padding-left: 20px;
     padding-top: 8px;
     padding-bottom: 8px;
+
     padding-right: 80px;
+}
+
+.music-parts:hover .hover-icon {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.img-container {
+    position: relative;
+    display: inline-block;
 }
 
 .img {
@@ -394,6 +425,23 @@
     height: 58px;
     cursor: pointer;
 }
+
+.hover-icon {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    display: none;
+    cursor: pointer;
+    font-size: 24px;
+    color: white;
+    background-color: rgba(0, 0, 0, 0.5); 
+    z-index: 1;
+    width: 58px;
+    height: 60px;
+    border-radius: 8px;
+  }
+  
 
 .detail-container {
     display: flex;
@@ -497,7 +545,7 @@
 }
 
 .errordiv {
-    background: linear-gradient(90deg, grey, #f69f6f);
+    background: rgba(59, 151, 187, 0.759);
     color: black;
     position: fixed;
     bottom: 0;
@@ -505,13 +553,14 @@
     right: 0; 
     width: 1410px;
     height: 75px;
-    border-radius: 10px;
+    border-radius: 30px;
     display: flex;
     justify-content: center;
     align-items: center;
-    padding: 0px 50px 15px 50px;
-    margin: 0px 50px 15px 50px;
+    padding: 0px 50px 5px 50px;
+    margin: 0px 50px 5px 50px;
     border: 1px solid gray;
+    z-index: 6;
 }
 
 .errormsg {
@@ -520,4 +569,219 @@
     margin-top: 5px;
     font-size: 35px;
     text-align: center;
+    font-weight: bold;
+}
+
+.music-container-1 {
+    /* background-color: rgba(0, 0, 0, 1);  */
+    z-index: 6; 
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;  
+    background-size: cover;
+    width: 100%;
+    height: 100vh;
+}
+
+
+.music-container-1::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(
+      rgba(0, 0, 0, 0.800) 0%,
+      rgba(0, 0, 0, 0.800) 30%,
+      rgba(0, 0, 0, 0.800) 50%,
+      rgba(0, 0, 0, 0.800) 75%,
+      rgba(0, 0, 0, 0.800) 85%,
+      black 95%,
+      black 100%
+    );
+  }
+.goback {
+    position: relative;
+    top: 28px;
+    left: 50px;
+}
+
+.audio-input-1.MuiSlider-root {
+    width: 1410px;
+    height: 2.5px;
+    color: white;
+    position: fixed;
+    bottom: 110px;
+    left: 50px;
+    right: 10px;
+
+  }
+
+.audio-input-1.MuiSlider-root .MuiSlider-track {
+    background-color: white; /* Change to your desired color */
+
+}
+
+  /* Change the color of the thumb (handle) */
+.audio-input-1.MuiSlider-root .MuiSlider-thumb {
+    background-color: white;
+    box-shadow: none;
+    width: 15px;
+    height: 15px;
+    cursor: grab;
+    display: none;
+}
+
+.audio-input-1.MuiSlider-root:hover .MuiSlider-thumb {
+    display: block;
+}
+
+.start {
+    display: flex;
+    justify-content: start;
+    align-items: start;
+    position: fixed;
+    bottom: 100px;
+    left: 50px;
+    color: gray;
+    font-size: 15px;
+}
+
+.end {
+    display: flex;
+    justify-content: end;
+    align-items: end;
+    position: fixed;
+    bottom: 100px;
+    right: 50px;
+    color: gray;
+    font-size: 15px;
+}
+
+.music-parts-1 {
+    display: flex;
+    gap: 20px;
+    padding-left: 20px;
+    padding-top: 8px;
+    padding-bottom: 8px;
+    padding-right: 80px;
+}
+
+
+.img-1 {
+    border-radius: 8px;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.6);
+    width: 330px;
+    height: 330px;
+    cursor: pointer; 
+    position: fixed;
+    top: 125px;
+    left: 50px;  
+}
+
+.detail-container-1 {
+    display: flex;
+    flex-direction: column;
+    position: fixed;
+    top: 500px;
+    left: 50px;
+    gap: 12px;
+    width: 500px;    
+}
+
+.link-title-1 {
+    font-family: "Sharp Grotesk Semi Bold 20", "Helvetica", "Arial", "sans-serif";
+    font-size: 32px;
+    line-height: 40px;
+    color: white;  
+    font-weight: bold;
+}
+
+.link-des-1 {
+    font-family: "Ember", "Helvetica", "Arial", "sans-serif";
+    color: white;
+    font-size: 16px;
+    line-height: 20px;
+}
+
+.music-icon-container-1 {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 35px;
+    position: fixed;
+    right: 150px;
+    bottom: 40px;
+    left: 160px;  
+}
+
+.play-pause-container-1 {
+    background-color: rgba(255, 255, 255, 0.15);
+    color: white;
+    border: 2px solid transparent;
+    box-shadow: none;
+    backdrop-filter: blur(10px);
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+}
+
+.volume-icon-1 {
+    display: flex;
+    flex-direction: column;
+    justify-content: end;
+    align-items: end;
+    padding-right: 50px;
+    padding-top: 8px;
+    padding-bottom: 8px;
+    cursor: pointer;
+    position: fixed;
+    right: 20px;
+    bottom: 50px;
+}
+
+
+.MuiSlider-root.volume-adjust-1 {
+    color: white;
+    width: 5px;
+    height: 80px;
+    position: fixed;
+    bottom: 65px;
+    left: 1463px;
+    right: 0px;
+    border-radius: 0%;
+    display: none;
+}
+
+.MuiSlider-root.volume-adjust-visible-1 {
+    color: white;
+    width: 5px;
+    height: 80px;
+    position: fixed;
+    bottom: 95px;
+    left: 1413px;
+    right: 0px;
+    border-radius: 0%;
+    display: block;
+}
+
+/* Change the color of the track */
+.MuiSlider-root.volume-adjust-1 .MuiSlider-track {
+    background-color: white; /* Change to your desired color */
+    border-radius: 0%;
+}
+
+/* Change the color and size of the thumb (handle) */
+.MuiSlider-root.volume-adjust-1 .MuiSlider-thumb {
+    background-color: white; /* Change to your desired color */
+    width: 15px; /* Change to your desired width */
+    height: 15px; /* Change to your desired height */
+    box-shadow: none;
 }

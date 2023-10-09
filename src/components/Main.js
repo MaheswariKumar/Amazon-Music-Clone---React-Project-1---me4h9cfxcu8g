@@ -18,6 +18,8 @@ import MyCustomVolumeIcon from "./MyCustomVolumeIcon";
 import MyCustomVolumeOffIcon from "./MyCustomVolumeOffIcon";
 import MyCustomSkipIcon from "./MyCustomskipIcon";
 import MyCustomPauseIcon from "./MyCustomPauseIcon";
+import MyCustomMaximizeIcon from "./MyCustomMaximizeIcon";
+import MyCustomGoBackIcon from "./MyCustomGoBackIcon";
 import { Container, Slider } from "@mui/material";
 // import { runtime } from "webpack";
 
@@ -124,6 +126,12 @@ function Main(){
                   id : action.id,
 
                 };
+        case "error":
+          return {
+            ...state,
+            showerrorcomp: !state.showerrorcomp,
+          };
+
         default:
           return state;
       }      
@@ -146,12 +154,11 @@ function Main(){
           }
           const data = await response.json();
           setPlayLists(data.data);
-          playlists.map((song, idx) => (
-            !song.songs[0].audio_url ? <PlaybackError key={idx} /> : null
-          ))
+          
           console.log("trend");
           console.log(data.data);
           console.log(data.data[0]);
+          console.log(data.data[0].songs.length === 0);
 
         } catch (error) {
           console.error("Error fetching trending playlists:", error);
@@ -363,6 +370,19 @@ function Main(){
         console.log(selectleft["happySongs"]);
       }, [limit]);
 
+      useEffect(() => {
+        if (state.showerrorcomp) {
+          // Set a timeout to hide the error component after 2 seconds
+          const errorTimeout = setTimeout(() => {
+            dispatch({ type: "error"});
+          }, 1000);
+    
+          return () => {
+            clearTimeout(errorTimeout);
+          };
+        }
+      }, [state.showerrorcomp, dispatch]);
+
     function handleLeftIcon(identifier) {
         const container =   identifier === "trendingPlaylists" ? containerRef
         : identifier === "trendingSongs" ? songContainerRef
@@ -563,8 +583,15 @@ function Main(){
                                id = {state.id}
                               //  idex = {state.idex}
                               />}
-              {/* {state.showerrorcomp && <PlayBackError />} */}
-              {state.showerrorcomp && <PlayBackError />}
+            {state.showerrorcomp && <PlayBackError state={state} dispatch={dispatch}/>}
+            {/* <MaxSizeMusicComponent state={state} 
+                               dispatch={dispatch} 
+                               songTitle={state.title} 
+                               songImg={state.img} 
+                               songDesc={state.desc} 
+                               songAudio={state.audio}
+                               songPlay={state.playAudio}
+                               id = {state.id} /> */}
         </div>
 
     )
@@ -584,7 +611,7 @@ function MusicComponent({state, dispatch, songTitle, songImg, songDesc, songAudi
 
       if (state.playing && state.id === id) {
         audioRef.current.play();
-      } else {
+      } else{
         audioRef.current.pause();
       }
       if (state.playing) {
@@ -647,11 +674,14 @@ function MusicComponent({state, dispatch, songTitle, songImg, songDesc, songAudi
               onChange={handleSliderChange}
               size="small" />
       <div className="music-parts">
-        <div className="img-container">
-          <audio ref={audioRef} className="audio-element" >
+        <audio ref={audioRef} className="audio-element" >
             <source  src={songAudio}></source>
           </audio>
+        <div className="img-container">
           <img className="img" src={songImg} alt="hello"></img>
+          <div className="hover-icon">
+            <MyCustomMaximizeIcon style={{ fontSize: '24px', color: 'white' }} />
+          </div> 
         </div>
         <div className="detail-container">
           <span className="link-title">{songTitle}</span>
@@ -699,7 +729,7 @@ function MusicComponent({state, dispatch, songTitle, songImg, songDesc, songAudi
   )
 }
 
-function PlayBackError() {
+function PlayBackError({state, dispatch}) {
   return (
     <div className="errordiv">
       <p className="errormsg">Playback Error: Check Your Network</p>
@@ -707,13 +737,144 @@ function PlayBackError() {
   )
 }
 
-// window.onerror = function PlayBackError() {
-//   return (
-//     <div className="errordiv">
-//       <p className="errormsg">Playback Error: Check Your Network</p>
-//     </div>
-//   )
-// }
+function MaxSizeMusicComponent({state, dispatch, songTitle, songImg, songDesc, songAudio, songPlay, id}) {
+  let audioRef = useRef(null);
+  let volumeSliderRef = useRef(null);
+  let [currentTime, setCurrentTime] = useState(0);
+  let [showVolumeSlider, setShowVolumeSlider] = useState(false);
+  let [volume, setVolume] = useState(30);
+  
+  useEffect(() => {
+    if (audioRef.current.src !== songAudio && state.playing && state.id === id) {
+      audioRef.current = new Audio(songAudio);     
+    }
+
+      if (state.playing && state.id === id) {
+        audioRef.current.play();
+      } else{
+        audioRef.current.pause();
+      }
+      if (state.playing) {
+        const timer = setInterval(() => {
+          setCurrentTime(audioRef.current.currentTime);
+        }, 100); // Update every 100 milliseconds
+
+        audioRef.current.addEventListener('ended', handleSongEnded);
+        // Clean up the timer when component unmounts or when audio is paused
+        return () => {
+          clearInterval(timer);
+          audioRef.current.removeEventListener('ended', handleSongEnded); 
+        }
+      }
+
+
+  }, [state.playing]);
+
+  const handleSongEnded = () => {
+    dispatch({ type: "playandpause", songTitle, songImg, songDesc, songAudio, id });
+  };
+
+
+
+  const togglePlayPause = () => {
+    dispatch({ type: "playandpause", songTitle, songImg, songDesc, songAudio, id });
+  };
+
+  const handleSliderChange = (_, newValue) => {
+    if (audioRef.current) {
+      audioRef.current.currentTime = newValue;
+  
+      // Update the current time in the component's state to keep the slider position updated
+      setCurrentTime(newValue);
+    }
+  };
+
+  const toggleVolumeSlider = () => {
+    // Toggle the visibility of the volume slider
+    setShowVolumeSlider(!showVolumeSlider);
+  };
+
+  const handleVolumeChange = (_, newValue) => {
+    if (audioRef.current) {
+      audioRef.current.volume = newValue / 100;
+      setVolume(newValue);
+    }
+  };
+
+
+  return (
+    <>
+    <div className="music-container-1"  style={{ backgroundImage: `url("https://newton-project-resume-backend.s3.amazonaws.com/thumbnail/64cee72fe41f6d0a8b0cd0ab.jpg")`}} >
+      {/* <input className="audio-input" type="range"></input> */}
+      <div className="goback">
+        <MyCustomGoBackIcon />
+      </div>
+      <Slider className="audio-input-1"
+              // max={100} min={0} 
+              max={audioRef.current?.duration || 100}
+              min={0}
+              value={audioRef.current?.currentTime || 0}
+              onChange={handleSliderChange}
+              size="small" />
+      <div className="timing">
+        <nav className="start">00:00</nav>
+        <nav className="end">-00:00</nav>
+      </div>
+      <div className="music-parts-1">
+        <audio ref={audioRef} className="audio-element-1" >
+            <source  src="https://newton-project-resume-backend.s3.amazonaws.com/audio/64cf908647ae38c3e33a1951.mp3"></source>
+          </audio>
+        <div className="img-container-1">
+          <img className="img-1" src="https://newton-project-resume-backend.s3.amazonaws.com/thumbnail/64cee72fe41f6d0a8b0cd0ab.jpg" alt="hello-1"></img>
+          {/* <div className="hover-icon-1">
+            <MyCustomMaximizeIcon style={{ fontSize: '24px', color: 'white' }} />
+          </div>  */}
+        </div>
+        <div className="detail-container-1">
+          <span className="link-title-1">Shershaah</span>
+          <span className="link-des-1">A rhythmic odyssey, exploring the rich tapestry of Indian music. A melodic adventure</span>
+        </div>
+      </div>
+      <div className="music-icon-container-1">
+        <div className="skip-container-1">
+          <MyCustomSkipIcon style={{ fontSize: "18px", color: "grey"}}/>
+        </div>
+        <div className="prev-play-container-1">
+          <MyCustomPrevIcon style={{ fontSize: "18px", color: "grey"}}/>
+        </div>
+        <div onClick={togglePlayPause} className="play-pause-container-1">
+          {state.playing && state.id === id ? <MyCustomPauseIcon /> : <PlaybackPlayIcon />}
+        </div>
+        <div className="next-play-container-1">
+          <MyCustomNextIcon style={{ fontSize: "18px", color: "grey"}}/>
+        </div>
+        <div className="shuffle-container-1">
+          <MyCustomShuffleIcon style={{ fontSize: "18px", color: "grey"}}/>
+        </div>
+      </div>
+      <div className="adjust-1">
+          <Slider
+            className={`${showVolumeSlider ? 'volume-adjust-visible-1' : 'volume-adjust-1'}`}
+            sx={{
+              '& input[type="range"]': {
+                WebkitAppearance: 'slider-vertical',
+              },
+            }}
+            orientation="vertical"
+            defaultValue={volume}
+            valueLabelDisplay="off"
+            onChange={handleVolumeChange}
+          />
+        </div>
+      <div className="volume-icon-1">
+        {volume === 0 ? ( <MyCustomVolumeOffIcon style={{ fontSize: '25px', color: 'white' }} /> )
+                      : ( <MyCustomVolumeIcon  fontSize="large" color="white" onClick={toggleVolumeSlider} /> )
+        }
+      </div>
+    </div>
+    </>
+  )
+}
 
 
 
