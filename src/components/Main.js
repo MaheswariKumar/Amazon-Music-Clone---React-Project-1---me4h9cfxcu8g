@@ -69,9 +69,8 @@ function Main(){
     let [shownewrelease, setShowNewRelease] = useState(true);
     let [showsadsongs, setShowSadSongs] = useState(true);
     let [showromanticsongs, setShowRomanticSongs] = useState(true);
-    // let [showerrorcomp, setShowErrorComp] = useState(false);
     let containerRef = useRef(null);
-    let audioContainerRef = useRef(null);
+
     let songContainerRef = useRef(null);
     let artistContainerRef = useRef(null);
     let happySongContainerRef = useRef(null);
@@ -88,7 +87,7 @@ function Main(){
       showerrorcomp : false,
       title : "",
       img : "",
-      desc : "",
+      name : "",
       audio : "",
       playAudio : false,
       playingIndex : -1,
@@ -116,7 +115,7 @@ function Main(){
                   showmusiccomp : true,
                   title : action.songTitle,
                   img : action.songImg,
-                  desc : action.songDesc,
+                  name : action.songName,
                   audio : action.songAudio,
                   playingIndex : action.playingIndex,
                   // playAudio : action.songPlay,
@@ -158,7 +157,6 @@ function Main(){
           console.log("trend");
           console.log(data.data);
           console.log(data.data[0]);
-          console.log(data.data[0].songs.length === 0);
 
         } catch (error) {
           console.error("Error fetching trending playlists:", error);
@@ -181,6 +179,9 @@ function Main(){
           const data = await response.json();
           
           setSongLists(data.data);
+          console.log("trendSong");
+          console.log(data.data);
+          console.log(data.data[0]);
         } catch (error) {
           console.error("Error fetching trending songs:", error);
         }
@@ -201,6 +202,9 @@ function Main(){
           }
           const data = await response.json();
           setArtistLists(data.data);
+          console.log("trendSong");
+          console.log(data.data);
+          console.log(data.data[0]);
         } catch (error) {
           console.error("Error fetching artist lists:", error);
         }
@@ -221,6 +225,7 @@ function Main(){
           }
           const data = await response.json();
           setHappyLists(data.data);
+          console.log("Happy");
           console.log(data.data);
           console.log(data.data[0]);
         } catch (error) {
@@ -266,7 +271,7 @@ function Main(){
           }
           const data = await response.json();
           setSadLists(data.data);
-          console.log("new");
+          console.log("sad");
           console.log(data.data);
           console.log(data.data[0]);
         } catch (error) {
@@ -289,6 +294,7 @@ function Main(){
           }
           const data = await response.json();
           setRomanticLists(data.data);
+          console.log("romatic")
           console.log(data.data);
           console.log(data.data[0]);
         } catch (error) {
@@ -367,7 +373,7 @@ function Main(){
             console.log("rom");
         }
         console.log("hello");
-        console.log(selectleft["happySongs"]);
+        console.log(selectleft["trendingPlaylists"]);
       }, [limit]);
 
       useEffect(() => {
@@ -420,8 +426,10 @@ function Main(){
         if (container.current) {
           container.current.scrollLeft += 1000;
         }
+
+        // console.log(container.current.scrollWidth - container.current.clientWidth);
       
-        if (container.current.scrollLeft >= container.current.scrollWidth - container.current.clientWidth) {
+        if (container.current.scrollLeft < 1000) {
             setSelectRight((prevSelectRight) => ({
                 ...prevSelectRight,
                 [identifier]: "rgba(255, 255, 255, 0.3)",
@@ -513,7 +521,6 @@ function Main(){
                                selectleft={selectleft["trendingPlaylists"]} 
                                selectright={selectright["trendingPlaylists"]} 
                                containerRef={containerRef}
-                               audioContainerRef={audioContainerRef} 
                                handleSelectAll={handleSelectAll}
                                selectall={selectall}
                                identifier="trendingPlaylists"
@@ -527,7 +534,9 @@ function Main(){
                                songContainerRef={songContainerRef} 
                                handleSelectAll={handleSelectAll}
                                selectall={selectall}
-                               identifier="trendingSongs" /> }
+                               identifier="trendingSongs"
+                               state={state}
+                               dispatch={dispatch} /> }
             {showartists && <ArtistShowcase artistlists={artistlists} 
                                handleLeftIcon={handleLeftIcon} 
                                handleRightIcon={handleRightIcon} 
@@ -536,7 +545,9 @@ function Main(){
                                artistContainerRef={artistContainerRef} 
                                handleSelectAll={handleSelectAll}
                                selectall={selectall}
-                               identifier="artistlists"/> }
+                               identifier="artistlists"
+                               state={state}
+                               dispatch={dispatch}/> }
             {showhappysongs && <HappyHarmonies happylists={happylists}
                                handleLeftIcon={handleLeftIcon}
                                handleRightIcon={handleRightIcon}
@@ -545,7 +556,9 @@ function Main(){
                                happySongContainerRef={happySongContainerRef}
                                handleSelectAll={handleSelectAll}
                                selectall={selectall}
-                               identifier="happySongs"/>}
+                               identifier="happySongs"
+                               state={state}
+                               dispatch={dispatch} />}
             {shownewrelease && <NewMusicShowcase newlists={newlists}
                                handleLeftIcon={handleLeftIcon}
                                handleRightIcon={handleRightIcon}
@@ -554,7 +567,9 @@ function Main(){
                                newReleaseContainerRef={newReleaseContainerRef}
                                handleSelectAll={handleSelectAll}
                                selectall={selectall}
-                               identifier="newRelease"/>}
+                               identifier="newRelease"
+                               state={state}
+                               dispatch={dispatch} />}
             {showsadsongs && <SoulfulHealing sadlists={sadlists}
                                handleLeftIcon={handleLeftIcon}
                                handleRightIcon={handleRightIcon}
@@ -563,7 +578,9 @@ function Main(){
                                sadSongContainerRef={sadSongContainerRef}
                                handleSelectAll={handleSelectAll}
                                selectall={selectall}
-                               identifier="sadSongs" />}
+                               identifier="sadSongs"
+                               state={state}
+                               dispatch={dispatch} />}
             {showromanticsongs && <RomanticRhythms romanticlists={romanticlists}
                                handleLeftIcon={handleLeftIcon}
                                handleRightIcon={handleRightIcon}
@@ -572,12 +589,14 @@ function Main(){
                                romanticContainerRef={romanticContainerRef}
                                handleSelectAll={handleSelectAll}
                                selectall={selectall}
-                               identifier="romanticSongs" />}
+                               identifier="romanticSongs"
+                               state={state}
+                               dispatch={dispatch} />}
             {state.showmusiccomp && <MusicComponent state={state} 
                                dispatch={dispatch} 
                                songTitle={state.title} 
                                songImg={state.img} 
-                               songDesc={state.desc} 
+                               songName={state.name} 
                                songAudio={state.audio}
                                songPlay={state.playAudio}
                                id = {state.id}
@@ -597,16 +616,18 @@ function Main(){
     )
 }
 
-function MusicComponent({state, dispatch, songTitle, songImg, songDesc, songAudio, songPlay, id}) {
+function MusicComponent({state, dispatch, songTitle, songImg, songName, songAudio, songPlay, id}) {
   let audioRef = useRef(null);
   let volumeSliderRef = useRef(null);
   let [currentTime, setCurrentTime] = useState(0);
   let [showVolumeSlider, setShowVolumeSlider] = useState(false);
   let [volume, setVolume] = useState(30);
+  let [remainingTime, setRemainingTime] = useState(0);
+  let [MaxWindow, setMaxWindow] = useState(false);
   
   useEffect(() => {
     if (audioRef.current.src !== songAudio && state.playing && state.id === id) {
-      audioRef.current = new Audio(songAudio);     
+      audioRef.current = new Audio(songAudio);
     }
 
       if (state.playing && state.id === id) {
@@ -617,6 +638,8 @@ function MusicComponent({state, dispatch, songTitle, songImg, songDesc, songAudi
       if (state.playing) {
         const timer = setInterval(() => {
           setCurrentTime(audioRef.current.currentTime);
+          setRemainingTime(audioRef.current.duration - audioRef.current.currentTime);
+          console.log(formatTime(audioRef.current.duration-audioRef.current.currentTime));
         }, 100); // Update every 100 milliseconds
 
         audioRef.current.addEventListener('ended', handleSongEnded);
@@ -627,17 +650,18 @@ function MusicComponent({state, dispatch, songTitle, songImg, songDesc, songAudi
         }
       }
 
+      // console.log(formatTime(audioRef.current.duration-audioRef.current.currentTime))
 
   }, [state.playing]);
 
   const handleSongEnded = () => {
-    dispatch({ type: "playandpause", songTitle, songImg, songDesc, songAudio, id });
+    dispatch({ type: "playandpause", songTitle, songImg, songName, songAudio, id });
   };
 
 
 
   const togglePlayPause = () => {
-    dispatch({ type: "playandpause", songTitle, songImg, songDesc, songAudio, id });
+    dispatch({ type: "playandpause", songTitle, songImg, songName, songAudio, id });
   };
 
   const handleSliderChange = (_, newValue) => {
@@ -646,6 +670,7 @@ function MusicComponent({state, dispatch, songTitle, songImg, songDesc, songAudi
   
       // Update the current time in the component's state to keep the slider position updated
       setCurrentTime(newValue);
+      setRemainingTime(audioRef.current.duration - newValue);
     }
   };
 
@@ -661,34 +686,57 @@ function MusicComponent({state, dispatch, songTitle, songImg, songDesc, songAudi
     }
   };
 
+  function formatTime(durationInSeconds) {
+    const minutes = Math.floor(durationInSeconds / 60);
+    const seconds = Math.floor(durationInSeconds % 60);
+    const formattedMinutes = String(minutes).padStart(2, '0'); // Ensure two digits for minutes
+    const formattedSeconds = String(seconds).padStart(2, '0'); // Ensure two digits for seconds
+    return `${formattedMinutes}:${formattedSeconds}`;
+  }
+
+  function handleMaxWindow() {
+    setMaxWindow(true);
+  }
+
+  function handleMinWindow() {
+    setMaxWindow(false);
+  }
 
   return (
     <>
-    <div className="music-container">
+    <div style={MaxWindow ? { backgroundImage: `url(${songImg})` } : null} className={MaxWindow ? "music-container-1" : "music-container"}>
       {/* <input className="audio-input" type="range"></input> */}
-      <Slider className="audio-input"
+      <Slider className={MaxWindow ? "audio-input-1" : "audio-input"}
               // max={100} min={0} 
               max={audioRef.current?.duration || 100}
               min={0}
               value={audioRef.current?.currentTime || 0}
               onChange={handleSliderChange}
               size="small" />
-      <div className="music-parts">
-        <audio ref={audioRef} className="audio-element" >
+
+      {MaxWindow ?       <div className="timing">
+        <nav className="start">{formatTime(currentTime)}</nav>
+        <nav className="end">-{formatTime(remainingTime)}</nav>
+      </div> : null}        
+      <div className={MaxWindow ? "music-parts-1" : "music-parts"}>
+        <audio ref={audioRef} className={MaxWindow ? "audio-element-1" : "audio-element"} >
             <source  src={songAudio}></source>
           </audio>
-        <div className="img-container">
-          <img className="img" src={songImg} alt="hello"></img>
-          <div className="hover-icon">
+        <div className={MaxWindow ? "img-container-1" : "img-container"}>
+          <img className={MaxWindow ? "img-1" : "img"} src={songImg} alt="hello"></img>
+          <div className="hover-icon" onClick={handleMaxWindow}>
             <MyCustomMaximizeIcon style={{ fontSize: '24px', color: 'white' }} />
           </div> 
+          {MaxWindow ?   <div className="goback" onClick={handleMinWindow}>
+              <MyCustomGoBackIcon />
+              </div> : null}
         </div>
-        <div className="detail-container">
-          <span className="link-title">{songTitle}</span>
-          <span className="link-des">{songDesc}</span>
+        <div className={MaxWindow ? "detail-container-1" : "detail-container"}>
+          <span className={MaxWindow ? "link-title-1" : "link-title"}>{songTitle}</span>
+          <span className={MaxWindow ? "link-des-1" : "link-des"}>{songName}</span>
         </div>
       </div>
-      <div className="music-icon-container">
+      <div className={MaxWindow ? "music-icon-container-1" : "music-icon-container"}>
         <div className="skip-container">
           <MyCustomSkipIcon style={{ fontSize: "18px", color: "grey"}}/>
         </div>
@@ -705,9 +753,15 @@ function MusicComponent({state, dispatch, songTitle, songImg, songDesc, songAudi
           <MyCustomShuffleIcon style={{ fontSize: "18px", color: "grey"}}/>
         </div>
       </div>
-      <div className="adjust">
+      <div className={MaxWindow ? "adjust-1" : "adjust"}>
           <Slider
-            className={`${showVolumeSlider ? 'volume-adjust-visible' : 'volume-adjust'}`}
+            className={  !MaxWindow
+              ? !showVolumeSlider
+                ? 'volume-adjust'
+                : 'volume-adjust-visible'
+              : !showVolumeSlider
+              ? 'volume-adjust-1'
+              : 'volume-adjust-visible-1'}
             sx={{
               '& input[type="range"]': {
                 WebkitAppearance: 'slider-vertical',
@@ -719,7 +773,7 @@ function MusicComponent({state, dispatch, songTitle, songImg, songDesc, songAudi
             onChange={handleVolumeChange}
           />
         </div>
-      <div className="volume-icon">
+      <div className={MaxWindow ? "volume-icon-1" : "volume-icon"}>
         {volume === 0 ? ( <MyCustomVolumeOffIcon style={{ fontSize: '25px', color: 'white' }} /> )
                       : ( <MyCustomVolumeIcon  fontSize="large" color="white" onClick={toggleVolumeSlider} /> )
         }
@@ -732,7 +786,7 @@ function MusicComponent({state, dispatch, songTitle, songImg, songDesc, songAudi
 function PlayBackError({state, dispatch}) {
   return (
     <div className="errordiv">
-      <p className="errormsg">Playback Error: Check Your Network</p>
+      <p className="errormsg">Playback Error! Check Your Network</p>
     </div>
   )
 }
@@ -743,11 +797,18 @@ function MaxSizeMusicComponent({state, dispatch, songTitle, songImg, songDesc, s
   let [currentTime, setCurrentTime] = useState(0);
   let [showVolumeSlider, setShowVolumeSlider] = useState(false);
   let [volume, setVolume] = useState(30);
+  let [totalDuration, setTotalDuration] = useState(0); // State for total duration
+  let [remainingTime, setRemainingTime] = useState(0);
   
   useEffect(() => {
     if (audioRef.current.src !== songAudio && state.playing && state.id === id) {
-      audioRef.current = new Audio(songAudio);     
+      audioRef.current = new Audio(songAudio);
+      // audioRef.current.addEventListener('loadedmetadata', () => {
+      //   setTotalDuration(audioRef.current.duration); // Set total duration when audio is loaded
+      // });
     }
+    console.log(audioRef.current.duration)
+    
 
       if (state.playing && state.id === id) {
         audioRef.current.play();
@@ -757,6 +818,7 @@ function MaxSizeMusicComponent({state, dispatch, songTitle, songImg, songDesc, s
       if (state.playing) {
         const timer = setInterval(() => {
           setCurrentTime(audioRef.current.currentTime);
+          setRemainingTime(formatTime(audioRef.current.duration - audioRef.current.currentTime));
         }, 100); // Update every 100 milliseconds
 
         audioRef.current.addEventListener('ended', handleSongEnded);
@@ -786,6 +848,7 @@ function MaxSizeMusicComponent({state, dispatch, songTitle, songImg, songDesc, s
   
       // Update the current time in the component's state to keep the slider position updated
       setCurrentTime(newValue);
+      setRemainingTime(totalDuration - newValue);
     }
   };
 
@@ -800,6 +863,14 @@ function MaxSizeMusicComponent({state, dispatch, songTitle, songImg, songDesc, s
       setVolume(newValue);
     }
   };
+
+  function formatTime(durationInSeconds) {
+    const minutes = Math.floor(durationInSeconds / 60);
+    const seconds = Math.floor(durationInSeconds % 60);
+    const formattedMinutes = String(minutes).padStart(2, '0'); // Ensure two digits for minutes
+    const formattedSeconds = String(seconds).padStart(2, '0'); // Ensure two digits for seconds
+    return `${formattedMinutes}:${formattedSeconds}`;
+  }
 
 
   return (
@@ -817,8 +888,8 @@ function MaxSizeMusicComponent({state, dispatch, songTitle, songImg, songDesc, s
               onChange={handleSliderChange}
               size="small" />
       <div className="timing">
-        <nav className="start">00:00</nav>
-        <nav className="end">-00:00</nav>
+        <nav className="start">{formatTime(currentTime)}</nav>
+        <nav className="end">-{formatTime(remainingTime)}</nav>
       </div>
       <div className="music-parts-1">
         <audio ref={audioRef} className="audio-element-1" >

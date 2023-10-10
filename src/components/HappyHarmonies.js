@@ -4,8 +4,19 @@ import ChevronCaretrightIcon from "./ChevronCaretrightIcon";
 import PlaybackPlayIcon from "./PlaybackPlayIcon";
 import ActionMoreIcon from "./ActionMoreIcon";
 import ActionAddIcon from "./ActionAddIcon";
+import MyCustomPauseIcon from "./MyCustomPauseIcon";
 
-function HappyHarmonies({happylists, handleLeftIcon, handleRightIcon, selectleft, selectright, happySongContainerRef, handleSelectAll, selectall, identifier}) {
+function HappyHarmonies({happylists, 
+                         handleLeftIcon, 
+                         handleRightIcon, 
+                         selectleft, 
+                         selectright, 
+                         happySongContainerRef, 
+                         handleSelectAll, 
+                         selectall, 
+                         identifier,
+                         state,
+                         dispatch}) {
     return (
         <div className="feature">
             <div className="headertab">
@@ -31,8 +42,16 @@ function HappyHarmonies({happylists, handleLeftIcon, handleRightIcon, selectleft
                     <img className="imgtab" src={song.thumbnail} alt={song.title}></img>
                     <div className="icon-container">
                         <ActionAddIcon />
-                        <div className="play-container">
-                            <PlaybackPlayIcon />
+                        <div onClick={()=> {if (song.audio_url) {dispatch({type : "playandpause", 
+                                            songTitle : song.title, 
+                                            songImg : song.thumbnail, 
+                                            songName : song.artist[0].name, 
+                                            id : song._id,
+                                            songAudio : song.audio_url, 
+                                            }) } 
+                                            else {dispatch({ type: "error" })}}} 
+                                             className="play-container">
+                        {state.playing && state.id === song._id ? <MyCustomPauseIcon /> : <PlaybackPlayIcon />}
                         </div>
                         <ActionMoreIcon />
                     </div> 

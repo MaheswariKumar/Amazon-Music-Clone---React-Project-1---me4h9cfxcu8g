@@ -1,12 +1,27 @@
-import React from "react";
+import React, { useState, useEffect, useRef, useReducer, Component } from "react";
 import HomeIcon from './HomeIcon';
 import PodcastIcon from "./PodcastIcon";
 import MyMusicIcon from "./MyMusicIcon";
 import ProfileIcon from "./ProfileIcon";
 import SearchIcon from "./SearchIcon";
+import Search from "./Search";
 import ChevronCaretdownIcon from "./ChevronCaretdownIcon";
 
 function NavBar(){
+    const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
+
+    useEffect(() => {
+      const handleResize = () => {
+        setIsMobile(window.innerWidth <= 768);
+      };
+  
+      window.addEventListener('resize', handleResize);
+  
+      return () => {
+        window.removeEventListener('resize', handleResize);
+      };
+    }, []);
+    
     return (
         <div id="Navbar">
             <div className="left-icons">
@@ -31,12 +46,18 @@ function NavBar(){
             </div>
             <div className="right-icons">
                 <ul className="right-lists">
-                    <form>
-                        <div className="search-container">
-                            <img className="icon" src="https://th.bing.com/th/id/OIP.6TcG8ShE1aAy3WyR4C3EoQAAAA?pid=ImgDet&rs=1"></img>
-                            <input className="search" type="search" placeholder="Search"></input>
-                        </div>
-                    </form>
+                <form>
+      {isMobile ? (
+        <div className="search-container">
+          <Search style={{ color: 'white' }}/>
+        </div>
+      ) : (
+        <div className="search-container">
+          <img className="icon" src="https://th.bing.com/th/id/OIP.6TcG8ShE1aAy3WyR4C3EoQAAAA?pid=ImgDet&rs=1" alt="Search Icon" />
+          <input className="search" type="search" placeholder="Search" />
+        </div>
+      )}
+    </form>
                     <div className="user-icon">
                         <li><ProfileIcon color="inherit"/></li>
                     </div>

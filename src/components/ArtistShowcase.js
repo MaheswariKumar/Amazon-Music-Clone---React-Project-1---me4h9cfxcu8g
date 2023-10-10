@@ -4,8 +4,19 @@ import ChevronCaretrightIcon from "./ChevronCaretrightIcon";
 import PlaybackPlayIcon from "./PlaybackPlayIcon";
 import ActionMoreIcon from "./ActionMoreIcon";
 import ActionAddIcon from "./ActionAddIcon";
+import MyCustomPauseIcon from "./MyCustomPauseIcon";
 
-function ArtistShowcase({artistlists, handleLeftIcon, handleRightIcon, selectleft, selectright, artistContainerRef, handleSelectAll, selectall, identifier}) {
+function ArtistShowcase({artistlists, 
+                         handleLeftIcon, 
+                         handleRightIcon, 
+                         selectleft, 
+                         selectright, 
+                         artistContainerRef, 
+                         handleSelectAll, 
+                         selectall, 
+                         identifier,
+                         state,
+                         dispatch}) {
     return (
         <div className="feature">
             <div className="headertab">
@@ -31,17 +42,25 @@ function ArtistShowcase({artistlists, handleLeftIcon, handleRightIcon, selectlef
                     <img className="imgtab" src={song.image} alt={song.name}></img>
                     <div className="icon-container">
                         <ActionAddIcon />
-                        <div className="play-container">
-                            <PlaybackPlayIcon />
+                        <div onClick={()=> {if (song.songs && song.songs.length > 0 && song.songs[0]) {dispatch({type : "playandpause", 
+                                            songTitle : song.name, 
+                                            songImg : song.image, 
+                                            songName : song.description, 
+                                            id : song._id,
+                                            songAudio : song.songs[0], 
+                                            }) } 
+                                            else {dispatch({ type: "error" })}}} 
+                                             className="play-container">
+                        {state.playing && state.id === song._id ? <MyCustomPauseIcon /> : <PlaybackPlayIcon />}
                         </div>
                         <ActionMoreIcon />
                     </div> 
                     </div>
                     <div className="link-container">
-                        <span className="link">{song.description}</span>
+                        <span className="link">{song.name}</span>
                     </div> 
                     <div className="content-container">
-                        <span className="content">{song.name}</span>
+                        <span className="content">{song.description}</span>
                     </div>
                 </div>
                 ))}

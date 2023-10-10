@@ -12,37 +12,11 @@ function TrendingPlayLists({ playlists,
                              selectleft, 
                              selectright, 
                              containerRef,
-                             audioContainerRef, 
                              handleSelectAll, 
                              selectall, 
                              identifier,
                              state,
                              dispatch}) {
-
-      async function fetchSongs() {
-        try {
-          const response = await fetch(
-            'https://academics.newtonschool.co/api/v1/music/playlistsalbum/64cee72fe41f6d0a8b0cd0bd',
-            {
-              headers: {
-                projectId: "f104bi07c490",
-              },
-            }
-          );
-          if (!response.ok) {
-            throw new Error("Network response was not ok");
-          }
-          const data = await response.json();
-          console.log("songssssssss");
-          console.log(data);
-        } catch (error) {
-          console.error("Error fetching artist lists:", error);
-        }
-      }
-
-      useEffect(()=>{
-        fetchSongs()          
-      }, [])
 
   return (
     <div className="feature">
@@ -72,14 +46,9 @@ function TrendingPlayLists({ playlists,
                 <div onClick={()=> {if (song.songs && song.songs.length > 0 && song.songs[0].audio_url) {dispatch({type : "playandpause", 
                                             songTitle : song.title, 
                                             songImg : song.image, 
-                                            songDesc : song.description, 
+                                            songName : song.artists[0].name, 
                                             id : song._id,
-                                            // playingIndex : state.playing ? -1 : idx,
-                                            // playlistIndex: idx, 
-                                            // playIdx : idx,
-                                            songAudio : song.songs[0].audio_url,
-                                            // idex : idx,
-                                            // songPlay: state.playlists[idx].play, 
+                                            songAudio : song.songs[0].audio_url, 
                                             }) } 
                                             else {dispatch({ type: "error" })}}} 
                                              className="play-container">

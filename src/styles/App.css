@@ -321,7 +321,7 @@
 
 
 /* Responsive styles for nav and main compoennt */
-@media (max-width: 750px) {
+@media (max-width: 768px) {
     .home-div li:not(:first-child),
     .pod-div li:not(:first-child),
     .lib-div li:not(:first-child) {
@@ -329,7 +329,43 @@
     }
 }
 
-@media (max-width: 750px) {
+@media (max-width: 768px) {
+    .left-lists {
+        gap: 30px;
+    }
+
+    .logo-div, .home-div, .pod-div, .lib-div {
+        height: 40px;
+    }
+
+    .logo {
+        height: auto;
+        width: 45px;
+    }
+    .logo[src="https://d5fx445wy2wpk.cloudfront.net/static/logo.svg"] {
+        content: url("https://d5fx445wy2wpk.cloudfront.net/static/logo_stacked.svg");
+    }
+
+    .home-div, .pod-div, .lib-div {
+        position: relative;
+        left: 210px;
+        top: -5px;
+    }
+    
+    .search-container {
+        position: fixed;
+    }
+}
+
+@media (max-width: 1025px) {
+    .home-div li:not(:first-child),
+    .pod-div li:not(:first-child),
+    .lib-div li:not(:first-child) {
+        display: none;
+    }
+}
+
+@media (max-width: 1025px) {
     .left-lists {
         gap: 30px;
     }
@@ -347,6 +383,7 @@
     }
 }
 
+/* MusicContainer */
 .music-container {
     display: flex;
     justify-content: space-between;
@@ -359,13 +396,6 @@
     right: 0;
 }
 
-/* .audio-input {
-    width: 100%;
-    position: fixed;
-    bottom: 77px;
-    left: 0;
-    right: 0;
-} */
 
 .audio-input.MuiSlider-root {
     width: 1513px;
@@ -379,11 +409,10 @@
   }
 
 .audio-input.MuiSlider-root .MuiSlider-track {
-    background-color: white; /* Change to your desired color */
+    background-color: white; 
 
 }
 
-  /* Change the color of the thumb (handle) */
 .audio-input.MuiSlider-root .MuiSlider-thumb {
     background-color: white;
     box-shadow: none;
@@ -496,17 +525,17 @@
     display: block;
 }
 
-/* Change the color of the track */
+
 .MuiSlider-root.volume-adjust .MuiSlider-track {
-    background-color: white; /* Change to your desired color */
+    background-color: white; 
     border-radius: 0%;
 }
 
-/* Change the color and size of the thumb (handle) */
+
 .MuiSlider-root.volume-adjust .MuiSlider-thumb {
-    background-color: white; /* Change to your desired color */
-    width: 15px; /* Change to your desired width */
-    height: 15px; /* Change to your desired height */
+    background-color: white; 
+    width: 15px;
+    height: 15px; 
     box-shadow: none;
 }
 
@@ -529,18 +558,18 @@
     font-size: 15px;
     font-family:  "Ember", "Helvetica", "Arial", "sans-serif";
     color: gray;
-    overflow: hidden; /* Hide overflowing content */
-    white-space: nowrap; /* Prevent text from wrapping to the next line */
-    text-overflow: ellipsis; /* Display ellipsis (...) for overflowed text */
+    overflow: hidden;
+    white-space: nowrap; 
+    text-overflow: ellipsis; 
 }
 
 .link-title {
     font-family:  "Ember", "Helvetica", "Arial", "sans-serif";
     font-size: 18px;
     color: white;
-    overflow: hidden; /* Hide overflowing content */
-    white-space: nowrap; /* Prevent text from wrapping to the next line */
-    text-overflow: ellipsis; /* Display ellipsis (...) for overflowed text */
+    overflow: hidden; 
+    white-space: nowrap;
+    text-overflow: ellipsis;
     font-weight: 500;
 }
 
@@ -570,6 +599,31 @@
     font-size: 35px;
     text-align: center;
     font-weight: bold;
+}
+
+
+@media screen and (max-width: 768px) {
+    /* Adjust styles for screens up to 768px wide */
+    .music-container {
+        flex-direction: column; /* Stack elements vertically */
+        align-items: center; /* Center align items */
+    }
+
+    .audio-input.MuiSlider-root {
+        bottom: 0;
+    }
+
+    /* Add more responsive styles as needed */
+}
+
+@media screen and (max-width: 576px) {
+    /* Adjust styles for screens up to 576px wide */
+    .music-parts {
+        flex-direction: row; /* Stack elements vertically */
+        padding: 20px;
+    }
+
+    /* Add more responsive styles as needed */
 }
 
 .music-container-1 {
@@ -605,8 +659,9 @@
   }
 .goback {
     position: relative;
-    top: 28px;
-    left: 50px;
+    top: 20px;
+    left: 30px;
+    cursor: pointer;
 }
 
 .audio-input-1.MuiSlider-root {
@@ -621,11 +676,11 @@
   }
 
 .audio-input-1.MuiSlider-root .MuiSlider-track {
-    background-color: white; /* Change to your desired color */
+    background-color: white;
 
 }
 
-  /* Change the color of the thumb (handle) */
+
 .audio-input-1.MuiSlider-root .MuiSlider-thumb {
     background-color: white;
     box-shadow: none;
@@ -646,7 +701,7 @@
     position: fixed;
     bottom: 100px;
     left: 50px;
-    color: gray;
+    color: white;
     font-size: 15px;
 }
 
@@ -657,7 +712,7 @@
     position: fixed;
     bottom: 100px;
     right: 50px;
-    color: gray;
+    color: white;
     font-size: 15px;
 }
 
@@ -686,7 +741,7 @@
     display: flex;
     flex-direction: column;
     position: fixed;
-    top: 500px;
+    top: 520px;
     left: 50px;
     gap: 12px;
     width: 500px;    
@@ -698,6 +753,7 @@
     line-height: 40px;
     color: white;  
     font-weight: bold;
+    text-wrap: nowrap;
 }
 
 .link-des-1 {
@@ -705,6 +761,7 @@
     color: white;
     font-size: 16px;
     line-height: 20px;
+    text-wrap: nowrap;
 }
 
 .music-icon-container-1 {
@@ -772,16 +829,15 @@
     display: block;
 }
 
-/* Change the color of the track */
+
 .MuiSlider-root.volume-adjust-1 .MuiSlider-track {
-    background-color: white; /* Change to your desired color */
+    background-color: white; 
     border-radius: 0%;
 }
 
-/* Change the color and size of the thumb (handle) */
 .MuiSlider-root.volume-adjust-1 .MuiSlider-thumb {
-    background-color: white; /* Change to your desired color */
-    width: 15px; /* Change to your desired width */
-    height: 15px; /* Change to your desired height */
+    background-color: white; 
+    width: 15px; 
+    height: 15px;
     box-shadow: none;
 }
