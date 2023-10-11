@@ -47,17 +47,17 @@ function NavBar(){
             <div className="right-icons">
                 <ul className="right-lists">
                 <form>
-      {isMobile ? (
-        <div className="search-container">
-          <Search style={{ color: 'white' }}/>
-        </div>
-      ) : (
-        <div className="search-container">
-          <img className="icon" src="https://th.bing.com/th/id/OIP.6TcG8ShE1aAy3WyR4C3EoQAAAA?pid=ImgDet&rs=1" alt="Search Icon" />
-          <input className="search" type="search" placeholder="Search" />
-        </div>
-      )}
-    </form>
+                  {isMobile ? (
+                  <div className="search-container">
+                    <Search style={{ color: 'white' }}/>
+                  </div>
+                  ) : (
+                  <div className="search-container">
+                    <img className="icon" src="https://th.bing.com/th/id/OIP.6TcG8ShE1aAy3WyR4C3EoQAAAA?pid=ImgDet&rs=1" alt="Search Icon" />
+                    <input className="search" type="search" placeholder="Search" />
+                  </div>
+                  )}
+                </form>
                     <div className="user-icon">
                         <li><ProfileIcon color="inherit"/></li>
                     </div>

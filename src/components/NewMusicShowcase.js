@@ -54,7 +54,11 @@ function NewMusicShowcase({newlists,
                         {state.playing && state.id === song._id ? <MyCustomPauseIcon /> : <PlaybackPlayIcon />}
                         </div>
                         <ActionMoreIcon />
-                    </div> 
+                    </div>
+                    {state.playing && state.id === song._id ?               
+                    <div className="rythm-container">
+                        <img src="https://m.media-amazon.com/images/G/01/digital/music/player/web/EQ_accent.gif" alt="Rythm" style={{ width: "40px", height: "40px"}}></img>
+                    </div> :  null}
                     </div>
                     <div className="link-container">
                         <span className="link">{song.title}</span>

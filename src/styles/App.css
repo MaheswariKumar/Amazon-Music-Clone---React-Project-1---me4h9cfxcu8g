@@ -93,6 +93,13 @@
     cursor: pointer;
 }
 
+/* .search-container input {
+    width: 100%;
+    height: 100vh;
+    background-color: rgba(15,17,17,.6);
+    cursor: pointer;
+} */
+
 
 .search-container input { text-indent: 32px;}
 .search-container .fa-search { 
@@ -346,15 +353,24 @@
         content: url("https://d5fx445wy2wpk.cloudfront.net/static/logo_stacked.svg");
     }
 
-    .home-div, .pod-div, .lib-div {
+    /* .home-div, .pod-div, .lib-div {
         position: relative;
-        left: 210px;
+        left: 400px;
         top: -5px;
     }
-    
+
     .search-container {
-        position: fixed;
+        position: absolute;
+        top: 10px;
+        right: 10px;
     }
+
+    .user-icon {
+        position: absolute;
+        top: 10px;
+        right: 60px;
+    } */
+    
 }
 
 @media (max-width: 1025px) {
@@ -391,6 +407,7 @@
     background-color: rgba(0, 0, 0, 1); 
     z-index: 6; 
     position: fixed;
+    width: 100%;
     bottom: 0;
     left: 0;
     right: 0;
@@ -493,6 +510,9 @@
     display: flex;
     flex-direction: column;
     justify-content: center;
+    position: absolute;
+    bottom: 20px;
+    right: 20px;
     align-items: center;
     padding-right: 20px;
     padding-top: 8px;
@@ -517,9 +537,9 @@
     color: white;
     width: 5px;
     height: 80px;
-    position: fixed;
+    position: absolute;
     bottom: 65px;
-    left: 1463px;
+    left: 1442px;
     right: 0px;
     border-radius: 0%;
     display: block;
@@ -602,28 +622,31 @@
 }
 
 
-@media screen and (max-width: 768px) {
-    /* Adjust styles for screens up to 768px wide */
+@media (max-width: 1024px) {
     .music-container {
-        flex-direction: column; /* Stack elements vertically */
-        align-items: center; /* Center align items */
+        display: flex;
+        justify-content: space-between;
+        gap: 50px;
+    }
+
+    .music-icon-container .skip-container,
+    .music-icon-container .shuffle-container {
+      display: none;
+    }
+
+    .detail-container {
+        width: 200px;  
+    }
+
+    .music-icon-container {
+        right: 70px;
     }
 
     .audio-input.MuiSlider-root {
-        bottom: 0;
+        width: 100%;
     }
 
-    /* Add more responsive styles as needed */
-}
-
-@media screen and (max-width: 576px) {
-    /* Adjust styles for screens up to 576px wide */
-    .music-parts {
-        flex-direction: row; /* Stack elements vertically */
-        padding: 20px;
-    }
-
-    /* Add more responsive styles as needed */
+    /* ... (other style adjustments for small screens) ... */
 }
 
 .music-container-1 {
@@ -752,6 +775,7 @@
     font-size: 32px;
     line-height: 40px;
     color: white;  
+    width: 100%;
     font-weight: bold;
     text-wrap: nowrap;
 }
@@ -840,4 +864,29 @@
     width: 15px; 
     height: 15px;
     box-shadow: none;
+}
+
+@media (max-width: 1024px) {
+    .music-icon-container-1 .skip-container,
+    .music-icon-container-1 .shuffle-container {
+      display: none;
+    }
+
+    .link-title-1 {
+        /* width: 100%; */
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    .music-icon-container-1 {
+        right: 70px;
+    }
+
+    .audio-input-1.MuiSlider-root {
+        /* width: 100%; */
+        height: 2.5px;
+        position: absolute;
+        left: 50px;
+        right: 10px;
+    }
 }
