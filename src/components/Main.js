@@ -23,7 +23,7 @@ import MyCustomGoBackIcon from "./MyCustomGoBackIcon";
 import { Container, Slider } from "@mui/material";
 // import { runtime } from "webpack";
 
-function Main(){
+function Main({opensearch, searching}){
     let [playlists, setPlayLists] = useState([]);
     let [songlists, setSongLists] = useState([]);
     let [artistlists, setArtistLists] = useState([]);
@@ -52,6 +52,7 @@ function Main(){
     let [scrollLeft, setScrollLeft] = useState(0);
     let [selectall, setSelectAll] = useState(false);
     let [limit, setLimit] = useState(12);
+    let [options, setOptions] = useState(true);
 
     // let initialState = {
     //   showTrendingPlaylists : true,
@@ -443,6 +444,7 @@ function Main(){
       
 
     function handleSelectAll(identifier) {
+      setOptions(false)
         if (identifier === "trendingPlaylists") {
             setShowTrendingSongs(false);
             setShowArtists(false);
@@ -512,10 +514,17 @@ function Main(){
           }; 
     }
 
+    // function handleOtherComp() {
+
+    // }
+
+    
+
     return (
         <div className="Main-section">
             <div className="categories"></div>
-            {showTrendingPlaylists && <TrendingPlayLists playlists={playlists} 
+            {opensearch && <SearchComponent handleSelectAll={handleSelectAll} searching={searching} />}
+            {!opensearch && showTrendingPlaylists && <TrendingPlayLists playlists={playlists} 
                                handleLeftIcon={handleLeftIcon} 
                                handleRightIcon={handleRightIcon} 
                                selectleft={selectleft["trendingPlaylists"]} 
@@ -524,9 +533,10 @@ function Main(){
                                handleSelectAll={handleSelectAll}
                                selectall={selectall}
                                identifier="trendingPlaylists"
+                               options={options}
                                state={state} 
                                dispatch={dispatch} /> }
-            {showTrendingSongs && <TrendingSongs songlists={songlists}
+            {!opensearch && showTrendingSongs && <TrendingSongs songlists={songlists}
                                handleLeftIcon={handleLeftIcon} 
                                handleRightIcon={handleRightIcon} 
                                selectleft={selectleft["trendingSongs"]} 
@@ -537,7 +547,7 @@ function Main(){
                                identifier="trendingSongs"
                                state={state}
                                dispatch={dispatch} /> }
-            {showartists && <ArtistShowcase artistlists={artistlists} 
+            {!opensearch && showartists && <ArtistShowcase artistlists={artistlists} 
                                handleLeftIcon={handleLeftIcon} 
                                handleRightIcon={handleRightIcon} 
                                selectleft={selectleft["artistlists"]} 
@@ -548,7 +558,7 @@ function Main(){
                                identifier="artistlists"
                                state={state}
                                dispatch={dispatch}/> }
-            {showhappysongs && <HappyHarmonies happylists={happylists}
+            {!opensearch && showhappysongs && <HappyHarmonies happylists={happylists}
                                handleLeftIcon={handleLeftIcon}
                                handleRightIcon={handleRightIcon}
                                selectleft={selectleft}
@@ -559,7 +569,7 @@ function Main(){
                                identifier="happySongs"
                                state={state}
                                dispatch={dispatch} />}
-            {shownewrelease && <NewMusicShowcase newlists={newlists}
+            {!opensearch && shownewrelease && <NewMusicShowcase newlists={newlists}
                                handleLeftIcon={handleLeftIcon}
                                handleRightIcon={handleRightIcon}
                                selectleft={selectleft}
@@ -570,7 +580,7 @@ function Main(){
                                identifier="newRelease"
                                state={state}
                                dispatch={dispatch} />}
-            {showsadsongs && <SoulfulHealing sadlists={sadlists}
+            {!opensearch && showsadsongs && <SoulfulHealing sadlists={sadlists}
                                handleLeftIcon={handleLeftIcon}
                                handleRightIcon={handleRightIcon}
                                selectleft={selectleft}
@@ -581,7 +591,7 @@ function Main(){
                                identifier="sadSongs"
                                state={state}
                                dispatch={dispatch} />}
-            {showromanticsongs && <RomanticRhythms romanticlists={romanticlists}
+            {!opensearch && showromanticsongs && <RomanticRhythms romanticlists={romanticlists}
                                handleLeftIcon={handleLeftIcon}
                                handleRightIcon={handleRightIcon}
                                selectleft={selectleft}
@@ -775,10 +785,36 @@ function MusicComponent({state, dispatch, songTitle, songImg, songName, songAudi
   )
 }
 
+
 function PlayBackError({state, dispatch}) {
   return (
     <div className="errordiv">
       <p className="errormsg">Playback Error! Check Your Network</p>
+    </div>
+  )
+}
+
+function SearchComponent({handleSelectAll, searching}){
+  return (
+    <div className="Search-Lists">
+      <div className="Search-Types">
+        <div className="Moods">Moods</div>
+          <ul className="mood-list">
+            <li className="box-1">Happy</li>
+            <li className="box-2">Fresh</li>
+            <li className="box-3">Sad</li>
+            <li className="box-4">Romatic</li>
+          </ul>
+        <div className="Listen-Your-Way">Listen Your Way</div>
+          <ul className="Listen-list">
+            <li className="box-5" onClick={() => {handleSelectAll("trendingPlaylists"); searching()}}>Trending Albums</li>
+            <li className="box-6">Trending Songs</li>
+          </ul>
+        <div className="Artists">Artists</div>
+          <ul className="Artists-list">
+            <li className="box-7">Artistic Collection</li>
+          </ul>
+      </div>
     </div>
   )
 }

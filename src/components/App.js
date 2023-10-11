@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState, useEffect, useRef, useReducer, Component } from "react";
 import '../styles/App.css';
 // import { BrowserRouter as Router, Link, Route, Routes } from "react-router-dom";
 // import Logo from "./Logo";
@@ -11,7 +11,11 @@ import Main from './Main';
 // {/* <Route path="/products/:id" element={<SingleProduct />} /> */}
 
 const App = () => {
+  let [opensearch, setOpenSearch] = useState(false);
 
+  function searching() {
+    setOpenSearch(!opensearch);
+  }
 
   return (
     // <Router>
@@ -43,8 +47,8 @@ const App = () => {
     //   </div>
     // </Router>
     <div id='main'>
-      <NavBar />
-      <Main />
+      <NavBar searching={searching} />
+      <Main opensearch={opensearch} searching={searching}/>
     </div>
 
   )

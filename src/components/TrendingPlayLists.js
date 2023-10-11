@@ -15,6 +15,7 @@ function TrendingPlayLists({ playlists,
                              handleSelectAll, 
                              selectall, 
                              identifier,
+                             options,
                              state,
                              dispatch}) {
 
@@ -26,15 +27,15 @@ function TrendingPlayLists({ playlists,
         </div>
         <div className="options">
           <div onClick={() => handleLeftIcon(identifier)}>
-            <ChevronCaretLeftIcon style={{ fontSize: "20px", color: `${selectleft}` }} />
+            {options ? <ChevronCaretLeftIcon style={{ fontSize: "20px", color: `${selectleft}` }} /> : null}
           </div>
           <div onClick={() => handleRightIcon(identifier)}>
-            <ChevronCaretrightIcon style={{ fontSize: "20px", color: `${selectright}` }} />
+            {options ? <ChevronCaretrightIcon style={{ fontSize: "20px", color: `${selectright}` }} /> : null}
           </div>
         </div>
-        <div onClick={() => handleSelectAll(identifier)} className="alloptions">
+        {options ? <div onClick={() => handleSelectAll(identifier)} className="alloptions">
           <span className="all">SEE ALL</span>
-        </div>
+        </div> : null }
       </div>
       <div className={selectall ? "wrapper-all" : "wrapper"} ref={containerRef}>
         {playlists.map((song, idx) => (

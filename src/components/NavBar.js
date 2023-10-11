@@ -7,7 +7,7 @@ import SearchIcon from "./SearchIcon";
 import Search from "./Search";
 import ChevronCaretdownIcon from "./ChevronCaretdownIcon";
 
-function NavBar(){
+function NavBar({searching}){
     const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
 
     useEffect(() => {
@@ -21,6 +21,7 @@ function NavBar(){
         window.removeEventListener('resize', handleResize);
       };
     }, []);
+
     
     return (
         <div id="Navbar">
@@ -52,7 +53,7 @@ function NavBar(){
                     <Search style={{ color: 'white' }}/>
                   </div>
                   ) : (
-                  <div className="search-container">
+                  <div className="search-container" onClick={searching}>
                     <img className="icon" src="https://th.bing.com/th/id/OIP.6TcG8ShE1aAy3WyR4C3EoQAAAA?pid=ImgDet&rs=1" alt="Search Icon" />
                     <input className="search" type="search" placeholder="Search" />
                   </div>
