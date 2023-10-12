@@ -12,10 +12,96 @@ import Main from './Main';
 
 const App = () => {
   let [opensearch, setOpenSearch] = useState(false);
+  const [searchTerm, setSearchTerm] = useState('');
+  const [songList, setSongList] = useState([]);
+  const [filteredSuggestions, setFilteredSuggestions] = useState([]);
+  const apiEndpoint = 'https://academics.newtonschool.co/api/v1/music/song';
+  const apiEndpointArtist = 'https://academics.newtonschool.co/api/v1/music/artist';
+  
 
   function searching() {
     setOpenSearch(!opensearch);
   }
+
+  const handleSearchChange = (event) => {
+    setSearchTerm(event.target.value);
+
+    // const filtered = songList.some((lst)=>{
+    //   lst.filter((song) =>
+    //   song.title.toLowerCase().includes(event.target.value.toLowerCase())
+    // )
+    //   lst.title.toLowerCase().includes(searchTerm.toLowerCase());
+    // })
+    const filtered = songList.filter((song) => {
+      song.title.toLowerCase().includes(searchTerm.toLowerCase()); 
+    });
+    // console.log(filtered)
+    // const filtered = songList.filter((song) =>
+    //   song.title.toLowerCase().includes(event.target.value.toLowerCase())
+    // );
+
+    // setFilteredSuggestions(filtered); 
+    console.log(filtered);
+    
+  };
+
+  const handleSearchSubmit = (event) => {
+    event.preventDefault(); 
+  };
+
+  const fetchSongList = async () => {
+    try {
+      const response = await fetch(`${apiEndpoint}?search={"title":"${searchTerm}"}`, {
+        headers: {
+          'projectID': "f104bi07c490",
+        }
+      });
+
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+
+      const data = await response.json();
+      setSongList(data.data);
+      console.log("data")
+      console.log(data.data);
+      console.log(Object.values(data.data));
+      {data.data.map((suggestion, index) => (
+        console.log(suggestion.title)
+      ))}
+
+      setFilteredSuggestions(...[data.data]);  // Update the song list state with the fetched data
+    } catch (error) {
+      console.error('Error fetching song list:', error);
+    }
+  };
+
+  const fetchArtistList = async () => {
+    try {
+      const response = await fetch(`${apiEndpointArtist}?search={"name":"${searchTerm}"}`, {
+        headers: {
+          'projectID': 'YOUR_PROJECT_ID',
+        }
+      });
+
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+
+      const data = await response.json();
+      setFilteredSuggestions(...[data.data]);
+    } catch (error) {
+      console.error('Error fetching artist list:', error);
+    }
+  };
+
+  useEffect(() => {
+    // Fetch the song list when the search term changes
+    fetchSongList();
+    fetchArtistList();
+    console.log("hi")
+  }, [searchTerm]);
+
 
   return (
     // <Router>
@@ -47,8 +133,8 @@ const App = () => {
     //   </div>
     // </Router>
     <div id='main'>
-      <NavBar searching={searching} />
-      <Main opensearch={opensearch} searching={searching}/>
+      <NavBar searching={searching} handleSearchChange={handleSearchChange} searchTerm={searchTerm} handleSearchSubmit={handleSearchSubmit} />
+      <Main opensearch={opensearch} searching={searching} filteredSuggestions={filteredSuggestions} />
     </div>
 
   )

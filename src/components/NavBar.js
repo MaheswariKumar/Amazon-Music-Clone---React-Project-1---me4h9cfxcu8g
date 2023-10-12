@@ -7,7 +7,7 @@ import SearchIcon from "./SearchIcon";
 import Search from "./Search";
 import ChevronCaretdownIcon from "./ChevronCaretdownIcon";
 
-function NavBar({searching}){
+function NavBar({searching, handleSearchChange, searchTerm, handleSearchSubmit}){
     const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
 
     useEffect(() => {
@@ -47,7 +47,7 @@ function NavBar({searching}){
             </div>
             <div className="right-icons">
                 <ul className="right-lists">
-                <form>
+                <form onSubmit={handleSearchSubmit}>
                   {isMobile ? (
                   <div className="search-container">
                     <Search style={{ color: 'white' }}/>
@@ -55,7 +55,7 @@ function NavBar({searching}){
                   ) : (
                   <div className="search-container" onClick={searching}>
                     <img className="icon" src="https://th.bing.com/th/id/OIP.6TcG8ShE1aAy3WyR4C3EoQAAAA?pid=ImgDet&rs=1" alt="Search Icon" />
-                    <input className="search" type="search" placeholder="Search" />
+                    <input className="search" type="search" placeholder="Search" value={searchTerm} onChange={handleSearchChange} />
                   </div>
                   )}
                 </form>

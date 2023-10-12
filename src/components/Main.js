@@ -23,7 +23,7 @@ import MyCustomGoBackIcon from "./MyCustomGoBackIcon";
 import { Container, Slider } from "@mui/material";
 // import { runtime } from "webpack";
 
-function Main({opensearch, searching}){
+function Main({opensearch, searching, filteredSuggestions}){
     let [playlists, setPlayLists] = useState([]);
     let [songlists, setSongLists] = useState([]);
     let [artistlists, setArtistLists] = useState([]);
@@ -53,6 +53,8 @@ function Main({opensearch, searching}){
     let [selectall, setSelectAll] = useState(false);
     let [limit, setLimit] = useState(12);
     let [options, setOptions] = useState(true);
+    let [result, setResults] = useState("");
+    let [openresults, setOpenResults] = useState(false);
 
     // let initialState = {
     //   showTrendingPlaylists : true,
@@ -523,6 +525,13 @@ function Main({opensearch, searching}){
     return (
         <div className="Main-section">
             <div className="categories"></div>
+            {/* {openresults && <ShowResults result={result} state={state} dispatch={dispatch} />}
+            {!openresults && <Suggestions 
+                              filteredSuggestions={filteredSuggestions} 
+                              result={result} 
+                              openresults={openresults} 
+                              setResults={setResults}
+                              setOpenResults={setOpenResults}  />} */}
             {opensearch && <SearchComponent handleSelectAll={handleSelectAll} searching={searching} />}
             {!opensearch && showTrendingPlaylists && <TrendingPlayLists playlists={playlists} 
                                handleLeftIcon={handleLeftIcon} 
@@ -819,6 +828,72 @@ function SearchComponent({handleSelectAll, searching}){
   )
 }
 
+function Suggestions({filteredSuggestions, result, openresults, setResults, setOpenResults}){
+  function showres(suggestion) {
+    setResults(suggestion);
+    setOpenResults(true);
+  }
+  return (
+    <div className="suggestions-list">
+      <div className="suggestions">Suggestions</div>
+        <ul className="sugg-list">
+        {filteredSuggestions.map((suggestion, index) => (
+          <li key={index} onClick={()=> showres(suggestion)}>{suggestion.title}</li>
+        ))}
+        {filteredSuggestions.map((suggestion, index) => (
+          <li key={index}>{suggestion.name}</li>
+        ))}
+        </ul>
+    </div>
+  )
+}
+
+function ShowResults({result, state, dispatch}) {
+  return (
+    <div className="showresult">
+      <div className="result">Search results for "{result.title}"</div>
+      <div className="result">Songs</div>
+      <div className="collections" key={0}>
+                    <div className="image-container">
+                    <img className="imgtab" src={result.thumbnail} alt={result.title}></img>
+                    <div className="icon-container">
+                        <ActionAddIcon />
+                        <div onClick={()=> {if (result.audio_url) {dispatch({type : "playandpause", 
+                                            songTitle : result.title, 
+                                            songImg : result.thumbnail, 
+                                            songName : result.artist[0].name, 
+                                            id : result._id,
+                                            songAudio : result.audio_url,
+                                            }) } 
+                                            else {dispatch({ type: "error" })}}} 
+                                             className="play-container">
+                         {state.playing && state.id === result._id ? <MyCustomPauseIcon /> : <PlaybackPlayIcon />}
+                        </div>
+                        <ActionMoreIcon />
+                    </div>
+                    {state.playing && state.id === result._id ?
+                    <div className="rythm-container">
+                        <img src="https://m.media-amazon.com/images/G/01/digital/music/player/web/EQ_accent.gif" alt="Rythm" style={{ width: "40px", height: "40px"}}></img>
+                    </div> :  null} 
+                    </div>
+                    <div className="link-container">
+                        <span className="link">{result.title}</span>
+                    </div> 
+                    <div className="content-container">
+                        {/* <span className="content">{song.artist[0].name}</span> */}
+                          {result.artist.map((artist, idx) => (
+                            <span className="content" key={idx}>
+                            {artist.name}
+                            {idx < result.artist.length - 1 ? ', ' : ''}
+                            </span>
+                        ))}
+                    </div>
+                </div>
+      
+
+    </div>
+  )
+}
 
 
 export default Main;
