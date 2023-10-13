@@ -54,7 +54,12 @@ function NavBar({searching, handleSearchChange, searchTerm, handleSearchSubmit})
                   </div>
                   ) : (
                   <div className="search-container" onClick={searching}>
-                    <img className="icon" src="https://th.bing.com/th/id/OIP.6TcG8ShE1aAy3WyR4C3EoQAAAA?pid=ImgDet&rs=1" alt="Search Icon" />
+                    {/* <img className="icon" src="https://th.bing.com/th/id/OIP.6TcG8ShE1aAy3WyR4C3EoQAAAA?pid=ImgDet&rs=1" alt="Search Icon" /> */}
+                    <div className="icon">
+                      <div className="search-icon">
+                        <Search style={{ color: 'black' }}/>
+                      </div>
+                    </div>
                     <input className="search" type="search" placeholder="Search" value={searchTerm} onChange={handleSearchChange} />
                   </div>
                   )}

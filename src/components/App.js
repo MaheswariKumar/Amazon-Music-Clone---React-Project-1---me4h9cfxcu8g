@@ -14,16 +14,24 @@ const App = () => {
   let [opensearch, setOpenSearch] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
   const [songList, setSongList] = useState([]);
-  const [filteredSuggestions, setFilteredSuggestions] = useState([]);
+  const [filteredSuggestions, setFilteredSuggestions] = useState(["happy", "sad", "newcollections"]);
+  let [openresults, setOpenResults] = useState(false);
+  let [opensuggestion, setOpenSuggestion] = useState(false);
+  let [submit, setSubmit] = useState(false);
   const apiEndpoint = 'https://academics.newtonschool.co/api/v1/music/song';
   const apiEndpointArtist = 'https://academics.newtonschool.co/api/v1/music/artist';
   
 
   function searching() {
-    setOpenSearch(!opensearch);
+    setOpenSearch(true);
+    setOpenSuggestion(false);
+    setOpenResults(false)
+    setSubmit(false);
   }
 
+
   const handleSearchChange = (event) => {
+    setOpenSuggestion(true);
     setSearchTerm(event.target.value);
 
     // const filtered = songList.some((lst)=>{
@@ -47,6 +55,7 @@ const App = () => {
 
   const handleSearchSubmit = (event) => {
     event.preventDefault(); 
+    setSubmit(true);
   };
 
   const fetchSongList = async () => {
@@ -134,7 +143,15 @@ const App = () => {
     // </Router>
     <div id='main'>
       <NavBar searching={searching} handleSearchChange={handleSearchChange} searchTerm={searchTerm} handleSearchSubmit={handleSearchSubmit} />
-      <Main opensearch={opensearch} searching={searching} filteredSuggestions={filteredSuggestions} />
+      <Main opensearch={opensearch} 
+            setOpenSearch={setOpenSearch}
+            filteredSuggestions={filteredSuggestions} 
+            opensuggestion={opensuggestion} 
+            openresults={openresults}
+            setOpenResults={setOpenResults}
+            searchTerm={searchTerm}
+            submit={submit} 
+            setSubmit={setSubmit} />
     </div>
 
   )

@@ -23,7 +23,7 @@ import MyCustomGoBackIcon from "./MyCustomGoBackIcon";
 import { Container, Slider } from "@mui/material";
 // import { runtime } from "webpack";
 
-function Main({opensearch, searching, filteredSuggestions}){
+function Main({opensearch, setOpenSearch, filteredSuggestions, opensuggestion, openresults, setOpenResults, searchTerm, submit,setSubmit}){
     let [playlists, setPlayLists] = useState([]);
     let [songlists, setSongLists] = useState([]);
     let [artistlists, setArtistLists] = useState([]);
@@ -54,7 +54,6 @@ function Main({opensearch, searching, filteredSuggestions}){
     let [limit, setLimit] = useState(12);
     let [options, setOptions] = useState(true);
     let [result, setResults] = useState("");
-    let [openresults, setOpenResults] = useState(false);
 
     // let initialState = {
     //   showTrendingPlaylists : true,
@@ -85,7 +84,7 @@ function Main({opensearch, searching, filteredSuggestions}){
       // playlists: Array(100).fill().map(() => ({
       //   play: true,
       // })),
-      playing : true,
+      playing : false,
       showmusiccomp : false,
       showerrorcomp : false,
       title : "",
@@ -448,6 +447,7 @@ function Main({opensearch, searching, filteredSuggestions}){
     function handleSelectAll(identifier) {
       setOptions(false)
         if (identifier === "trendingPlaylists") {
+            setShowTrendingPlaylists(true);
             setShowTrendingSongs(false);
             setShowArtists(false);
             setShowHappySongs(false);
@@ -456,6 +456,7 @@ function Main({opensearch, searching, filteredSuggestions}){
             setShowRomanticSongs(false);
         } else if (identifier === "trendingSongs") {
             setShowTrendingPlaylists(false);
+            setShowTrendingSongs(true);
             setShowArtists(false);
             setShowHappySongs(false);
             setShowNewRelease(false);
@@ -464,6 +465,7 @@ function Main({opensearch, searching, filteredSuggestions}){
         } else if (identifier=== "artistlists") {
             setShowTrendingPlaylists(false);
             setShowTrendingSongs(false);
+            setShowArtists(true);
             setShowHappySongs(false);
             setShowNewRelease(false);
             setShowSadSongs(false);
@@ -472,6 +474,7 @@ function Main({opensearch, searching, filteredSuggestions}){
             setShowTrendingPlaylists(false);
             setShowTrendingSongs(false);
             setShowArtists(false);
+            setShowHappySongs(true);
             setShowNewRelease(false);
             setShowSadSongs(false);
             setShowRomanticSongs(false);
@@ -480,6 +483,7 @@ function Main({opensearch, searching, filteredSuggestions}){
             setShowTrendingSongs(false);
             setShowArtists(false);
             setShowHappySongs(false);
+            setShowNewRelease(true);
             setShowSadSongs(false);
             setShowRomanticSongs(false);
         } else if (identifier=== "sadSongs") {
@@ -488,6 +492,7 @@ function Main({opensearch, searching, filteredSuggestions}){
             setShowArtists(false);
             setShowHappySongs(false);
             setShowNewRelease(false);
+            setShowSadSongs(true);
             setShowRomanticSongs(false);
         }
         else {
@@ -497,6 +502,7 @@ function Main({opensearch, searching, filteredSuggestions}){
             setShowHappySongs(false);
             setShowNewRelease(false);
             setShowSadSongs(false);
+            setShowRomanticSongs(true);
         }
         setLimit((prevLimit)=> prevLimit+20);
         setSelectAll(true);
@@ -525,15 +531,16 @@ function Main({opensearch, searching, filteredSuggestions}){
     return (
         <div className="Main-section">
             <div className="categories"></div>
-            {/* {openresults && <ShowResults result={result} state={state} dispatch={dispatch} />}
-            {!openresults && <Suggestions 
+            {openresults && opensuggestion && opensearch && <ShowResults result={result} state={state} dispatch={dispatch} />}
+            {opensuggestion && !openresults && opensearch && <Suggestions 
                               filteredSuggestions={filteredSuggestions} 
-                              result={result} 
-                              openresults={openresults} 
                               setResults={setResults}
-                              setOpenResults={setOpenResults}  />} */}
-            {opensearch && <SearchComponent handleSelectAll={handleSelectAll} searching={searching} />}
-            {!opensearch && showTrendingPlaylists && <TrendingPlayLists playlists={playlists} 
+                              setOpenResults={setOpenResults}
+                              searchTerm={searchTerm}
+                              submit={submit}
+                              setSubmit={setSubmit}  />}
+            {opensearch && !opensuggestion && !openresults && <SearchComponent handleSelectAll={handleSelectAll} setOpenSearch={setOpenSearch} />}
+            {!opensearch && !opensuggestion && !openresults && showTrendingPlaylists && <TrendingPlayLists playlists={playlists} 
                                handleLeftIcon={handleLeftIcon} 
                                handleRightIcon={handleRightIcon} 
                                selectleft={selectleft["trendingPlaylists"]} 
@@ -545,7 +552,7 @@ function Main({opensearch, searching, filteredSuggestions}){
                                options={options}
                                state={state} 
                                dispatch={dispatch} /> }
-            {!opensearch && showTrendingSongs && <TrendingSongs songlists={songlists}
+            {!opensearch && !opensuggestion && !openresults && showTrendingSongs && <TrendingSongs songlists={songlists}
                                handleLeftIcon={handleLeftIcon} 
                                handleRightIcon={handleRightIcon} 
                                selectleft={selectleft["trendingSongs"]} 
@@ -556,7 +563,7 @@ function Main({opensearch, searching, filteredSuggestions}){
                                identifier="trendingSongs"
                                state={state}
                                dispatch={dispatch} /> }
-            {!opensearch && showartists && <ArtistShowcase artistlists={artistlists} 
+            {!opensearch && !opensuggestion && !openresults && showartists && <ArtistShowcase artistlists={artistlists} 
                                handleLeftIcon={handleLeftIcon} 
                                handleRightIcon={handleRightIcon} 
                                selectleft={selectleft["artistlists"]} 
@@ -567,7 +574,7 @@ function Main({opensearch, searching, filteredSuggestions}){
                                identifier="artistlists"
                                state={state}
                                dispatch={dispatch}/> }
-            {!opensearch && showhappysongs && <HappyHarmonies happylists={happylists}
+            {!opensearch && !opensuggestion && !openresults && showhappysongs && <HappyHarmonies happylists={happylists}
                                handleLeftIcon={handleLeftIcon}
                                handleRightIcon={handleRightIcon}
                                selectleft={selectleft}
@@ -578,7 +585,7 @@ function Main({opensearch, searching, filteredSuggestions}){
                                identifier="happySongs"
                                state={state}
                                dispatch={dispatch} />}
-            {!opensearch && shownewrelease && <NewMusicShowcase newlists={newlists}
+            {!opensearch && !opensuggestion && !openresults && shownewrelease && <NewMusicShowcase newlists={newlists}
                                handleLeftIcon={handleLeftIcon}
                                handleRightIcon={handleRightIcon}
                                selectleft={selectleft}
@@ -589,7 +596,7 @@ function Main({opensearch, searching, filteredSuggestions}){
                                identifier="newRelease"
                                state={state}
                                dispatch={dispatch} />}
-            {!opensearch && showsadsongs && <SoulfulHealing sadlists={sadlists}
+            {!opensearch && !opensuggestion && !openresults && showsadsongs && <SoulfulHealing sadlists={sadlists}
                                handleLeftIcon={handleLeftIcon}
                                handleRightIcon={handleRightIcon}
                                selectleft={selectleft}
@@ -600,7 +607,7 @@ function Main({opensearch, searching, filteredSuggestions}){
                                identifier="sadSongs"
                                state={state}
                                dispatch={dispatch} />}
-            {!opensearch && showromanticsongs && <RomanticRhythms romanticlists={romanticlists}
+            {!opensearch && !opensuggestion && !openresults && showromanticsongs && <RomanticRhythms romanticlists={romanticlists}
                                handleLeftIcon={handleLeftIcon}
                                handleRightIcon={handleRightIcon}
                                selectleft={selectleft}
@@ -650,6 +657,7 @@ function MusicComponent({state, dispatch, songTitle, songImg, songName, songAudi
         const timer = setInterval(() => {
           setCurrentTime(audioRef.current.currentTime);
           setRemainingTime(audioRef.current.duration - audioRef.current.currentTime);
+          console.log(songAudio);
           console.log(formatTime(audioRef.current.duration-audioRef.current.currentTime));
         }, 100); // Update every 100 milliseconds
 
@@ -803,49 +811,68 @@ function PlayBackError({state, dispatch}) {
   )
 }
 
-function SearchComponent({handleSelectAll, searching}){
+function SearchComponent({handleSelectAll, setOpenSearch}){
   return (
     <div className="Search-Lists">
       <div className="Search-Types">
         <div className="Moods">Moods</div>
           <ul className="mood-list">
-            <li className="box-1">Happy</li>
-            <li className="box-2">Fresh</li>
-            <li className="box-3">Sad</li>
-            <li className="box-4">Romatic</li>
+            <li className="box-1" onClick={() => {handleSelectAll("happySongs"); setOpenSearch(false);}}>Happy</li>
+            <li className="box-2" onClick={() => {handleSelectAll("newRelease"); setOpenSearch(false);}}>Fresh</li>
+            <li className="box-3" onClick={() => {handleSelectAll("sadSongs"); setOpenSearch(false);}}>Sad</li>
+            <li className="box-4" onClick={() => {handleSelectAll("romanticSongs"); setOpenSearch(false);}}>Romatic</li>
           </ul>
         <div className="Listen-Your-Way">Listen Your Way</div>
           <ul className="Listen-list">
-            <li className="box-5" onClick={() => {handleSelectAll("trendingPlaylists"); searching()}}>Trending Albums</li>
-            <li className="box-6">Trending Songs</li>
+            <li className="box-5" onClick={() => {handleSelectAll("trendingPlaylists"); setOpenSearch(false);}}>Trending Albums</li>
+            <li className="box-6" onClick={() => {handleSelectAll("trendingSongs"); setOpenSearch(false);}}>Trending Songs</li>
           </ul>
         <div className="Artists">Artists</div>
           <ul className="Artists-list">
-            <li className="box-7">Artistic Collection</li>
+            <li className="box-7" onClick={() => {handleSelectAll("artistlists"); setOpenSearch(false);}}>Artistic Collection</li>
           </ul>
       </div>
     </div>
   )
 }
 
-function Suggestions({filteredSuggestions, result, openresults, setResults, setOpenResults}){
+function Suggestions({filteredSuggestions, setResults, setOpenResults, searchTerm, submit, setSubmit}) {
   function showres(suggestion) {
     setResults(suggestion);
     setOpenResults(true);
   }
+
+  function handleFunction() {
+    setSubmit(true);
+  }
+
   return (
     <div className="suggestions-list">
-      <div className="suggestions">Suggestions</div>
+      {submit ? null : <div className="suggestions">Suggestions</div>}
+      {filteredSuggestions.length === 0 ? (
+        submit ? 
+          <div className="noresult">No Results Found "{searchTerm}"</div> 
+          : 
+          <ul className="sugg-list">
+            <li onClick={handleFunction}>Happy Songs</li>
+            <li onClick={handleFunction}>New Songs</li>
+            <li onClick={handleFunction}>Podcasts</li>
+            <li onClick={handleFunction}>Rhythms</li>
+          </ul>
+      ) : (
         <ul className="sugg-list">
-        {filteredSuggestions.map((suggestion, index) => (
-          <li key={index} onClick={()=> showres(suggestion)}>{suggestion.title}</li>
-        ))}
-        {filteredSuggestions.map((suggestion, index) => (
-          <li key={index}>{suggestion.name}</li>
-        ))}
+          {filteredSuggestions.slice(0, 10).map((suggestion, index) => (
+            <li key={index} onClick={() => showres(suggestion)}>
+              {suggestion.title}
+            </li>
+          ))}
+          {filteredSuggestions.slice(0, 10).map((suggestion, index) => (
+            <li key={index}>{suggestion.name}</li>
+          ))}
         </ul>
+      )}
     </div>
-  )
+  );
 }
 
 function ShowResults({result, state, dispatch}) {
