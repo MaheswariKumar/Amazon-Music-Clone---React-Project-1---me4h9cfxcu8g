@@ -18,6 +18,7 @@ const App = () => {
   let [openresults, setOpenResults] = useState(false);
   let [opensuggestion, setOpenSuggestion] = useState(false);
   let [submit, setSubmit] = useState(false);
+  let [searchseenresults, setSearchSeenResults] = useState([]);
   const apiEndpoint = 'https://academics.newtonschool.co/api/v1/music/song';
   const apiEndpointArtist = 'https://academics.newtonschool.co/api/v1/music/artist';
   
@@ -27,6 +28,10 @@ const App = () => {
     setOpenSuggestion(false);
     setOpenResults(false)
     setSubmit(false);
+  }
+
+  function deleteSearchRes() {
+    setSearchSeenResults([]);
   }
 
 
@@ -56,6 +61,7 @@ const App = () => {
   const handleSearchSubmit = (event) => {
     event.preventDefault(); 
     setSubmit(true);
+    setSearchSeenResults([...searchseenresults, searchTerm]);
   };
 
   const fetchSongList = async () => {
@@ -155,12 +161,12 @@ const App = () => {
             setOpenResults={setOpenResults}
             searchTerm={searchTerm}
             submit={submit} 
-            setSubmit={setSubmit} />
+            setSubmit={setSubmit}
+            searchseenresults={searchseenresults}
+            deleteSearchRes={deleteSearchRes} />
     </div>
-
   )
 }
- 
 
 
 export default App;

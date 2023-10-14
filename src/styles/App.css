@@ -107,6 +107,8 @@
 
 /* inputbased */
 .search-container-1 input {
+    /* position: relative; */
+    /* display: inline-block; */
     padding-top: 57px;
     width: 750px;
     height: 130px;
@@ -118,16 +120,21 @@
     outline: none;
     border: 1px solid black;
     color: white;
+    text-indent: 20px;
 }
 
 .search-container input::-webkit-search-cancel-button {
     -webkit-appearance: none;
 }
 
-.cancel-1 {
+.search-container-1 input::-webkit-search-cancel-button {
+    -webkit-appearance: none;
+}
+
+.cancel {
     position: absolute;
-    bottom: 25px;
-    right: 80px;
+    top: 28px;
+    right: 140px;
     color: black;
     height: 20px;
     width: 20px;
@@ -151,8 +158,8 @@
 
 .icon-1 {
     position: absolute;
-    bottom: 15px;
-    right: 25px;
+    top: 18px;
+    right: 90px;
 }
 
 .search-icon-1 {
@@ -422,6 +429,12 @@
     .logo[src="https://d5fx445wy2wpk.cloudfront.net/static/logo.svg"] {
         content: url("https://d5fx445wy2wpk.cloudfront.net/static/logo_stacked.svg");
     }
+
+    .search-container-1 input {
+        width: 100%;
+    }
+
+
 
     /* .home-div, .pod-div, .lib-div {
         position: relative;
@@ -971,6 +984,52 @@
 .Search-Types {
     padding: 20px; 
 }
+
+.topresult {
+    font-family: "Sharp Grotesk Semi Bold 20", "Helvetica", "Arial", "sans-serif";
+    font-size: 20px;
+    line-height: 24px;  
+    padding-bottom: 15px;
+}
+
+.res-list {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 12px;
+    padding: 10px;
+}
+
+.res-list li {
+    list-style: none;
+    font-family: "Sharp Grotesk Semi Bold 20", "Helvetica", "Arial", "sans-serif";
+    font-size: 16px;
+    line-height: 24px;   
+}
+
+.res-li {
+    background-color:rgba(255, 255, 255, 0.15);
+    object-fit: fill;
+    max-width: 100%;
+    padding: 6px 16px 6px 16px;
+    border-radius: 30px;
+}
+
+.x {
+    background-color:rgba(255, 255, 255, 0.15);
+    object-fit: fill;
+    max-width: 100%;
+    padding: 6px 16px 6px 16px;
+    border-radius: 30px; 
+    cursor: pointer;
+}
+
+.x-btn {
+    font-family: "Sharp Grotesk Semi Bold 20", "Helvetica", "Arial", "sans-serif";
+    font-size: 16px;
+    line-height: 24px;   
+}
+
 
 .Moods, .Listen-Your-Way, .Artists {
     font-family: "Sharp Grotesk Semi Bold 20", "Helvetica", "Arial", "sans-serif";

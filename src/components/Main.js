@@ -23,7 +23,17 @@ import MyCustomGoBackIcon from "./MyCustomGoBackIcon";
 import { Container, Slider } from "@mui/material";
 // import { runtime } from "webpack";
 
-function Main({opensearch, setOpenSearch, filteredSuggestions, opensuggestion, openresults, setOpenResults, searchTerm, submit,setSubmit}){
+function Main({opensearch, 
+               setOpenSearch, 
+               filteredSuggestions, 
+               opensuggestion, 
+               openresults, 
+               setOpenResults, 
+               searchTerm, 
+               submit,
+               setSubmit,
+               searchseenresults,
+               deleteSearchRes }){
     let [playlists, setPlayLists] = useState([]);
     let [songlists, setSongLists] = useState([]);
     let [artistlists, setArtistLists] = useState([]);
@@ -539,7 +549,11 @@ function Main({opensearch, setOpenSearch, filteredSuggestions, opensuggestion, o
                               searchTerm={searchTerm}
                               submit={submit}
                               setSubmit={setSubmit}  />}
-            {opensearch && !opensuggestion && !openresults && <SearchComponent handleSelectAll={handleSelectAll} setOpenSearch={setOpenSearch} />}
+            {opensearch && !opensuggestion && !openresults && <SearchComponent 
+                                                               handleSelectAll={handleSelectAll} 
+                                                               setOpenSearch={setOpenSearch}
+                                                               searchseenresults={searchseenresults}
+                                                               deleteSearchRes={deleteSearchRes} />}
             {!opensearch && !opensuggestion && !openresults && showTrendingPlaylists && <TrendingPlayLists playlists={playlists} 
                                handleLeftIcon={handleLeftIcon} 
                                handleRightIcon={handleRightIcon} 
@@ -811,10 +825,25 @@ function PlayBackError({state, dispatch}) {
   )
 }
 
-function SearchComponent({handleSelectAll, setOpenSearch}){
+function SearchComponent({handleSelectAll, setOpenSearch, searchseenresults, deleteSearchRes}){
   return (
     <div className="Search-Lists">
       <div className="Search-Types">
+        {searchseenresults.length > 0 ? (
+          <div className="topresult">
+              <div>Search Results</div>
+                  <ul className="res-list">
+                    <div className="x" onClick={deleteSearchRes}>
+                      <div className="x-btn">X</div>
+                    </div>
+                      {searchseenresults.map((res, idx)=> (
+                        <div className="res-li">
+                          <li key={idx}>{res}</li>
+                        </div>
+                      ))}
+                  </ul> 
+          </div>
+        ): null}
         <div className="Moods">Moods</div>
           <ul className="mood-list">
             <li className="box-1" onClick={() => {handleSelectAll("happySongs"); setOpenSearch(false);}}>Happy</li>
