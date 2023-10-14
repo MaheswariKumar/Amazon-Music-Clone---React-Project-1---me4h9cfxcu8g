@@ -7,7 +7,7 @@ import SearchIcon from "./SearchIcon";
 import Search from "./Search";
 import ChevronCaretdownIcon from "./ChevronCaretdownIcon";
 
-function NavBar({searching, handleSearchChange, searchTerm, handleSearchSubmit}){
+function NavBar({searching, handleSearchChange, searchTerm, handleSearchSubmit, opensearch}){
     const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
 
     useEffect(() => {
@@ -49,18 +49,19 @@ function NavBar({searching, handleSearchChange, searchTerm, handleSearchSubmit})
                 <ul className="right-lists">
                 <form onSubmit={handleSearchSubmit}>
                   {isMobile ? (
-                  <div className="search-container">
+                  <div className={opensearch ? "search-container-1" : "search-container"}>
                     <Search style={{ color: 'white' }}/>
                   </div>
                   ) : (
-                  <div className="search-container" onClick={searching}>
+                  <div className={opensearch ? "search-container-1" : "search-container"} onClick={searching}>
                     {/* <img className="icon" src="https://th.bing.com/th/id/OIP.6TcG8ShE1aAy3WyR4C3EoQAAAA?pid=ImgDet&rs=1" alt="Search Icon" /> */}
-                    <div className="icon">
-                      <div className="search-icon">
-                        <Search style={{ color: 'black' }}/>
+                    <input className="search" type="search" placeholder="Search" value={searchTerm} onChange={handleSearchChange} />
+                    {opensearch ? (<button className="cancel">X</button>) : null }
+                    <div className={opensearch ? "icon-1" : "icon"}>
+                      <div className={opensearch ? "search-icon-1" : "search-icon"}>
+                        <Search style={{ color: 'black'}}/>
                       </div>
                     </div>
-                    <input className="search" type="search" placeholder="Search" value={searchTerm} onChange={handleSearchChange} />
                   </div>
                   )}
                 </form>

@@ -72,14 +72,15 @@
     height: 35px;
 }
 
-/* .search {
+.search-container {
     padding: 10px;
     border-radius: 30px;
     padding-left: 50px;
-    padding-right: 50px;
+    padding-right: 8px;
+    padding-bottom: 16px;
 }
 
-.search-container {
+/* .search-container {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -91,10 +92,10 @@
     font-size: 16px;
     cursor: pointer;
   }
+
+.search-container {display: inline-block;}
   
-/* .search-container {display: inline-block;} */
-  
-/* .search-container input {
+.search-container input {
     width: 250px;
     height: 36px;
   
@@ -102,10 +103,10 @@
     border: 1px solid white;
     border-radius: 30px;
     cursor: pointer;
-} */
+}
 
 /* inputbased */
-.search-container input {
+.search-container-1 input {
     padding-top: 57px;
     width: 750px;
     height: 130px;
@@ -119,26 +120,42 @@
     color: white;
 }
 
-/* .search-container input::-webkit-search-cancel-button {
+.search-container input::-webkit-search-cancel-button {
     -webkit-appearance: none;
-} */
+}
 
-.search-container input::placeholder {
+.cancel-1 {
+    position: absolute;
+    bottom: 25px;
+    right: 80px;
+    color: black;
+    height: 20px;
+    width: 20px;
+    background-color: white; /* Change this to your desired color */
+    cursor: pointer;
+    border-radius: 50%;
+}
+
+.search-container-1 input::placeholder {
     color: rgb(179, 174, 174);
 }
 
-input[type="text"] {
-    caret-color: #25d1da; /* Change the color of the text input cursor */
+.search-container-1 input {
+    caret-color: #25d1da;
 }
 
+/* input[type="text"] {
+    caret-color: #25d1da;
+} */
 
-.icon {
+
+.icon-1 {
     position: absolute;
     bottom: 15px;
     right: 25px;
 }
 
-.search-icon {
+.search-icon-1 {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -148,24 +165,28 @@ input[type="text"] {
     background-color: #25d1da;
 }
 
+/* endinput1 */
+
 
 .search-container input { text-indent: 32px;}
-.search-container .fa-search { 
+/* .search-container .fa-search { 
   position: absolute;
   top: 8px;
   left: 20px;
-}
-
-.search-container .fa-search {left: auto; right: 10px;}
-
-/* .icon {
-    position: absolute;
-    bottom: 3px;
-    left: 190px;
-    height: 32px;
 } */
 
+/* .search-container .fa-search {left: auto; right: 10px;} */
+
+.icon {
+    position: absolute;
+    bottom: 16px;
+    right: 20px;
+    height: 32px;
+}
+
 .user-icon {
+    position: relative;
+    top: -15px;
     background-color: rgba(255, 255, 255, 0.15);
     border-radius: 50%;
     width: 38px;

@@ -142,7 +142,11 @@ const App = () => {
     //   </div>
     // </Router>
     <div id='main'>
-      <NavBar searching={searching} handleSearchChange={handleSearchChange} searchTerm={searchTerm} handleSearchSubmit={handleSearchSubmit} />
+      <NavBar searching={searching} 
+              handleSearchChange={handleSearchChange} 
+              searchTerm={searchTerm} 
+              handleSearchSubmit={handleSearchSubmit}
+              opensearch={opensearch} />
       <Main opensearch={opensearch} 
             setOpenSearch={setOpenSearch}
             filteredSuggestions={filteredSuggestions} 
