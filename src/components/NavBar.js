@@ -9,6 +9,8 @@ import ChevronCaretdownIcon from "./ChevronCaretdownIcon";
 
 function NavBar({searching, handleSearchChange, searchTerm, handleSearchSubmit, opensearch}){
     const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
+    const [clickedInside, setClickedInside] = useState(false);
+    const inputRef = useRef(null);
 
     useEffect(() => {
       const handleResize = () => {
@@ -21,6 +23,22 @@ function NavBar({searching, handleSearchChange, searchTerm, handleSearchSubmit, 
         window.removeEventListener('resize', handleResize);
       };
     }, []);
+
+    useEffect(() => {
+      const handleClick = (e) => {
+          if (inputRef.current && inputRef.current.contains(e.target)) {
+              setClickedInside(true);
+          } else {
+              setClickedInside(false);
+          }
+      };
+
+      document.addEventListener('click', handleClick);
+
+      return () => {
+          document.removeEventListener('click', handleClick);
+      };
+  }, []);
 
     
     return (
@@ -63,13 +81,13 @@ function NavBar({searching, handleSearchChange, searchTerm, handleSearchSubmit, 
                   </div>
                   </form>
                   ) : (
-                    <form onSubmit={handleSearchSubmit}>
-                  <div className={opensearch ? "search-container-1" : "search-container"} onClick={searching}>
+                    <form onSubmit={handleSearchSubmit} ref={inputRef}>
+                  <div className={clickedInside ? "search-container-1" : "search-container"} onClick={searching}>
                     {/* <img className="icon" src="https://th.bing.com/th/id/OIP.6TcG8ShE1aAy3WyR4C3EoQAAAA?pid=ImgDet&rs=1" alt="Search Icon" /> */}
                     <input className="search" type="search" placeholder="Search" value={searchTerm} onChange={handleSearchChange} />
-                    {opensearch ? (<button className="cancel">X</button>) : null }
-                    <div className={opensearch ? "icon-1" : "icon"}>
-                      <div className={opensearch ? "search-icon-1" : "search-icon"}>
+                    {clickedInside ? (<button className="cancel">X</button>) : null }
+                    <div className={clickedInside ? "icon-1" : "icon"}>
+                      <div className={clickedInside ? "search-icon-1" : "search-icon"}>
                         <Search style={{ color: 'black'}}/>
                       </div>
                     </div>

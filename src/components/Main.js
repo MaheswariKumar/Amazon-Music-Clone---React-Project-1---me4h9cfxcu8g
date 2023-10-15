@@ -33,7 +33,8 @@ function Main({opensearch,
                submit,
                setSubmit,
                searchseenresults,
-               deleteSearchRes }){
+               deleteSearchRes,
+               setSearchSeenResults }){
     let [playlists, setPlayLists] = useState([]);
     let [songlists, setSongLists] = useState([]);
     let [artistlists, setArtistLists] = useState([]);
@@ -548,7 +549,9 @@ function Main({opensearch,
                               setOpenResults={setOpenResults}
                               searchTerm={searchTerm}
                               submit={submit}
-                              setSubmit={setSubmit}  />}
+                              setSubmit={setSubmit}
+                              setSearchSeenResults={setSearchSeenResults}
+                              searchseenresults={searchseenresults}  />}
             {opensearch && !opensuggestion && !openresults && <SearchComponent 
                                                                handleSelectAll={handleSelectAll} 
                                                                setOpenSearch={setOpenSearch}
@@ -831,7 +834,7 @@ function SearchComponent({handleSelectAll, setOpenSearch, searchseenresults, del
       <div className="Search-Types">
         {searchseenresults.length > 0 ? (
           <div className="topresult">
-              <div>Search Results</div>
+              <div>Search History</div>
                   <ul className="res-list">
                     <div className="x" onClick={deleteSearchRes}>
                       <div className="x-btn">X</div>
@@ -865,14 +868,16 @@ function SearchComponent({handleSelectAll, setOpenSearch, searchseenresults, del
   )
 }
 
-function Suggestions({filteredSuggestions, setResults, setOpenResults, searchTerm, submit, setSubmit}) {
+function Suggestions({filteredSuggestions, setResults, setOpenResults, searchTerm, submit, setSubmit, setSearchSeenResults, searchseenresults}) {
   function showres(suggestion) {
     setResults(suggestion);
     setOpenResults(true);
+    setSearchSeenResults([...searchseenresults, suggestion.title]);
   }
 
-  function handleFunction() {
+  function handleFunction(opt) {
     setSubmit(true);
+    setSearchSeenResults([...searchseenresults, opt]);
   }
 
   return (
@@ -883,10 +888,10 @@ function Suggestions({filteredSuggestions, setResults, setOpenResults, searchTer
           <div className="noresult">No Results Found "{searchTerm}"</div> 
           : 
           <ul className="sugg-list">
-            <li onClick={handleFunction}>Happy Songs</li>
-            <li onClick={handleFunction}>New Songs</li>
-            <li onClick={handleFunction}>Podcasts</li>
-            <li onClick={handleFunction}>Rhythms</li>
+            <li onClick={handleFunction("Happy Songs")}>Happy Songs</li>
+            <li onClick={handleFunction("New Songs")}>New Songs</li>
+            <li onClick={handleFunction("Podcasts")}>Podcasts</li>
+            <li onClick={handleFunction("Rhythms")}>Rhythms</li>
           </ul>
       ) : (
         <ul className="sugg-list">

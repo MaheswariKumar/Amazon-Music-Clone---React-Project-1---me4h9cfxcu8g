@@ -163,6 +163,7 @@ const App = () => {
             submit={submit} 
             setSubmit={setSubmit}
             searchseenresults={searchseenresults}
+            setSearchSeenResults={setSearchSeenResults}
             deleteSearchRes={deleteSearchRes} />
     </div>
   )
