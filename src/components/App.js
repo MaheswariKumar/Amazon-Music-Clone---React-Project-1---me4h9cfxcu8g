@@ -32,12 +32,15 @@ const App = () => {
 
   function deleteSearchRes() {
     setSearchSeenResults([]);
+    localStorage.removeItem('searchResults');
   }
 
 
   const handleSearchChange = (event) => {
     setOpenSuggestion(true);
+    setSubmit(false);
     setSearchTerm(event.target.value);
+    console.log(searchseenresults);
 
     // const filtered = songList.some((lst)=>{
     //   lst.filter((song) =>
@@ -59,9 +62,15 @@ const App = () => {
   };
 
   const handleSearchSubmit = (event) => {
-    event.preventDefault(); 
+    event.preventDefault();
     setSubmit(true);
-    setSearchSeenResults([...searchseenresults, searchTerm]);
+    let existingResults = localStorage.getItem('searchResults');
+    let parsedResults = existingResults ? JSON.parse(existingResults) : [];
+    // setSearchSeenResults(updatedResults);
+    localStorage.setItem(
+      'searchResults',
+      JSON.stringify([...parsedResults, searchTerm])
+    );
   };
 
   const fetchSongList = async () => {
@@ -115,6 +124,7 @@ const App = () => {
     fetchSongList();
     fetchArtistList();
     console.log("hi")
+    console.log(submit);
   }, [searchTerm]);
 
 
@@ -152,7 +162,8 @@ const App = () => {
               handleSearchChange={handleSearchChange} 
               searchTerm={searchTerm} 
               handleSearchSubmit={handleSearchSubmit}
-              opensearch={opensearch} />
+              opensearch={opensearch}
+              setSubmit={setSubmit} />
       <Main opensearch={opensearch} 
             setOpenSearch={setOpenSearch}
             filteredSuggestions={filteredSuggestions} 

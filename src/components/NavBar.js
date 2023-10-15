@@ -7,7 +7,7 @@ import SearchIcon from "./SearchIcon";
 import Search from "./Search";
 import ChevronCaretdownIcon from "./ChevronCaretdownIcon";
 
-function NavBar({searching, handleSearchChange, searchTerm, handleSearchSubmit, opensearch}){
+function NavBar({searching, handleSearchChange, searchTerm, handleSearchSubmit, opensearch, setSubmit}){
     const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
     const [clickedInside, setClickedInside] = useState(false);
     const inputRef = useRef(null);
@@ -81,10 +81,14 @@ function NavBar({searching, handleSearchChange, searchTerm, handleSearchSubmit, 
                   </div>
                   </form>
                   ) : (
-                    <form onSubmit={handleSearchSubmit} ref={inputRef}>
+                    <form onSubmit={handleSearchSubmit}>
                   <div className={clickedInside ? "search-container-1" : "search-container"} onClick={searching}>
                     {/* <img className="icon" src="https://th.bing.com/th/id/OIP.6TcG8ShE1aAy3WyR4C3EoQAAAA?pid=ImgDet&rs=1" alt="Search Icon" /> */}
-                    <input className="search" type="search" placeholder="Search" value={searchTerm} onChange={handleSearchChange} />
+                    <input ref={inputRef} className="search" 
+                                          type="search" 
+                                          placeholder="Search" 
+                                          value={searchTerm} 
+                                          onChange={handleSearchChange} />
                     {clickedInside ? (<button className="cancel">X</button>) : null }
                     <div className={clickedInside ? "icon-1" : "icon"}>
                       <div className={clickedInside ? "search-icon-1" : "search-icon"}>

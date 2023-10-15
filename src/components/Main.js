@@ -829,24 +829,27 @@ function PlayBackError({state, dispatch}) {
 }
 
 function SearchComponent({handleSelectAll, setOpenSearch, searchseenresults, deleteSearchRes}){
+  let storedResults = JSON.parse(localStorage.getItem('searchResults'))
   return (
     <div className="Search-Lists">
       <div className="Search-Types">
-        {searchseenresults.length > 0 ? (
+        {storedResults  && storedResults.length > 0 ? (
           <div className="topresult">
               <div>Search History</div>
                   <ul className="res-list">
                     <div className="x" onClick={deleteSearchRes}>
                       <div className="x-btn">X</div>
                     </div>
-                      {searchseenresults.map((res, idx)=> (
-                        <div className="res-li">
-                          <li key={idx}>{res}</li>
+                      {storedResults.map((res, idx)=> (
+                        <div key={idx} className="res-li">
+                          <li>{res}</li>
                         </div>
                       ))}
                   </ul> 
           </div>
-        ): null}
+        ):    (<div className="topresult">
+          <div>No Search History</div>
+          </div>)}
         <div className="Moods">Moods</div>
           <ul className="mood-list">
             <li className="box-1" onClick={() => {handleSelectAll("happySongs"); setOpenSearch(false);}}>Happy</li>
@@ -869,20 +872,30 @@ function SearchComponent({handleSelectAll, setOpenSearch, searchseenresults, del
 }
 
 function Suggestions({filteredSuggestions, setResults, setOpenResults, searchTerm, submit, setSubmit, setSearchSeenResults, searchseenresults}) {
+  let existingResults = localStorage.getItem('searchResults');
+  let parsedResults = existingResults ? JSON.parse(existingResults) : [];
+
+
   function showres(suggestion) {
     setResults(suggestion);
     setOpenResults(true);
-    setSearchSeenResults([...searchseenresults, suggestion.title]);
+    localStorage.setItem(
+      'searchResults',
+      JSON.stringify([...parsedResults, suggestion.title])
+    );
   }
 
   function handleFunction(opt) {
     setSubmit(true);
-    setSearchSeenResults([...searchseenresults, opt]);
+    localStorage.setItem(
+      'searchResults',
+      JSON.stringify([...parsedResults, opt])
+    );
   }
 
   return (
     <div className="suggestions-list">
-      {submit ? null : <div className="suggestions">Suggestions</div>}
+      {filteredSuggestions.length === 0 && submit ? null : <div className="suggestions">Suggestions</div>}
       {filteredSuggestions.length === 0 ? (
         submit ? 
           <div className="noresult">No Results Found "{searchTerm}"</div> 

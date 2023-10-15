@@ -98,12 +98,15 @@
 .search-container input {
     width: 250px;
     height: 36px;
-  
     background: #fcfcfc;
-    border: 1px solid white;
+    border: none;
     border-radius: 30px;
     cursor: pointer;
 }
+
+.search-container input:focus {
+    outline: none;
+} 
 
 /* inputbased */
 .search-container-1 input {
