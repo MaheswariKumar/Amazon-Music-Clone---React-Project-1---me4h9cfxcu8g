@@ -14,6 +14,13 @@
     font-weight: bold;
     font-size: 16px;
     font-family:  "Ember", "Helvetica", "Arial", "sans-serif";
+    /* background-color: rgba(0, 0, 0, 1);  */
+    -webkit-backdrop-filter: blur(30px);
+    backdrop-filter: blur(30px);
+    z-index: 6; 
+    position: fixed;
+    width: 100%;
+    border-bottom: 0.1px solid gray;
 }
 
 .left-lists {
@@ -213,7 +220,7 @@
     color: white;
     width: 100%;
     height: 100%;
-    border-top: 0.1px solid gray;
+    padding-top: 75px;
     padding-bottom: 30px;
 }
 
@@ -328,6 +335,11 @@
     text-decoration: none;
 }
 
+.link:hover {
+    color: rgb(37, 209, 218);
+    cursor: pointer;  
+}
+
 .link-container {
     overflow: hidden;
     text-overflow: ellipsis;
@@ -373,6 +385,20 @@
     z-index: 1; 
     width: 175px;
     height: 169px;
+}
+
+.rythm-container-1 {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    /* display: block;    */
+    display: flex; 
+    justify-content: center;
+    align-items: center;
+    z-index: 1; 
+    width: 58px;
+    height: 62px;
 }
 
 .image-container {
@@ -1162,3 +1188,241 @@ ul.mood-list li[class*="box"],  ul.Listen-list li[class*="box"], ul.Artists-list
     color: white;
     cursor: default;  
 }
+
+.detail {
+    background-size: cover;
+    /* filter: blur(8px); */
+    width: 100%;
+    height: 100%;
+    padding-bottom: 40px;
+    background: linear-gradient(
+      rgba(0, 0, 0, 0.800) 0%,
+      rgba(102, 56, 56, 0.8) 20%,
+      rgba(94, 67, 67, 0.8) 40%,
+      rgba(47, 43, 43, 0.8) 75%,
+      rgba(0, 0, 0, 0.800) 85%,
+      black 95%,
+      black 100%
+    );
+}
+
+/* .detail::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(
+      rgba(0, 0, 0, 0.800) 85%,
+      black 95%,
+      black 100%
+    );
+  } */
+
+.deatil-info {
+    padding: 40px;
+    display: flex;
+    gap: 25px;
+}
+
+.img-page {
+    width: 300px;
+    height: 300px;
+}
+
+.artist-info {
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+}
+
+.info-art {
+    color: rgb(37, 209, 218);
+    font-family: "Sharp Grotesk Semi Bold 20", Helvetica, Arial, "sans-serif";
+    font-size: 16px;
+    line-height: 16px;
+    font-weight: bold;
+}
+
+.info-name {
+    font-family: "Sharp Grotesk Semi Bold 20", Helvetica, Arial, "sans-serif";
+    font-size: 60px;
+    line-height: 16px;
+    font-weight: bold;
+}
+
+.info-azn {
+    font-family: "Sharp Grotesk Semi Bold 20", Helvetica, Arial, "sans-serif";
+    font-size: 18px;
+    line-height: 16px;
+    font-weight: bold;
+}
+
+.info-des {
+    color: gray;
+    font-family: "Sharp Grotesk Semi Bold 20", Helvetica, Arial, "sans-serif";
+    font-size: 15px;
+    line-height: 16px;
+}
+
+.info-count {
+    color: gray;
+    font-family: "Sharp Grotesk Semi Bold 20", Helvetica, Arial, "sans-serif";
+    font-size: 14px;
+    line-height: 16px;
+}
+
+.detail-icon {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 20px;
+}
+
+.play-btn {
+    display: flex;
+    padding: 10px;
+    background-color: #25d1da;
+    border-radius: 20px;
+    justify-content: center;
+    align-items: center;
+    gap: 5px;
+}
+
+.play-text {
+    color: black;
+}
+
+.playlist {
+    padding: 38px;
+    margin: 20px;
+}
+
+.all-list:hover{
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 1;
+}
+
+
+.all-list {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+    padding: 10px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid gray;
+}
+
+.play-half1 {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.play-half2 {
+    display: flex;
+    align-items: center;
+    gap: 70px;
+}
+
+
+.play-img-container {
+    position: relative;
+    display: inline-block;
+  }
+
+.play-img-container:hover .play-icon {
+    display: flex; 
+    justify-content: center;
+    align-items: center;
+    z-index: 2; 
+    width: 58px;
+    height: 58px;
+}
+
+.play-icon {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    display: none;
+    cursor: pointer;
+}
+
+.play-img {
+    border-radius: 8px;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.6);
+    width: 58px;
+    height: 58px;
+    cursor: pointer;
+}
+
+.play-info {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 5px;
+}
+
+.play-item  {
+    font-size: 15px;
+    font-family:  "Ember", "Helvetica", "Arial", "sans-serif";
+    color: gray;
+    overflow: hidden;
+    white-space: nowrap; 
+    text-overflow: ellipsis; 
+    font-weight: bold;
+}
+
+.play-name {
+    font-family:  "Ember", "Helvetica", "Arial", "sans-serif";
+    font-size: 18px;
+    color: white;
+    overflow: hidden; 
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    font-weight: bold;
+}
+
+.play-time {
+    color: gray;
+}
+
+@media (max-width: 768px) {
+    .play-art, .play-time {
+        display: none;
+    }
+
+    .deatil-info {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .artist-info {
+        display: flex;
+        align-items: center;   
+    }
+
+    .play-info {
+        width: 110px;
+    }
+
+    .info-des {
+        overflow: hidden; 
+        white-space: nowrap;
+        text-overflow: ellipsis;
+    }
+
+    .des-con {
+        padding-left: 20px;
+        width: 400px;
+    }
+    
+} 
+
+

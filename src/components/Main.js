@@ -20,6 +20,9 @@ import MyCustomSkipIcon from "./MyCustomskipIcon";
 import MyCustomPauseIcon from "./MyCustomPauseIcon";
 import MyCustomMaximizeIcon from "./MyCustomMaximizeIcon";
 import MyCustomGoBackIcon from "./MyCustomGoBackIcon";
+import CustomPlayIcon from "./CustomPlayIcon";
+import CustomShareIcon from "./CustomShareIcon";
+import CustomChevronRightIcon from "./CustomChevronRightIcon";
 import { Container, Slider } from "@mui/material";
 // import { runtime } from "webpack";
 
@@ -151,6 +154,39 @@ function Main({opensearch,
 
     const [state, dispatch] = useReducer(reducer, initialState);
 
+    let initialState1 = {
+      detailpageopen : false,
+      albumlist : [],
+      infotitle : "",
+      infodes : "",
+      infoimg : "",
+      infoid : "",
+      infocount : "",
+      infotype : "",
+      infoaudio : ""
+    }
+
+    function reducer1(state1, action) {
+      switch(action.type){
+        case "playingall":
+          return {
+            ...state1, 
+            detailpageopen : true,
+            albumlist : action.albumlist,
+            infotitle : action.infotitle,
+            infodes : action.infodes,
+            infoimg : action.infoimg,
+            infoid : action.infoid,
+            infocount : action.infocount,
+            infotype : action.infotype,
+            infoaudio : action.infoaudio
+          }
+      }
+    }
+
+    const [state1, dispatch1] = useReducer(reducer1, initialState1);
+
+
     async function fetchTrendingPlaylists() {
         try {
           const response = await fetch(
@@ -192,7 +228,7 @@ function Main({opensearch,
           const data = await response.json();
           
           setSongLists(data.data);
-          console.log("trendSong");
+          console.log("trendSongggggggggggg");
           console.log(data.data);
           console.log(data.data[0]);
         } catch (error) {
@@ -315,26 +351,6 @@ function Main({opensearch,
         }
       }
 
-      async function fetchSongs() {
-        try {
-          const response = await fetch(
-            'https://academics.newtonschool.co/api/v1/music/playlistsalbum/64cee72fe41f6d0a8b0cd0bd',
-            {
-              headers: {
-                projectId: "f104bi07c490",
-              },
-            }
-          );
-          if (!response.ok) {
-            throw new Error("Network response was not ok");
-          }
-          const data = await response.json();
-          console.log("songssssssss");
-          console.log(data);
-        } catch (error) {
-          console.error("Error fetching artist lists:", error);
-        }
-      }
 
     useEffect(()=>{
           fetchTrendingPlaylists();
@@ -344,7 +360,6 @@ function Main({opensearch,
           fetchNewRelease();
           fetchSadSongs();
           fetchRomanticSongs();
-          fetchSongs();
           console.log("hello");
           console.log(selectleft);
           console.log(selectright);
@@ -542,7 +557,8 @@ function Main({opensearch,
     return (
         <div className="Main-section">
             <div className="categories"></div>
-            {openresults && opensuggestion && opensearch && <ShowResults result={result} state={state} dispatch={dispatch} />}
+            {state1.detailpageopen && <DetailPage state1={state1} dispatch1={dispatch1} state={state} dispatch={dispatch} />}
+            {!state1.detailpageopen && openresults && opensuggestion && opensearch && <ShowResults result={result} state={state} dispatch={dispatch} dispatch1={dispatch1} />}
             {opensuggestion && !openresults && opensearch && <Suggestions 
                               filteredSuggestions={filteredSuggestions} 
                               setResults={setResults}
@@ -557,7 +573,7 @@ function Main({opensearch,
                                                                setOpenSearch={setOpenSearch}
                                                                searchseenresults={searchseenresults}
                                                                deleteSearchRes={deleteSearchRes} />}
-            {!opensearch && !opensuggestion && !openresults && showTrendingPlaylists && <TrendingPlayLists playlists={playlists} 
+            {!state1.detailpageopen && !opensearch && !opensuggestion && !openresults && showTrendingPlaylists && <TrendingPlayLists playlists={playlists} 
                                handleLeftIcon={handleLeftIcon} 
                                handleRightIcon={handleRightIcon} 
                                selectleft={selectleft["trendingPlaylists"]} 
@@ -568,8 +584,9 @@ function Main({opensearch,
                                identifier="trendingPlaylists"
                                options={options}
                                state={state} 
-                               dispatch={dispatch} /> }
-            {!opensearch && !opensuggestion && !openresults && showTrendingSongs && <TrendingSongs songlists={songlists}
+                               dispatch={dispatch}
+                               dispatch1={dispatch1} /> }
+            {!state1.detailpageopen && !opensearch && !opensuggestion && !openresults && showTrendingSongs && <TrendingSongs songlists={songlists}
                                handleLeftIcon={handleLeftIcon} 
                                handleRightIcon={handleRightIcon} 
                                selectleft={selectleft["trendingSongs"]} 
@@ -579,8 +596,9 @@ function Main({opensearch,
                                selectall={selectall}
                                identifier="trendingSongs"
                                state={state}
-                               dispatch={dispatch} /> }
-            {!opensearch && !opensuggestion && !openresults && showartists && <ArtistShowcase artistlists={artistlists} 
+                               dispatch={dispatch}
+                               dispatch1={dispatch1} /> }
+            {!state1.detailpageopen && !opensearch && !opensuggestion && !openresults && showartists && <ArtistShowcase artistlists={artistlists} 
                                handleLeftIcon={handleLeftIcon} 
                                handleRightIcon={handleRightIcon} 
                                selectleft={selectleft["artistlists"]} 
@@ -589,9 +607,9 @@ function Main({opensearch,
                                handleSelectAll={handleSelectAll}
                                selectall={selectall}
                                identifier="artistlists"
-                               state={state}
-                               dispatch={dispatch}/> }
-            {!opensearch && !opensuggestion && !openresults && showhappysongs && <HappyHarmonies happylists={happylists}
+                               state1={state1}
+                               dispatch1={dispatch1} /> }
+            {!state1.detailpageopen && !opensearch && !opensuggestion && !openresults && showhappysongs && <HappyHarmonies happylists={happylists}
                                handleLeftIcon={handleLeftIcon}
                                handleRightIcon={handleRightIcon}
                                selectleft={selectleft}
@@ -602,7 +620,7 @@ function Main({opensearch,
                                identifier="happySongs"
                                state={state}
                                dispatch={dispatch} />}
-            {!opensearch && !opensuggestion && !openresults && shownewrelease && <NewMusicShowcase newlists={newlists}
+            {!state1.detailpageopen && !opensearch && !opensuggestion && !openresults && shownewrelease && <NewMusicShowcase newlists={newlists}
                                handleLeftIcon={handleLeftIcon}
                                handleRightIcon={handleRightIcon}
                                selectleft={selectleft}
@@ -613,7 +631,7 @@ function Main({opensearch,
                                identifier="newRelease"
                                state={state}
                                dispatch={dispatch} />}
-            {!opensearch && !opensuggestion && !openresults && showsadsongs && <SoulfulHealing sadlists={sadlists}
+            {!state1.detailpageopen && !opensearch && !opensuggestion && !openresults && showsadsongs && <SoulfulHealing sadlists={sadlists}
                                handleLeftIcon={handleLeftIcon}
                                handleRightIcon={handleRightIcon}
                                selectleft={selectleft}
@@ -624,7 +642,7 @@ function Main({opensearch,
                                identifier="sadSongs"
                                state={state}
                                dispatch={dispatch} />}
-            {!opensearch && !opensuggestion && !openresults && showromanticsongs && <RomanticRhythms romanticlists={romanticlists}
+            {!state1.detailpageopen && !opensearch && !opensuggestion && !openresults && showromanticsongs && <RomanticRhythms romanticlists={romanticlists}
                                handleLeftIcon={handleLeftIcon}
                                handleRightIcon={handleRightIcon}
                                selectleft={selectleft}
@@ -875,22 +893,32 @@ function Suggestions({filteredSuggestions, setResults, setOpenResults, searchTer
   let existingResults = localStorage.getItem('searchResults');
   let parsedResults = existingResults ? JSON.parse(existingResults) : [];
 
-
+  useEffect(()=>{
+    console.log(handleFunction("Rhythms"))
+  } )
   function showres(suggestion) {
     setResults(suggestion);
     setOpenResults(true);
-    localStorage.setItem(
-      'searchResults',
-      JSON.stringify([...parsedResults, suggestion.title])
-    );
+    if (!suggestion.name){
+      localStorage.setItem(
+        'searchResults',
+        JSON.stringify([...parsedResults, suggestion.title])
+      );  
+    }
+    else {
+      localStorage.setItem(
+        'searchResults',
+        JSON.stringify([...parsedResults, suggestion.name])
+      );
+    }
   }
 
   function handleFunction(opt) {
-    setSubmit(true);
-    localStorage.setItem(
-      'searchResults',
-      JSON.stringify([...parsedResults, opt])
-    );
+    // setSubmit(true);
+    // localStorage.setItem(
+    //   'searchResults',
+    //   JSON.stringify([...parsedResults, opt])
+    // );
   }
 
   return (
@@ -914,7 +942,7 @@ function Suggestions({filteredSuggestions, setResults, setOpenResults, searchTer
             </li>
           ))}
           {filteredSuggestions.slice(0, 10).map((suggestion, index) => (
-            <li key={index}>{suggestion.name}</li>
+            <li key={index} onClick={()=> showres(suggestion)}>{suggestion.name}</li>
           ))}
         </ul>
       )}
@@ -922,11 +950,13 @@ function Suggestions({filteredSuggestions, setResults, setOpenResults, searchTer
   );
 }
 
-function ShowResults({result, state, dispatch}) {
+function ShowResults({result, state, dispatch, dispatch1}) {
   return (
     <div className="showresult">
-      <div className="result">Search results for "{result.title}"</div>
+      {!result.name ? <div className="result">Search results for "{result.title}"</div> : <div className="result">Search results for "{result.name}"</div> }
       <div className="result">Songs</div>
+      {!result.name ? 
+      (
       <div className="collections" key={0}>
                     <div className="image-container">
                     <img className="imgtab" src={result.thumbnail} alt={result.title}></img>
@@ -962,9 +992,224 @@ function ShowResults({result, state, dispatch}) {
                             </span>
                         ))}
                     </div>
-                </div>
-      
+                </div>) :
+      (              <div className="collections" key={0}>
+      <div className="image-container">
+      <img className="imgtab" src={result.image} alt={result.name}></img>
+      <div className="icon-container">
+      <div onClick={()=> dispatch1({type : "playingall", 
+                                            infotitle : result.name, 
+                                            infoimg : result.image, 
+                                            infodes : result.description, 
+                                            infoid : result._id,
+                                            infocount : result.songs.length,
+                                            })} 
+                                             className="play-container">
+                        {/* {state.playing && state.id === song._id ? <MyCustomPauseIcon /> : <PlaybackPlayIcon />} */}
+                        <CustomChevronRightIcon style={{ fontSize: '40px'}}/>
+                        </div>
+      </div> 
+      </div>
+      <div className="link-container">
+          <span className="link">{result.name}</span>
+      </div> 
+      <div className="content-container">
+          <span className="content">{result.description}</span>
+      </div>
+  </div>)  
+}    
+    </div>
+  )
+}
 
+
+function DetailPage({state1, dispatch1, state, dispatch}) {
+  let [list, setList] = useState([]);
+  let [durations, setDurations] = useState([]);
+  let [type, setType] = useState("");
+
+
+  async function fetchSongs() {
+    try {
+      const response = await fetch(
+        `https://academics.newtonschool.co/api/v1/music/${type}/${state1.infoid}`,
+        {
+          headers: {
+            projectId: "f104bi07c490",
+          },
+        }
+      );
+      if (!response.ok) {
+        throw new Error("Network response was not ok");
+      }
+      const data = await response.json();
+      setList(data.data.songs);
+      console.log("songssssssss");
+      console.log(data);
+      console.log(data.data.songs);
+    } catch (error) {
+      console.error("Error fetching artist lists:", error);
+    }
+  }
+    useEffect(() => {
+      if (state1.infotype === "Artists") {
+        setType("artist");
+      }
+      else if (state1.infotype === "Album") {
+        setType("album")
+      }
+      else {
+        setType("Songs")
+      }
+      fetchSongs(); 
+        const fetchDurations = async () => {
+            const durationsArray = await Promise.all(
+                list.map(async (li) => {
+                    const audio = new Audio(li.audio_url);
+                    await new Promise((resolve) => {
+                        audio.addEventListener("loadedmetadata", () => {
+                            resolve();
+                        });
+                        audio.load();
+                    });
+                    return audio.duration;
+                })
+            );
+            setDurations(durationsArray);
+        };
+
+        const getDuration = async (audioUrl) => {
+          const audio = new Audio(audioUrl);
+          await new Promise((resolve) => {
+              audio.addEventListener("loadedmetadata", () => {
+                  resolve();
+              });
+              audio.load();
+          });
+          return audio.duration;
+      };
+      const fetchAudioDuration = async () => {
+        try {
+            const duration = await getDuration(state1.infoaudio);
+            console.log("Duration:", duration);
+            setDurations(duration)
+            // Set the duration in the state or use it as required
+        } catch (error) {
+            console.error("Error fetching audio duration:", error);
+        }
+    };
+
+    if (type==="Songs"){
+      fetchAudioDuration();
+    }
+    else {
+      fetchDurations();
+    }
+    
+    }, [list, type, state1.infoid, state1.infotype, state1.infoaudio]);
+    
+    function formatTime(durationInSeconds) {
+      const minutes = Math.floor(durationInSeconds / 60);
+      const seconds = Math.floor(durationInSeconds % 60);
+      const formattedMinutes = String(minutes).padStart(2, '0'); // Ensure two digits for minutes
+      const formattedSeconds = String(seconds).padStart(2, '0'); // Ensure two digits for seconds
+      return `${formattedMinutes}:${formattedSeconds}`;
+    }
+
+  return (
+    <div className="detail">
+      <div className="deatil-info">
+        <img className="img-page" src={state1.infoimg}></img>
+        <div className="artist-info">
+          <nav className="info-art">PLAYLISTS</nav>
+          <h1 className="info-name">{state1.infotitle}</h1>
+          <p className="info-azn">Curated by Amazon Music</p>
+          <div className="des-con">
+          <p className="info-des">{state1.infodes}</p>
+          </div>
+          <p className="info-count">{state1.infocount} SONGS</p>
+          <div className="detail-icon">
+            <div className="play-btn">
+              <CustomPlayIcon style={{ fontSize: '20px', color: 'black' }}/>
+              <nav className="play-text">Play</nav>
+            </div>
+            <ActionAddIcon />
+            <CustomShareIcon />
+          </div>
+        </div>
+      </div>
+      <div className="playlist">
+       {type !== "Songs" ? (list.map((li, idx)=> (
+        <div key={idx} className="all-list">
+          <div className="play-half1">
+          <p>{idx+1}</p>
+          <div className="play-img-container">
+            <img className="play-img" src={li.thumbnail}></img>
+            <div onClick={()=> {if (li.audio_url) {dispatch({type : "playandpause", 
+                                            songTitle : li.title, 
+                                            songImg : li.thumbnail, 
+                                            songName : li.mood, 
+                                            id : li._id,
+                                            songAudio : li.audio_url, 
+                                            }) } 
+                                            else {dispatch({ type: "error" })}}} 
+                                             className="play-icon">
+                  {state.playing && state.id === li._id ? <MyCustomPauseIcon /> : <PlaybackPlayIcon />}
+            </div>
+            {state.playing && state.id === li._id ?               
+              <div className="rythm-container-1">
+                <img src="https://m.media-amazon.com/images/G/01/digital/music/player/web/EQ_accent.gif" alt="Rythm" style={{ width: "30px", height: "30px"}}></img>
+              </div> 
+              :  null}
+          </div>
+          <div className="play-info">
+            <nav className="play-name">{li.title}</nav>
+            <nav className="play-item">{li.mood}</nav>
+          </div>
+          </div>
+          <div className="play-half2">
+          <nav className="play-art">{state1.infotitle}</nav>
+          <nav className="play-time">{formatTime(durations[idx])}</nav>
+          <ActionAddIcon />
+          <ActionMoreIcon />
+          </div>
+        </div>
+        ))) : (       <div className="all-list">
+        <div className="play-half1">
+        <p>1</p>
+        <div className="play-img-container">
+          <img className="play-img" src={state1.infoimg}></img>
+          <div onClick={()=> {if (state1.infoaudio) {dispatch({type : "playandpause", 
+                                          songTitle : state1.infotitle, 
+                                          songImg : state1.infoimg, 
+                                          songName : state1.infodes, 
+                                          id : state1.infoid,
+                                          songAudio : state1.infoaudio, 
+                                          }) } 
+                                          else {dispatch({ type: "error" })}}} 
+                                           className="play-icon">
+                {state.playing && state.id === state1.infoid ? <MyCustomPauseIcon /> : <PlaybackPlayIcon />}
+          </div>
+          {state.playing && state.id === state1.infoid ?               
+            <div className="rythm-container-1">
+              <img src="https://m.media-amazon.com/images/G/01/digital/music/player/web/EQ_accent.gif" alt="Rythm" style={{ width: "30px", height: "30px"}}></img>
+            </div> 
+            :  null}
+        </div>
+        <div className="play-info">
+          <nav className="play-name">{state1.infotitle}</nav>
+          <nav className="play-item">{state1.infodes}</nav>
+        </div>
+        </div>
+        <div className="play-half2">
+        <nav className="play-art">{state1.infotitle}</nav>
+        <nav className="play-time">{formatTime(durations[0])}</nav>
+        <ActionAddIcon />
+        <ActionMoreIcon />
+        </div>
+      </div>)
+            }
+      </div>
     </div>
   )
 }

@@ -27,7 +27,6 @@ const App = () => {
     setOpenSearch(true);
     setOpenSuggestion(false);
     setOpenResults(false)
-    setSubmit(false);
   }
 
   function deleteSearchRes() {
@@ -38,7 +37,6 @@ const App = () => {
 
   const handleSearchChange = (event) => {
     setOpenSuggestion(true);
-    setSubmit(false);
     setSearchTerm(event.target.value);
     console.log(searchseenresults);
 

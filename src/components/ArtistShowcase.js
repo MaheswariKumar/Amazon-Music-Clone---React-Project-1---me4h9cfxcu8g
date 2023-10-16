@@ -1,10 +1,7 @@
 import React from "react";
 import ChevronCaretLeftIcon from "./ChevronCaretLeftIcon";
 import ChevronCaretrightIcon from "./ChevronCaretrightIcon";
-import PlaybackPlayIcon from "./PlaybackPlayIcon";
-import ActionMoreIcon from "./ActionMoreIcon";
-import ActionAddIcon from "./ActionAddIcon";
-import MyCustomPauseIcon from "./MyCustomPauseIcon";
+import CustomChevronRightIcon from "./CustomChevronRightIcon";
 
 function ArtistShowcase({artistlists, 
                          handleLeftIcon, 
@@ -15,8 +12,8 @@ function ArtistShowcase({artistlists,
                          handleSelectAll, 
                          selectall, 
                          identifier,
-                         state,
-                         dispatch}) {
+                         state1,
+                         dispatch1 }) {
     return (
         <div className="feature">
             <div className="headertab">
@@ -41,19 +38,18 @@ function ArtistShowcase({artistlists,
                     <div className="image-container">
                     <img className="imgtab" src={song.image} alt={song.name}></img>
                     <div className="icon-container">
-                        <ActionAddIcon />
-                        <div onClick={()=> {if (song.songs && song.songs.length > 0 && song.songs[0]) {dispatch({type : "playandpause", 
-                                            songTitle : song.name, 
-                                            songImg : song.image, 
-                                            songName : song.description, 
-                                            id : song._id,
-                                            songAudio : song.songs[0], 
-                                            }) } 
-                                            else {dispatch({ type: "error" })}}} 
+                        <div onClick={()=> dispatch1({type : "playingall", 
+                                            infotitle : song.name, 
+                                            infoimg : song.image, 
+                                            infodes : song.description, 
+                                            infoid : song._id,
+                                            infocount : song.songs.length,
+                                            infotype : "Artists"
+                                            })} 
                                              className="play-container">
-                        {state.playing && state.id === song._id ? <MyCustomPauseIcon /> : <PlaybackPlayIcon />}
+                        {/* {state.playing && state.id === song._id ? <MyCustomPauseIcon /> : <PlaybackPlayIcon />} */}
+                        <CustomChevronRightIcon style={{ fontSize: '40px'}}/>
                         </div>
-                        <ActionMoreIcon />
                     </div> 
                     </div>
                     <div className="link-container">

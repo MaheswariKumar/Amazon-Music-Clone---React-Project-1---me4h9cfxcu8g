@@ -17,7 +17,8 @@ function TrendingPlayLists({ playlists,
                              identifier,
                              options,
                              state,
-                             dispatch}) {
+                             dispatch,
+                             dispatch1}) {
 
   return (
     <div className="feature">
@@ -62,7 +63,14 @@ function TrendingPlayLists({ playlists,
                 <img src="https://m.media-amazon.com/images/G/01/digital/music/player/web/EQ_accent.gif" alt="Rythm" style={{ width: "40px", height: "40px"}}></img>
               </div> :  null}
             </div>
-            <div className="link-container">
+            <div className="link-container" onClick={()=> dispatch1({type : "playingall", 
+                                            infotitle : song.title, 
+                                            infoimg : song.image, 
+                                            infodes : song.description, 
+                                            infoid : song._id,
+                                            infocount : song.songs.length,
+                                            infotype : "Album"
+                                            })}>
               <span className="link">{song.title}</span>
             </div>
             <div className="content-container">
