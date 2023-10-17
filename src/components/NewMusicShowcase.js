@@ -16,7 +16,8 @@ function NewMusicShowcase({newlists,
                            selectall, 
                            identifier,
                            state,
-                           dispatch}) {
+                           dispatch,
+                           dispatch1}) {
     return (
         <div className="feature">
             <div className="headertab">
@@ -60,7 +61,15 @@ function NewMusicShowcase({newlists,
                         <img src="https://m.media-amazon.com/images/G/01/digital/music/player/web/EQ_accent.gif" alt="Rythm" style={{ width: "40px", height: "40px"}}></img>
                     </div> :  null}
                     </div>
-                    <div className="link-container">
+                    <div className="link-container" onClick={()=> dispatch1({type : "playingall", 
+                                            infotitle : song.title, 
+                                            infoimg : song.thumbnail, 
+                                            infodes : song.artist[0].description, 
+                                            infoid : song._id,
+                                            infocount : 0,
+                                            infotype : "Songs",
+                                            infoaudio : song.audio_url
+                                            })}>
                         <span className="link">{song.title}</span>
                     </div> 
                     <div className="content-container">

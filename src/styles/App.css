@@ -1398,6 +1398,8 @@ ul.mood-list li[class*="box"],  ul.Listen-list li[class*="box"], ul.Artists-list
     color: gray;
 }
 
+/* Responsive Css for Detail Page */
+
 @media (max-width: 768px) {
     .play-art, .play-time {
         display: none;
@@ -1432,13 +1434,216 @@ ul.mood-list li[class*="box"],  ul.Listen-list li[class*="box"], ul.Artists-list
 
     .name-con {
         display: flex;
-        flex-wrap: wrap;
         justify-content: center;
+        width: 350px;
     }
     
     .info-name {
         font-size: 20px;
     }
 } 
+
+.sign-option {
+    position: absolute;
+    top: 55px;
+    right: 40px;
+    z-index: 7;
+    box-shadow: 5px 5px 5px #000;
+    border-radius: 8px;
+    background-color: rgba(40, 38, 38, 0.15);
+    backdrop-filter: blur(30px);
+    width: 300px;
+    height: 140px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.sign {
+    padding: 10px 106px;
+    background-color: rgb(37, 209, 218);
+    color: black;
+    font-size: 16px;
+    border: 2px solid transparent;
+    border-radius: 25px;
+    transition: transform 0.3s ease-in-out;
+}
+
+.sign:hover {
+    transform: scale(1.1);
+    cursor: pointer;
+}
+
+.music {
+    padding: 25px 100px 10px 0px;
+    font-size: 18px;
+    transition: transform 0.3s ease-in-out;
+}
+
+.music:hover {
+    transform: scale(1.1);
+    cursor: pointer;
+}
+
+.music-pref {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    top: 0;
+    bottom: 50px;
+    /* left: 0;
+    right: 0; */
+    overflow-y: scroll;
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    z-index: 8;
+    box-shadow: 5px 5px 5px #000;
+    border-radius: 8px;
+    background-color: rgba(40, 38, 38, 0.374);
+    backdrop-filter: blur(30px);
+    gap: 20px;
+    padding: 80px 20px 0px 20px;
+}
+
+.cancel-pref {
+    display: flex;
+    justify-content: end;
+    align-items: end;
+    position: relative;
+    right: -210px;
+    cursor: pointer;
+}
+
+.x-pref {
+    border-radius: 50%;
+    background-color: rgba(255, 255, 255, 0.1);
+    width: 45px;
+    height: 45px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 20px;
+}
+
+.x-pref:hover {
+    background-color: gray;
+}
+
+.pref-title {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 18px;
+}
+
+.music-ti {
+    font-family: "Sharp Grotesk Semi Bold 20", "Helvetica", "Arial", "sans-serif";
+    font-size: 22px;
+    font-weight: bold;
+}
+
+.music-des {
+    font-family: "Sharp Grotesk Semi Bold 20", "Helvetica", "Arial", "sans-serif";
+    font-size: 16px;
+    font-weight: bold; 
+}
+
+.lang-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 10px;
+    /* margin: 20px; */
+}
+
+.hindi {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    cursor: pointer;
+    font-family: "Ember", "Helvetica", "Arial", "sans-serif";
+    padding-bottom: 15px;
+    /* padding: 120px 500px 15px 500px; */
+    border-bottom: 1px inset rgba(255, 255, 255, 0.733);
+    gap: 350px;
+
+    /* width: 100%;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    gap: 400px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid gray; */
+}
+
+.clear {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    padding-bottom: 10px;
+    width: 100%;
+}
+
+.clear-all {
+    border-radius: 30px;
+    border: 2px solid aqua;
+    padding: 5px 15px 5px 15px;
+    color: rgb(37, 209, 218);
+    line-height: 1.15;
+    font-size: 12px;
+    font-family: "Ember", "Helvetica", "Arial", "sans-serif";
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.clear-all:hover {
+    color: black;
+    background-color: rgb(37, 209, 218);
+}
+
+.continue {
+    border: 2px solid aqua;
+    border-radius: 30px;
+    padding: 5px 15px 5px 15px;
+    background-color: rgb(37, 209, 218);
+    color: black;
+    line-height: 1.15;
+    font-size: 12px;
+    font-family: "Ember", "Helvetica", "Arial", "sans-serif";
+    font-weight: bold;
+    transition: transform 0.3s ease-in-out;
+    cursor: pointer;  
+}
+
+.continue:hover {
+    transform: scale(1.1);
+}
+
+.lang {
+    font-size: 14px;
+    color: gray;
+}
+
+.likeicon:hover {
+    color: #25d1da;
+}
+
+.signin {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    width: 100%;
+    background-color: white;
+    z-index: 13;
+}
+
+
+
 
 

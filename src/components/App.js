@@ -1,12 +1,13 @@
 import React, { useState, useEffect, useRef, useReducer, Component } from "react";
 import '../styles/App.css';
-// import { BrowserRouter as Router, Link, Route, Routes } from "react-router-dom";
+import { BrowserRouter as Router, Link, Route, Routes, BrowserRouter } from "react-router-dom";
 // import Logo from "./Logo";
 // import Home from "./Home";
 // import Podcasts from "./Podcasts";
 // import Library from "./Library";
 import NavBar from './NavBar';
 import Main from './Main';
+import SignIn from "./SignIn";
 
 // {/* <Route path="/products/:id" element={<SingleProduct />} /> */}
 
@@ -21,7 +22,33 @@ const App = () => {
   let [searchseenresults, setSearchSeenResults] = useState([]);
   const apiEndpoint = 'https://academics.newtonschool.co/api/v1/music/song';
   const apiEndpointArtist = 'https://academics.newtonschool.co/api/v1/music/artist';
+
+  let initialState2 = {
+    opensignoption : false,
+    openmusicpref : false,
+  }
+
+  function reducer2(state2, action) {
+    switch(action.type) {
+      case "signoption" :
+        return {
+          ...state2, 
+          opensignoption : !state2.opensignoption,
+        }
+      
+      case "prefoption" :
+        return {
+          ...state2,
+          openmusicpref : !state2.openmusicpref,
+        }
+      
+      default:
+        return state2;
+    }
+  }
   
+
+  const [state2, dispatch2] = useReducer(reducer2, initialState2);
 
   function searching() {
     setOpenSearch(true);
@@ -147,21 +174,30 @@ const App = () => {
     //       </ul>
     //     </nav>
         
-    //     <Routes>
-    //       <Route path="/" element={<Logo />}/>
-    //       <Route path="/home" element={<Home />}/>
-    //       <Route path="/podcasts" element={<Podcasts />}/>
-    //       <Route path="/library" element={<Library />}/>
-    //     </Routes>
+        // <Routes>
+        //   <Route path="/" element={<Logo />}/>
+        //   <Route path="/home" element={<Home />}/>
+        //   <Route path="/podcasts" element={<Podcasts />}/>
+        //   <Route path="/library" element={<Library />}/>
+        // </Routes>
     //   </div>
     // </Router>
+
     <div id='main'>
+    {/* <BrowserRouter> */}
+    <Router>
+      <Routes>
+        <Route path="/signIn" element={<SignIn />}/>
+      </Routes>
+      </Router>
+      {/* </BrowserRouter> */}
       <NavBar searching={searching} 
               handleSearchChange={handleSearchChange} 
               searchTerm={searchTerm} 
               handleSearchSubmit={handleSearchSubmit}
               opensearch={opensearch}
-              setSubmit={setSubmit} />
+              setSubmit={setSubmit}
+              dispatch2={dispatch2} />
       <Main opensearch={opensearch} 
             setOpenSearch={setOpenSearch}
             filteredSuggestions={filteredSuggestions} 
@@ -173,7 +209,9 @@ const App = () => {
             setSubmit={setSubmit}
             searchseenresults={searchseenresults}
             setSearchSeenResults={setSearchSeenResults}
-            deleteSearchRes={deleteSearchRes} />
+            deleteSearchRes={deleteSearchRes}
+            state2={state2}
+            dispatch2={dispatch2} />
     </div>
   )
 }

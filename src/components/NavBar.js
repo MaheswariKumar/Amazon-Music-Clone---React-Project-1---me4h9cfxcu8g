@@ -7,7 +7,7 @@ import SearchIcon from "./SearchIcon";
 import Search from "./Search";
 import ChevronCaretdownIcon from "./ChevronCaretdownIcon";
 
-function NavBar({searching, handleSearchChange, searchTerm, handleSearchSubmit, opensearch, setSubmit}){
+function NavBar({searching, handleSearchChange, searchTerm, handleSearchSubmit, opensearch, setSubmit, dispatch2}){
     const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
     const [clickedInside, setClickedInside] = useState(false);
     const inputRef = useRef(null);
@@ -98,7 +98,7 @@ function NavBar({searching, handleSearchChange, searchTerm, handleSearchSubmit, 
                   </div>
                   </form>
                   )}
-                    <div className="user-icon">
+                    <div className="user-icon" onClick={()=> dispatch2({type : "signoption"})}>
                         <li><ProfileIcon color="inherit"/></li>
                     </div>
                 </ul>
