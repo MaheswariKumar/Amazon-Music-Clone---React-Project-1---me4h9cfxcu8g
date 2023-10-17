@@ -1092,7 +1092,9 @@ function DetailPage({state1, dispatch1, state, dispatch}) {
         try {
             const duration = await getDuration(state1.infoaudio);
             console.log("Duration:", duration);
-            setDurations(duration)
+            setDurations([duration])
+            console.log(dur);
+            console.log(durations[0]);
             // Set the duration in the state or use it as required
         } catch (error) {
             console.error("Error fetching audio duration:", error);
@@ -1122,7 +1124,9 @@ function DetailPage({state1, dispatch1, state, dispatch}) {
         <img className="img-page" src={state1.infoimg}></img>
         <div className="artist-info">
           <nav className="info-art">PLAYLISTS</nav>
+          <div className="name-con">
           <h1 className="info-name">{state1.infotitle}</h1>
+          </div>
           <p className="info-azn">Curated by Amazon Music</p>
           <div className="des-con">
           <p className="info-des">{state1.infodes}</p>

@@ -1245,11 +1245,17 @@ ul.mood-list li[class*="box"],  ul.Listen-list li[class*="box"], ul.Artists-list
     font-weight: bold;
 }
 
+.name-con {
+    width: 600px;
+}
+
 .info-name {
     font-family: "Sharp Grotesk Semi Bold 20", Helvetica, Arial, "sans-serif";
     font-size: 60px;
-    line-height: 16px;
     font-weight: bold;
+    overflow: hidden;
+    white-space: nowrap; 
+    text-overflow: ellipsis; 
 }
 
 .info-azn {
@@ -1365,6 +1371,7 @@ ul.mood-list li[class*="box"],  ul.Listen-list li[class*="box"], ul.Artists-list
     flex-direction: column;
     justify-content: center;
     gap: 5px;
+    width: 200px;
 }
 
 .play-item  {
@@ -1420,9 +1427,18 @@ ul.mood-list li[class*="box"],  ul.Listen-list li[class*="box"], ul.Artists-list
 
     .des-con {
         padding-left: 20px;
-        width: 400px;
+        width: 350px;
+    }
+
+    .name-con {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
     }
     
+    .info-name {
+        font-size: 20px;
+    }
 } 
 
 
