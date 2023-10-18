@@ -102,6 +102,7 @@ function DetailPage({state1, dispatch1, state, dispatch}) {
       }
   
     return (
+      // <div className="main">
       <div className="detail">
         <div className="deatil-info">
           <img className="img-page" src={state1.infoimg}></img>
@@ -198,6 +199,7 @@ function DetailPage({state1, dispatch1, state, dispatch}) {
               }
         </div>
       </div>
+      // </div>
     )
   }
 

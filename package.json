@@ -17,7 +17,7 @@
     "@mui/material": "^5.14.9",
     "react": "^17.0.2",
     "react-dom": "^16.13.1",
-    "react-router-dom": "^6.15.0"
+    "react-router-dom": "^6.17.0"
   },
   "jest": {
     "moduleNameMapper": {

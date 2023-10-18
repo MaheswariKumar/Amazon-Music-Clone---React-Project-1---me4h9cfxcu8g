@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef, useReducer, Component } from "react";
+import { Link } from "react-router-dom";
 import ChevronCaretLeftIcon from "./ChevronCaretLeftIcon";
 import ChevronCaretrightIcon from "./ChevronCaretrightIcon";
 import PlaybackPlayIcon from "./PlaybackPlayIcon";
@@ -17,6 +18,7 @@ function TrendingPlayLists({ playlists,
                              identifier,
                              options,
                              state,
+                             state1,
                              dispatch,
                              dispatch1}) {
 
@@ -63,7 +65,7 @@ function TrendingPlayLists({ playlists,
                 <img src="https://m.media-amazon.com/images/G/01/digital/music/player/web/EQ_accent.gif" alt="Rythm" style={{ width: "40px", height: "40px"}}></img>
               </div> :  null}
             </div>
-            <div className="link-container" onClick={()=> dispatch1({type : "playingall", 
+            <Link className="path-pref" to={`/playlists/${song._id}`}><div className="link-container" onClick={()=> dispatch1({type : "playingall", 
                                             infotitle : song.title, 
                                             infoimg : song.image, 
                                             infodes : song.description, 
@@ -72,7 +74,7 @@ function TrendingPlayLists({ playlists,
                                             infotype : "Album"
                                             })}>
               <span className="link">{song.title}</span>
-            </div>
+            </div></Link>
             <div className="content-container">
               {song.artists.map((artist, idx) => (
                 <span className="content" key={idx}>

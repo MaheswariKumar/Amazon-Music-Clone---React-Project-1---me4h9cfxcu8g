@@ -7,7 +7,10 @@ import { BrowserRouter as Router, Link, Route, Routes, BrowserRouter } from "rea
 // import Library from "./Library";
 import NavBar from './NavBar';
 import Main from './Main';
+import MusicComponent from "./MusicComponent";
+import DetailPage from "./DetailPage";
 import SignIn from "./SignIn";
+
 
 // {/* <Route path="/products/:id" element={<SingleProduct />} /> */}
 
@@ -22,6 +25,99 @@ const App = () => {
   let [searchseenresults, setSearchSeenResults] = useState([]);
   const apiEndpoint = 'https://academics.newtonschool.co/api/v1/music/song';
   const apiEndpointArtist = 'https://academics.newtonschool.co/api/v1/music/artist';
+
+  let initialState = {
+    // playlists: Array(100).fill().map(() => ({
+    //   play: true,
+    // })),
+    playing : false,
+    showmusiccomp : false,
+    showerrorcomp : false,
+    title : "",
+    img : "",
+    name : "",
+    audio : "",
+    playAudio : false,
+    playingIndex : -1,
+    id : null,
+  }
+
+  function reducer(state, action) {
+    switch(action.type) {
+      case "playandpause" :
+        // const { playlistIndex } = action;
+        // const playlists = [...state.playlists];
+        // playlists[playlistIndex].play = !playlists[playlistIndex].play;
+        // console.log(audio);
+        // console.log(state.audio);
+        // console.log(action.audio);
+
+
+        // if (window.onerror) {
+        //   return {
+        //     ...state,
+        //     showerrorcomp: true,
+        //   };
+        // }  
+        return {...state,  
+                showmusiccomp : true,
+                title : action.songTitle,
+                img : action.songImg,
+                name : action.songName,
+                audio : action.songAudio,
+                playingIndex : action.playingIndex,
+                // playAudio : action.songPlay,
+                // playId : action.playIdx,
+                playing : !state.playing,
+                // index : action.idex,
+                id : action.id,
+
+              };
+      case "error":
+        return {
+          ...state,
+          showerrorcomp: !state.showerrorcomp,
+        };
+
+      default:
+        return state;
+    }      
+  }
+
+  const [state, dispatch] = useReducer(reducer, initialState);
+
+  let initialState1 = {
+    detailpageopen : false,
+    albumlist : [],
+    infotitle : "",
+    infodes : "",
+    infoimg : "",
+    infoid : "",
+    infocount : "",
+    infotype : "",
+    infoaudio : ""
+  }
+
+  function reducer1(state1, action) {
+    switch(action.type){
+      case "playingall":
+        return {
+          ...state1, 
+          detailpageopen : true,
+          albumlist : action.albumlist,
+          infotitle : action.infotitle,
+          infodes : action.infodes,
+          infoimg : action.infoimg,
+          infoid : action.infoid,
+          infocount : action.infocount,
+          infotype : action.infotype,
+          infoaudio : action.infoaudio
+        }
+    }
+  }
+
+  const [state1, dispatch1] = useReducer(reducer1, initialState1);
+
 
   let initialState2 = {
     opensignoption : false,
@@ -187,11 +283,56 @@ const App = () => {
     {/* <BrowserRouter> */}
     <Router>
       <Routes>
-        <Route path="/signIn" element={<SignIn />}/>
+        <Route path="/" element={<><NavBar searching={searching} 
+              handleSearchChange={handleSearchChange} 
+              searchTerm={searchTerm} 
+              handleSearchSubmit={handleSearchSubmit}
+              opensearch={opensearch}
+              setSubmit={setSubmit}
+              dispatch2={dispatch2} />
+          <Main opensearch={opensearch} 
+            setOpenSearch={setOpenSearch}
+            filteredSuggestions={filteredSuggestions} 
+            opensuggestion={opensuggestion} 
+            openresults={openresults}
+            setOpenResults={setOpenResults}
+            searchTerm={searchTerm}
+            submit={submit} 
+            setSubmit={setSubmit}
+            searchseenresults={searchseenresults}
+            setSearchSeenResults={setSearchSeenResults}
+            deleteSearchRes={deleteSearchRes}
+            state={state}
+            state1={state1}
+            state2={state2}
+            dispatch={dispatch}
+            dispatch1={dispatch1}
+            dispatch2={dispatch2}  /></>}/>  
+          <Route path="/playlists/:Id" element={<><NavBar searching={searching} 
+              handleSearchChange={handleSearchChange} 
+              searchTerm={searchTerm} 
+              handleSearchSubmit={handleSearchSubmit}
+              opensearch={opensearch}
+              setSubmit={setSubmit}
+              dispatch2={dispatch2} /> 
+              <DetailPage state1={state1} dispatch1={dispatch1} state={state} dispatch={dispatch} />
+              {state.showmusiccomp && <MusicComponent state={state} 
+                               dispatch={dispatch} 
+                               songTitle={state.title} 
+                               songImg={state.img} 
+                               songName={state.name} 
+                               songAudio={state.audio}
+                               songPlay={state.playAudio}
+                               id = {state.id}
+                              //  idex = {state.idex}
+                              />}
+              </>}></Route> 
+{/* 
+          <Route path="/signup" element={<SignIn />}></Route>  */}
       </Routes>
       </Router>
       {/* </BrowserRouter> */}
-      <NavBar searching={searching} 
+      {/* <NavBar searching={searching} 
               handleSearchChange={handleSearchChange} 
               searchTerm={searchTerm} 
               handleSearchSubmit={handleSearchSubmit}
@@ -211,7 +352,7 @@ const App = () => {
             setSearchSeenResults={setSearchSeenResults}
             deleteSearchRes={deleteSearchRes}
             state2={state2}
-            dispatch2={dispatch2} />
+            dispatch2={dispatch2} /> */}
     </div>
   )
 }

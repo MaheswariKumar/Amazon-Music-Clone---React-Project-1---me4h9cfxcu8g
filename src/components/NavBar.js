@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef, useReducer, Component } from "react";
+import { Link } from "react-router-dom";
 import HomeIcon from './HomeIcon';
 import PodcastIcon from "./PodcastIcon";
 import MyMusicIcon from "./MyMusicIcon";
@@ -49,10 +50,11 @@ function NavBar({searching, handleSearchChange, searchTerm, handleSearchSubmit, 
                     <div className="logo-div">
                         <img className="logo" src="https://d5fx445wy2wpk.cloudfront.net/static/logo.svg"></img>
                     </div>
-                    <div className="home-div">
-                        <li><HomeIcon color="inherit"/></li>
-                        <li>HOME</li>
-                    </div>
+                    <Link className="home-li" to="/"><div className="home-div">
+                      <li><HomeIcon /></li>
+                      <li>HOME</li>
+                      {/* <li>HOME</li> */}
+                    </div></Link>
                     <div className="pod-div">
                         <li><PodcastIcon color="inherit"/></li>
                         <li>PODCASTS</li>

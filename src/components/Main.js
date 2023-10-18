@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef, useReducer, Component } from "react";
+import { BrowserRouter as Router, Link, Route, Routes, BrowserRouter } from "react-router-dom";
 import TrendingPlayLists from "./TrendingPlayLists";
 import TrendingSongs from "./TrendingSongs";
 import ArtistShowcase from "./ArtistShowcase";
@@ -7,7 +8,9 @@ import NewMusicShowcase from "./NewMusicShowcase";
 import SoulfulHealing from "./SoulfulHealing";
 import RomanticRhythms from "./RomanticRhythms";
 import MusicComponent from "./MusicComponent";
+import SignOption from "./SignOption";
 import DetailPage from "./DetailPage";
+import SignIn from "./SignIn";
 import MusicPreferences from "./MusicPreferences";
 import ChevronCaretLeftIcon from "./ChevronCaretLeftIcon";
 import ChevronCaretrightIcon from "./ChevronCaretrightIcon";
@@ -44,7 +47,11 @@ function Main({opensearch,
                searchseenresults,
                deleteSearchRes,
                setSearchSeenResults,
+               state,
+               state1,
                state2,
+               dispatch,
+               dispatch1,
                dispatch2, }){
     let [playlists, setPlayLists] = useState([]);
     let [songlists, setSongLists] = useState([]);
@@ -102,97 +109,6 @@ function Main({opensearch,
     let sadSongContainerRef = useRef(null);
     let romanticContainerRef = useRef(null);
 
-    let initialState = {
-      // playlists: Array(100).fill().map(() => ({
-      //   play: true,
-      // })),
-      playing : false,
-      showmusiccomp : false,
-      showerrorcomp : false,
-      title : "",
-      img : "",
-      name : "",
-      audio : "",
-      playAudio : false,
-      playingIndex : -1,
-      id : null,
-    }
-
-    function reducer(state, action) {
-      switch(action.type) {
-        case "playandpause" :
-          // const { playlistIndex } = action;
-          // const playlists = [...state.playlists];
-          // playlists[playlistIndex].play = !playlists[playlistIndex].play;
-          // console.log(audio);
-          // console.log(state.audio);
-          // console.log(action.audio);
-
-
-          // if (window.onerror) {
-          //   return {
-          //     ...state,
-          //     showerrorcomp: true,
-          //   };
-          // }  
-          return {...state,  
-                  showmusiccomp : true,
-                  title : action.songTitle,
-                  img : action.songImg,
-                  name : action.songName,
-                  audio : action.songAudio,
-                  playingIndex : action.playingIndex,
-                  // playAudio : action.songPlay,
-                  // playId : action.playIdx,
-                  playing : !state.playing,
-                  // index : action.idex,
-                  id : action.id,
-
-                };
-        case "error":
-          return {
-            ...state,
-            showerrorcomp: !state.showerrorcomp,
-          };
-
-        default:
-          return state;
-      }      
-    }
-
-    const [state, dispatch] = useReducer(reducer, initialState);
-
-    let initialState1 = {
-      detailpageopen : false,
-      albumlist : [],
-      infotitle : "",
-      infodes : "",
-      infoimg : "",
-      infoid : "",
-      infocount : "",
-      infotype : "",
-      infoaudio : ""
-    }
-
-    function reducer1(state1, action) {
-      switch(action.type){
-        case "playingall":
-          return {
-            ...state1, 
-            detailpageopen : true,
-            albumlist : action.albumlist,
-            infotitle : action.infotitle,
-            infodes : action.infodes,
-            infoimg : action.infoimg,
-            infoid : action.infoid,
-            infocount : action.infocount,
-            infotype : action.infotype,
-            infoaudio : action.infoaudio
-          }
-      }
-    }
-
-    const [state1, dispatch1] = useReducer(reducer1, initialState1);
 
 
     async function fetchTrendingPlaylists() {
@@ -561,9 +477,14 @@ function Main({opensearch,
         <div className="Main-section">
             <div className="categories"></div>
             {/* <SignIn /> */}
+            {/* <Router>
+      <Routes>
+        <Route path="/music/album/:albumId" element={<DetailPage state1={state1} dispatch1={dispatch1} state={state} dispatch={dispatch} />}></Route>  
+      </Routes>
+      </Router> */}
             {state2.openmusicpref && <MusicPreferences dispatch2={dispatch2} />}
             {state2.opensignoption &&  <SignOption dispatch2={dispatch2} />}
-            {state1.detailpageopen && <DetailPage state1={state1} dispatch1={dispatch1} state={state} dispatch={dispatch} />}
+            {/* {state1.detailpageopen && <DetailPage state1={state1} dispatch1={dispatch1} state={state} dispatch={dispatch} />} */}
             {!state1.detailpageopen && openresults && opensuggestion && opensearch && <ShowResults result={result} state={state} dispatch={dispatch} dispatch1={dispatch1} />}
             {opensuggestion && !openresults && opensearch && <Suggestions 
                               filteredSuggestions={filteredSuggestions} 
@@ -579,7 +500,7 @@ function Main({opensearch,
                                                                setOpenSearch={setOpenSearch}
                                                                searchseenresults={searchseenresults}
                                                                deleteSearchRes={deleteSearchRes} />}
-            {!state1.detailpageopen && !opensearch && !opensuggestion && !openresults && showTrendingPlaylists && <TrendingPlayLists playlists={playlists} 
+            {!opensearch && !opensuggestion && !openresults && showTrendingPlaylists && <TrendingPlayLists playlists={playlists} 
                                handleLeftIcon={handleLeftIcon} 
                                handleRightIcon={handleRightIcon} 
                                selectleft={selectleft["trendingPlaylists"]} 
@@ -590,9 +511,10 @@ function Main({opensearch,
                                identifier="trendingPlaylists"
                                options={options}
                                state={state} 
+                               state1={state1}
                                dispatch={dispatch}
                                dispatch1={dispatch1} /> }
-            {!state1.detailpageopen && !opensearch && !opensuggestion && !openresults && showTrendingSongs && <TrendingSongs songlists={songlists}
+            {!opensearch && !opensuggestion && !openresults && showTrendingSongs && <TrendingSongs songlists={songlists}
                                handleLeftIcon={handleLeftIcon} 
                                handleRightIcon={handleRightIcon} 
                                selectleft={selectleft["trendingSongs"]} 
@@ -604,7 +526,7 @@ function Main({opensearch,
                                state={state}
                                dispatch={dispatch}
                                dispatch1={dispatch1} /> }
-            {!state1.detailpageopen && !opensearch && !opensuggestion && !openresults && showartists && <ArtistShowcase artistlists={artistlists} 
+            {!opensearch && !opensuggestion && !openresults && showartists && <ArtistShowcase artistlists={artistlists} 
                                handleLeftIcon={handleLeftIcon} 
                                handleRightIcon={handleRightIcon} 
                                selectleft={selectleft["artistlists"]} 
@@ -627,7 +549,7 @@ function Main({opensearch,
                                state={state}
                                dispatch={dispatch}
                                dispatch1={dispatch1} />}
-            {!state1.detailpageopen && !opensearch && !opensuggestion && !openresults && shownewrelease && <NewMusicShowcase newlists={newlists}
+            {!opensearch && !opensuggestion && !openresults && shownewrelease && <NewMusicShowcase newlists={newlists}
                                handleLeftIcon={handleLeftIcon}
                                handleRightIcon={handleRightIcon}
                                selectleft={selectleft}
@@ -639,7 +561,7 @@ function Main({opensearch,
                                state={state}
                                dispatch={dispatch}
                                dispatch1={dispatch1} />}
-            {!state1.detailpageopen && !opensearch && !opensuggestion && !openresults && showsadsongs && <SoulfulHealing sadlists={sadlists}
+            {!opensearch && !opensuggestion && !openresults && showsadsongs && <SoulfulHealing sadlists={sadlists}
                                handleLeftIcon={handleLeftIcon}
                                handleRightIcon={handleRightIcon}
                                selectleft={selectleft}
@@ -651,7 +573,7 @@ function Main({opensearch,
                                state={state}
                                dispatch={dispatch}
                                dispatch1={dispatch1} />}
-            {!state1.detailpageopen && !opensearch && !opensuggestion && !openresults && showromanticsongs && <RomanticRhythms romanticlists={romanticlists}
+            {!opensearch && !opensuggestion && !openresults && showromanticsongs && <RomanticRhythms romanticlists={romanticlists}
                                handleLeftIcon={handleLeftIcon}
                                handleRightIcon={handleRightIcon}
                                selectleft={selectleft}
@@ -864,17 +786,5 @@ function ShowResults({result, state, dispatch, dispatch1}) {
   )
 }
 
-function SignOption({dispatch2}){
-  return (
-    <div className="sign-option">
-      <div className="sign">
-        <nav>Sign In</nav>
-      </div>
-      <div className="music" onClick={()=> dispatch2({type : "prefoption"})}>
-        <nav>Music Preferences</nav>
-      </div>
-    </div>
-  )
-}
 
 export default Main;
