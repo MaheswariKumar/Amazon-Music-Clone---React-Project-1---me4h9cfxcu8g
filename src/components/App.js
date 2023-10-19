@@ -281,6 +281,7 @@ const App = () => {
 
     <div id='main'>
     {/* <BrowserRouter> */}
+    {/* <SignIn />  */}
     <Router>
       <Routes>
         <Route path="/" element={<><NavBar searching={searching} 
