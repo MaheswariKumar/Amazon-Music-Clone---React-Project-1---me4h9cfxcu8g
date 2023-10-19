@@ -6,7 +6,7 @@ function SignOption({dispatch2}){
       <div className="sign-option">
         {/* <Link className="signlink" to="/signup"> */}
             <div className="sign">
-          <nav>Sign In</nav>
+          <Link to="/signin"><nav>Sign In</nav></Link>
         </div>
         {/* </Link> */}
         <div className="music" onClick={()=> dispatch2({type : "prefoption"})}>

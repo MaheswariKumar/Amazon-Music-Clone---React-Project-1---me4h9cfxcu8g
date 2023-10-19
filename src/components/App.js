@@ -7,9 +7,12 @@ import { BrowserRouter as Router, Link, Route, Routes, BrowserRouter } from "rea
 // import Library from "./Library";
 import NavBar from './NavBar';
 import Main from './Main';
+import Loading from "./Loading";
 import MusicComponent from "./MusicComponent";
 import DetailPage from "./DetailPage";
+import Podcast from "./Podcast";
 import SignIn from "./SignIn";
+import Register from "./Register";
 
 
 // {/* <Route path="/products/:id" element={<SingleProduct />} /> */}
@@ -281,7 +284,17 @@ const App = () => {
 
     <div id='main'>
     {/* <BrowserRouter> */}
+    {/* <NavBar searching={searching} 
+              handleSearchChange={handleSearchChange} 
+              searchTerm={searchTerm} 
+              handleSearchSubmit={handleSearchSubmit}
+              opensearch={opensearch}
+              setSubmit={setSubmit}
+              dispatch2={dispatch2} /> */}
+    {/* <Loading /> */}
+    {/* <Podcast /> */}
     {/* <SignIn />  */}
+    {/* <Register /> */}
     <Router>
       <Routes>
         <Route path="/" element={<><NavBar searching={searching} 
@@ -328,8 +341,9 @@ const App = () => {
                               //  idex = {state.idex}
                               />}
               </>}></Route> 
-{/* 
-          <Route path="/signup" element={<SignIn />}></Route>  */}
+          <Route path="/podcasts" element={<Podcast />}></Route>
+          <Route path="/signin" element={<SignIn />}></Route>
+          <Route path="/register" element={<Register />}></Route>
       </Routes>
       </Router>
       {/* </BrowserRouter> */}

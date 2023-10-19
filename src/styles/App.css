@@ -79,13 +79,23 @@
     height: 35px;
 }
 
-.home-li {
+.home-div {
     color: #25d1da;
     text-decoration: none;
 }
 
-.home-li:hover {
+.home-div:hover {
     color:#bce8eb;
+}
+
+.pod-li {
+    color: inherit;
+    cursor: pointer;
+}
+
+.pod-div:hover  {
+    color: #25d1da;
+    cursor: pointer;
 }
 
 .search-container {
@@ -1501,6 +1511,10 @@ ul.mood-list li[class*="box"],  ul.Listen-list li[class*="box"], ul.Artists-list
     transition: transform 0.3s ease-in-out;
 }
 
+.sign nav {
+    color: black;
+}
+
 .signlink {
     text-decoration: none;
 }
@@ -1711,16 +1725,38 @@ ul.mood-list li[class*="box"],  ul.Listen-list li[class*="box"], ul.Artists-list
     margin: 0px 15px 0px 15px;
 }
 
-
 .condition {
-    font-size: 10px;
+    width: 300px; /* Adjust the width as needed */
+}
+
+.condition p {
+    display: inline-block;
+    word-wrap: break-word;
+    font-size: 12px;
+    line-height: 1.5;
     font-family: "Amazon Ember",Arial,sans-serif;
     padding-top: 15px;
+}
+
+.condition a {
+    color: #0066c0;
+}
+
+.condition a:hover {
+    text-decoration: underline;
+    color: rgb(215, 145, 14);
 }
 
 .signti {
     font-family: "Amazon Ember",Arial,sans-serif;
     font-weight: 400;
+}
+
+.name {
+    font-family: "Amazon Ember",Arial,sans-serif;
+    font-weight: 700;
+    font-size: 13px;
+    margin-bottom: 5px;
 }
 
 .email {
@@ -1744,6 +1780,10 @@ ul.mood-list li[class*="box"],  ul.Listen-list li[class*="box"], ul.Artists-list
 
 .passdiv a {
     font-size: 13px;
+    color: #0066c0;
+    font-family: "Amazon Ember",Arial,sans-serif;
+    font-size: 13px;
+    line-height: 19px;
 }
 
 .emailbox {
@@ -1754,6 +1794,12 @@ ul.mood-list li[class*="box"],  ul.Listen-list li[class*="box"], ul.Artists-list
     width: 100%;
     height: 31px;
     margin-top: 5px;
+    cursor: pointer;
+}
+
+.emailbox:focus {
+    outline: none; 
+    box-shadow: 0 0 5px aqua;
 }
 
 .passbox {
@@ -1764,6 +1810,28 @@ ul.mood-list li[class*="box"],  ul.Listen-list li[class*="box"], ul.Artists-list
     width: 100%;
     height: 31px;
     margin-top: 5px;
+    cursor: pointer;
+}
+
+.passbox:focus {
+    outline: none; 
+    box-shadow: 0 0 5px aqua;
+}
+
+.namebox {
+    border: 1px solid #a6a6a6;
+    border-top-color: #949494;
+    border-radius: 3px;
+    box-shadow: 0 1px 0 rgba(255,255,255,.5), 0 1px 0 rgba(0,0,0,.07) inset;
+    width: 100%;
+    height: 31px;
+    margin-top: 5px;
+    cursor: pointer;
+}
+
+.namebox:focus {
+    outline: none; 
+    box-shadow: 0 0 5px aqua;
 }
 
 .signbtn {
@@ -1772,12 +1840,17 @@ ul.mood-list li[class*="box"],  ul.Listen-list li[class*="box"], ul.Artists-list
     height: 31px;
     background-color: #ffd814;
     border: none;
+    cursor: pointer;
+}
+
+.signbtn:hover {
+    background-color: #ecc609;
 }
 
 .checksign {
     font-family: "Amazon Ember",Arial,sans-serif;
     display: flex;
-    padding: 15px 15px 15px 5px;
+    padding: 15px 15px 15px 0px;
     font-weight: 400;
     font-size: 13px;
     line-height: 19px;
@@ -1785,6 +1858,14 @@ ul.mood-list li[class*="box"],  ul.Listen-list li[class*="box"], ul.Artists-list
 
 .keep, .arow {
     text-indent: 3px;
+}
+
+.arow {
+    color: #0066c0;
+    font-weight: 400;
+    font-family: "Amazon Ember",Arial,sans-serif;
+    font-size: 13px;
+    line-height: 19px;
 }
 
 a {
@@ -1809,19 +1890,292 @@ a {
     padding: 10px 0px;
 }
 
-.account p {
+.createacc {
     text-align: center;
     width: 100%;
     border: 1px solid rgba(0,0,0,.2);
     background-color: #fff;
-    border-radius: 5px;
-    padding: 5px 10px 5px 10px;
+    border-radius: 8px;
+    padding: 0px 65px;
+    font-family: "Amazon Ember",Arial,sans-serif;
+    color: #0F1111;
+    font-size: 13px;
+    line-height: 29px;
+    cursor: pointer;
+}
+
+.account p:hover {
+    background-color: #e4f9fac0;
 }
 
 .help {
     margin-top: 50px;
     display: flex;
-    justify-content: space-around;
+    justify-content: space-evenly;
     align-items: center;
+}
 
+.help nav {
+    text-decoration: none;
+    color: #0066c0;
+    font-size: 11px;
+    line-height: 1.465;
+    font-family: "Amazon Ember",Arial,sans-serif;
+}
+
+.copyrights {
+    margin-top: 15px;
+    color: #555;
+    font-size: 11px;
+    line-height: 1.465;
+    font-family: "Amazon Ember",Arial,sans-serif;
+}
+
+.Create-page {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-color: white;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    color: black;
+}
+
+.accbox {
+    border: 1px solid rgba(0,0,0,.1);
+    border-radius: 8px;
+    padding: 15px 20px 0px 20px;
+    margin: 0px 15px 0px 15px;
+}
+
+.createti {
+    font-family: "Amazon Ember",Arial,sans-serif;
+    font-weight: 400;
+    font-size: 28px;
+}
+
+.pass-char {
+    color: #2b2b2b;
+    font-family: "Amazon Ember",Arial,sans-serif;
+    font-size: 12px;
+    line-height: 15px;
+}
+
+.i {
+    color: rgb(40, 178, 178);
+    font-family: 'Times New Roman', Times, serif;
+    font-style: italic;
+    font-size: 14px;
+    line-height: 15px;
+    font-weight: bold;
+}
+
+.passdiv1 {
+    display: flex;
+    gap: 3px;
+    padding-top: 5px;
+    padding-bottom: 15px;
+    text-indent: 5px;
+}
+
+.namebox::placeholder {
+    text-indent: 10px;
+}
+
+.passbox::placeholder {
+    text-indent: 10px;
+}
+
+.again {
+    color: #0066c0;
+    font-weight: 400;
+    font-family: "Amazon Ember",Arial,sans-serif;
+    font-size: 13px;
+    line-height: 19px; 
+}
+
+.again:hover {
+    text-decoration: underline;
+    color: rgb(215, 145, 14);
+}
+
+.checksign1 {
+    font-family: "Amazon Ember",Arial,sans-serif;
+    display: flex;
+    padding: 50px 15px 15px 0px;
+    font-weight: 400;
+    font-size: 13px;
+    line-height: 19px;
+    gap: 4px; 
+}
+
+input {
+    text-indent: 10px;
+}
+
+.errorbox {
+    border-radius: 8px;
+    box-shadow: 0 0 0 4px #fcf4f4 inset;
+    box-sizing: border-box;
+    border: 1px solid #c40000;
+    padding: 10px 60px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 10px;
+    gap: 30px;
+    font-family: "Amazon Ember",Arial,sans-serif;
+}
+
+.errorbox h1 {
+    color: #c40000;
+}
+
+.errorbox nav {
+    font-size: 13px;
+    line-height: 19px;
+    color: #111;
+}
+
+.errorbox h2 {
+    color: #c40000;
+    font-weight: 400;
+    font-size: 17px;
+    line-height: 1.255;
+}
+
+.Podcast {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: rgb(0, 0, 0.5);
+    color: white;
+}
+
+.logoamznpod {
+    width: 100px;
+    height: 30px;
+    padding-bottom: 10px;
+}
+
+.castall {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.request {
+    padding: 10px 0px;
+    display: flex;
+    gap: 5px;
+    font-size: 18px;
+}
+
+.request nav {
+    color: #25d1da;
+    cursor: pointer;
+}
+
+.request nav:hover {
+    color:#bce8eb;
+}
+
+@media (max-width: 768px) {
+    .castall img{
+        width: 400px;
+        height: 200px;
+    }
+
+    .request {
+        font-size: 15px;
+    }
+}
+
+.loading-container {
+    background-color: rgb(0, 0, 0.5);;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+  }
+  
+  .loading-spinner {
+    border: 3px solid gray;
+    border-left-color: #25d1da;
+    border-radius: 50%;
+    width: 28px;
+    height: 28px;
+    animation: spin 1s linear infinite;
+  }
+  
+  @keyframes spin {
+    0% {
+      transform: rotate(0deg);
+    }
+    100% {
+      transform: rotate(360deg);
+    }
+  }
+
+.premium {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    top: 0;
+    z-index: 8;
+    box-shadow: 5px 5px 5px #000;
+    border-radius: 8px;
+    background-color: rgba(40, 38, 38, 0.374);
+    backdrop-filter: blur(30px);
+    gap: 20px;
+}
+
+.try {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+.try h1{
+    font-family: "Sharp Grotesk Semi Bold 20", "Helvetica", "Arial", "sans-serif";
+    font-size: 22px;
+    line-height: 24px;
+    font-weight: bold;
+    padding-bottom: 5px;
+}
+
+.tryp {
+    width: 500px;
+}
+
+.tryp p {
+    text-align: center;
+    display: inline-block;
+    justify-content: center;
+    word-wrap: break-word;
+    line-height: 1.15;
+    font-family: "Ember", "Helvetica", "Arial", "sans-serif";
+    padding-top: 10px;
+    font-weight: 400;
+}
+
+@media (max-width: 768px) {
+    .tryp {
+        width: 300px;
+    }
 }

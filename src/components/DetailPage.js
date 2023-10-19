@@ -5,11 +5,13 @@ import ActionAddIcon from "./ActionAddIcon";
 import MyCustomPauseIcon from "./MyCustomPauseIcon";
 import CustomPlayIcon from "./CustomPlayIcon";
 import CustomShareIcon from "./CustomShareIcon";
+import Loading from "./Loading";
 
 function DetailPage({state1, dispatch1, state, dispatch}) {
     let [list, setList] = useState([]);
     let [durations, setDurations] = useState([]);
     let [type, setType] = useState("");
+    let [loading, setLoading] = useState(true);
   
   
     async function fetchSongs() {
@@ -44,7 +46,20 @@ function DetailPage({state1, dispatch1, state, dispatch}) {
         else {
           setType("Songs")
         }
-        fetchSongs(); 
+        async function fetchData() {
+          try {
+            await Promise.all([
+              fetchSongs()
+            ]);
+            setLoading(false);
+          } catch (error) {
+            console.error("Error fetching data:", error);
+            setLoading(false);
+          }
+        }
+        fetchData();
+        // fetchSongs(); 
+
           const fetchDurations = async () => {
               const durationsArray = await Promise.all(
                   list.map(async (li) => {
@@ -99,6 +114,14 @@ function DetailPage({state1, dispatch1, state, dispatch}) {
         const formattedMinutes = String(minutes).padStart(2, '0'); // Ensure two digits for minutes
         const formattedSeconds = String(seconds).padStart(2, '0'); // Ensure two digits for seconds
         return `${formattedMinutes}:${formattedSeconds}`;
+      }
+
+      if (loading) {
+        return (
+          <div className="Main-section">
+            <Loading />
+          </div>
+        );
       }
   
     return (

@@ -55,10 +55,10 @@ function NavBar({searching, handleSearchChange, searchTerm, handleSearchSubmit, 
                       <li>HOME</li>
                       {/* <li>HOME</li> */}
                     </div></Link>
-                    <div className="pod-div">
-                        <li><PodcastIcon color="inherit"/></li>
+                    <Link className="pod-li" to="/podcasts"><div className="pod-div">
+                        <li><PodcastIcon /></li>
                         <li>PODCASTS</li>
-                    </div>
+                    </div></Link>
                     <div className="lib-div">
                         <li><MyMusicIcon color="inherit"/></li>
                         <li>LIBRARY</li>

@@ -11,7 +11,9 @@ import MusicComponent from "./MusicComponent";
 import SignOption from "./SignOption";
 import DetailPage from "./DetailPage";
 import SignIn from "./SignIn";
+import Loading from "./Loading";
 import MusicPreferences from "./MusicPreferences";
+import TryPremium from "./TryPremium";
 import ChevronCaretLeftIcon from "./ChevronCaretLeftIcon";
 import ChevronCaretrightIcon from "./ChevronCaretrightIcon";
 import PlaybackPlayIcon from "./PlaybackPlayIcon";
@@ -83,6 +85,7 @@ function Main({opensearch,
     let [limit, setLimit] = useState(12);
     let [options, setOptions] = useState(true);
     let [result, setResults] = useState("");
+    let [loading, setLoading] = useState(true);
 
     // let initialState = {
     //   showTrendingPlaylists : true,
@@ -277,16 +280,34 @@ function Main({opensearch,
 
 
     useEffect(()=>{
-          fetchTrendingPlaylists();
-          fetchTrendingSongs();
-          fetchArtistLists();
-          fetchHappySongs();
-          fetchNewRelease();
-          fetchSadSongs();
-          fetchRomanticSongs();
-          console.log("hello");
-          console.log(selectleft);
-          console.log(selectright);
+      async function fetchData() {
+        try {
+          await Promise.all([
+            fetchTrendingPlaylists(),
+            fetchTrendingSongs(),
+            fetchArtistLists(),
+            fetchHappySongs(),
+            fetchNewRelease(),
+            fetchSadSongs(),
+            fetchRomanticSongs(),
+          ]);
+          setLoading(false);
+        } catch (error) {
+          console.error("Error fetching data:", error);
+          setLoading(false);
+        }
+      }
+      fetchData();
+          // fetchTrendingPlaylists();
+          // fetchTrendingSongs();
+          // fetchArtistLists();
+          // fetchHappySongs();
+          // fetchNewRelease();
+          // fetchSadSongs();
+          // fetchRomanticSongs();
+          // console.log("hello");
+          // console.log(selectleft);
+          // console.log(selectright);
     }, [])
 
     useEffect(() => {
@@ -472,6 +493,13 @@ function Main({opensearch,
           }; 
     }
 
+    if (loading) {
+      return (
+        <div className="Main-section">
+          <Loading />
+        </div>
+      );
+    }
 
     return (
         <div className="Main-section">
@@ -482,6 +510,7 @@ function Main({opensearch,
         <Route path="/music/album/:albumId" element={<DetailPage state1={state1} dispatch1={dispatch1} state={state} dispatch={dispatch} />}></Route>  
       </Routes>
       </Router> */}
+            {/* <TryPremium /> */}
             {state2.openmusicpref && <MusicPreferences dispatch2={dispatch2} />}
             {state2.opensignoption &&  <SignOption dispatch2={dispatch2} />}
             {/* {state1.detailpageopen && <DetailPage state1={state1} dispatch1={dispatch1} state={state} dispatch={dispatch} />} */}
