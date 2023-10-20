@@ -67,7 +67,7 @@ function Register() {
     };
 
     const url = 'https://academics.newtonschool.co/api/v1/user/signup';
-    const projectId = 'f104bi07c490';
+    const projectId = 'me4h9cfxcu8g';
 
     fetch(url, {
       method: 'POST',
@@ -78,6 +78,7 @@ function Register() {
       body: JSON.stringify(postData)
     })
       .then(response => {
+        console.log(response.json())
         if (!response.ok) {
           throw new Error('Network response was not ok');
         }

@@ -1320,6 +1320,7 @@ ul.mood-list li[class*="box"],  ul.Listen-list li[class*="box"], ul.Artists-list
     flex-direction: row;
     align-items: center;
     gap: 20px;
+    cursor: pointer;
 }
 
 .play-btn {
@@ -1368,6 +1369,14 @@ ul.mood-list li[class*="box"],  ul.Listen-list li[class*="box"], ul.Artists-list
     display: flex;
     align-items: center;
     gap: 70px;
+}
+
+.play-half2:last-of-type {
+    cursor: pointer;
+}
+
+.play-half2 nav {
+    cursor: default;
 }
 
 
@@ -2157,6 +2166,7 @@ input {
     line-height: 24px;
     font-weight: bold;
     padding-bottom: 5px;
+    color: white;
 }
 
 .tryp {
@@ -2178,4 +2188,248 @@ input {
     .tryp {
         width: 300px;
     }
+}
+
+.addoption {
+    position: absolute;
+    top: 100px;
+    left: 130px;
+    z-index: 14;
+    border: 1px solid hsla(0,0%,100%,.3);
+    box-shadow: 5px 5px 5px #000;
+    border-radius: 8px;
+    background-color: rgba(40, 38, 38, 0.15);
+    backdrop-filter: blur(30px);
+    width: 280px;
+    height: 120px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: start;
+    color: white;
+    text-indent: 20px;
+    padding: 10px 0;
+}
+
+.addoption nav {
+    font-size: 18px;
+    font-weight: 700;
+    padding: 15px 0;
+    font-family: "Ember", "Helvetica", "Arial", "sans-serif";
+    cursor: pointer;
+}
+
+.addoption nav:hover {
+    width: 280px;
+    background-color: rgba(216, 199, 199, 0.15);
+}
+
+.border {
+    width: 280px;
+    border-bottom: 1px inset rgba(255,255,255,.15);
+}
+
+.option {
+    position: absolute;
+    bottom: 20px;
+    right: 105px;
+    z-index: 10;
+    border: 1px solid hsla(0,0%,100%,.3);
+    box-shadow: 5px 5px 5px #000;
+    border-radius: 8px;
+    background-color: rgba(11, 11, 11, 0.292);
+    backdrop-filter: blur(30px);
+    width: 280px;
+    height: 150px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: start;
+    color: white;
+    text-indent: 20px;
+    padding: 10px 0;
+}
+
+.option nav {
+    font-size: 18px;
+    font-weight: 700;
+    padding: 15px 0;
+    font-family: "Ember", "Helvetica", "Arial", "sans-serif";
+    cursor: pointer;
+}
+
+.option nav:hover {
+    width: 280px;
+    background-color: rgba(216, 199, 199, 0.15);
+}
+
+.border1 {
+    width: 280px;
+    border-bottom: 1px inset rgba(255,255,255,.15);
+}
+
+.share {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    height: 100%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 8;
+    box-shadow: 5px 5px 5px #000;
+    border-radius: 8px;
+    background-color: rgba(40, 38, 38, 0.374);
+    backdrop-filter: blur(30px);
+    gap: 20px;   
+}
+
+.cancel-pref1 {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    /* top: 190px; */
+    top: 25%;
+    left: 18%;
+    position: absolute;
+    cursor: pointer;
+    color: white;
+}
+
+
+.play-img1 {
+    border-radius: 8px;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.6);
+    width: 75px;
+    height: 75px;
+    cursor: pointer;
+}
+
+.tryp1 {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+    width: 100%;
+}
+
+.inlinep {
+    width: 400px;
+}
+
+.inlinep nav {
+    font-size: 14px;
+    font-weight: bold;
+}
+
+.inlinep p {
+    display: inline-block;
+    justify-content: center;
+    word-wrap: break-word;
+    line-height: 1.15;
+    font-family: "Ember", "Helvetica", "Arial", "sans-serif";
+    padding-top: 10px;
+    font-weight: 400;
+    color: white;
+}
+
+.sharelink {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    color: white;
+}
+
+.sharelink {
+    font-family: "Ember", "Helvetica", "Arial", "sans-serif";
+    font-size: 14px;
+    line-height: 20px;
+    color: rgba(255, 255, 255, 0.6);
+    width: 100%;
+    display: flex;
+    justify-content: start;
+    align-items: center;
+}
+
+.path {
+    display: flex;
+    justify-content: center;
+    width: 32%;
+    border-bottom: 1px inset rgba(255,255,255,.15);
+}
+
+@media (max-width: 768px) {
+    .path {
+        width: 60%;
+    }
+
+    .media {
+        width: 70%;
+    }
+
+    .cancel-pref1 {
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        /* top: 190px; */
+        top: 25%;
+        left: 30%;
+        position: absolute;
+        cursor: pointer;
+    }
+}
+
+
+.path p{
+    overflow: hidden;
+    text-overflow:initial;
+    white-space: nowrap;
+    font-size: 18px;
+    color: white;
+}
+
+.media {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    gap: 20px;
+    cursor: pointer;
+    width: 50%;
+}
+
+.x-pref1 {
+    border-radius: 50%;
+    background-color: rgba(255, 255, 255, 0.15);
+    width: 45px;
+    height: 45px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 20px; 
+}
+
+.x-pref1:hover, .continue1:hover {
+    background-color: gray;
+}
+
+.continue1 {
+    border-radius: 20px;
+    background-color: rgba(255, 255, 255, 0.15);
+    padding: 0px 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+}
+
+.social {
+    display: flex;
+    gap: 10px;
 }

@@ -6,6 +6,7 @@ import PlaybackPlayIcon from "./PlaybackPlayIcon";
 import ActionMoreIcon from "./ActionMoreIcon";
 import ActionAddIcon from "./ActionAddIcon";
 import MyCustomPauseIcon from "./MyCustomPauseIcon";
+import AddOptions from "./AddOptions";
 
 function TrendingPlayLists({ playlists, 
                              handleLeftIcon, 
@@ -21,6 +22,8 @@ function TrendingPlayLists({ playlists,
                              state1,
                              dispatch,
                              dispatch1}) {
+                              
+  const [selectedOptionsIndex, setSelectedOptionsIndex] = useState(null);
 
   return (
     <div className="feature">
@@ -46,7 +49,9 @@ function TrendingPlayLists({ playlists,
             <div className="image-container">
               <img className="imgtab" src={song.image} alt={song.title}></img>
               <div className="icon-container">
+                <div onClick={()=> dispatch({type: "showpremium"})}>
                 <ActionAddIcon />
+                </div>
                 <div onClick={()=> {if (song.songs && song.songs.length > 0 && song.songs[0].audio_url) {dispatch({type : "playandpause", 
                                             songTitle : song.title, 
                                             songImg : song.image, 
@@ -58,8 +63,11 @@ function TrendingPlayLists({ playlists,
                                              className="play-container">
                   {state.playing && state.id === song._id ? <MyCustomPauseIcon /> : <PlaybackPlayIcon />}
                 </div>
+                <div onClick={()=> dispatch1({type : "showingaddoption", optionidx: idx})}>
                 <ActionMoreIcon />
+                </div>
               </div>
+              {state1.showaddoption && state1.optionidx === idx && <AddOptions dispatch={dispatch} />}
               {state.playing && state.id === song._id ?               
               <div className="rythm-container">
                 <img src="https://m.media-amazon.com/images/G/01/digital/music/player/web/EQ_accent.gif" alt="Rythm" style={{ width: "40px", height: "40px"}}></img>

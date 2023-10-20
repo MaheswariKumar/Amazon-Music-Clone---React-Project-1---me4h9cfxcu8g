@@ -1,9 +1,9 @@
 import React, { useState, useEffect, useRef, useReducer, Component } from "react";
 
-function TryPremium(){
+function TryPremium({dispatch}){
     return (
         <div className="premium">
-            <div className="cancel-pref">
+            <div className="cancel-pref" onClick={()=> dispatch({type: "showpremium"})}>
                 <div className="x-pref">
                     <nav>X</nav>
                 </div>

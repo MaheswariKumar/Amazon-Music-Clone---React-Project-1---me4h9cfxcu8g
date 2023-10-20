@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef, useReducer, Component } from "react";
+import { useLocation } from 'react-router-dom';
 import PlaybackPlayIcon from "./PlaybackPlayIcon";
 import ActionMoreIcon from "./ActionMoreIcon";
 import ActionAddIcon from "./ActionAddIcon";
@@ -6,6 +7,8 @@ import MyCustomPauseIcon from "./MyCustomPauseIcon";
 import CustomPlayIcon from "./CustomPlayIcon";
 import CustomShareIcon from "./CustomShareIcon";
 import Loading from "./Loading";
+import Options from "./Options";
+import ShareSong from "./ShareSong";
 
 function DetailPage({state1, dispatch1, state, dispatch}) {
     let [list, setList] = useState([]);
@@ -13,14 +16,13 @@ function DetailPage({state1, dispatch1, state, dispatch}) {
     let [type, setType] = useState("");
     let [loading, setLoading] = useState(true);
   
-  
     async function fetchSongs() {
       try {
         const response = await fetch(
           `https://academics.newtonschool.co/api/v1/music/${type}/${state1.infoid}`,
           {
             headers: {
-              projectId: "f104bi07c490",
+              projectId: "me4h9cfxcu8g",
             },
           }
         );
@@ -127,6 +129,7 @@ function DetailPage({state1, dispatch1, state, dispatch}) {
     return (
       // <div className="main">
       <div className="detail">
+        {state.openshare && <ShareSong dispatch={dispatch} state={state} />}
         <div className="deatil-info">
           <img className="img-page" src={state1.infoimg}></img>
           <div className="artist-info">
@@ -144,8 +147,15 @@ function DetailPage({state1, dispatch1, state, dispatch}) {
                 <CustomPlayIcon style={{ fontSize: '20px', color: 'black' }}/>
                 <nav className="play-text">Play</nav>
               </div>
+              <div>
               <ActionAddIcon />
+              </div>
+              <div onClick={()=> dispatch({type: "showsharesong",
+                                         shareimg: state1.infoimg,
+                                         shareti: state1.infotitle,
+                                         sharepath: window.location.href})}>
               <CustomShareIcon />
+              </div>
             </div>
           </div>
         </div>
@@ -154,6 +164,7 @@ function DetailPage({state1, dispatch1, state, dispatch}) {
           <div key={idx} className="all-list">
             <div className="play-half1">
             <p>{idx+1}</p>
+            {state1.showoption && state1.musicidx === li._id  && <Options />} 
             <div className="play-img-container">
               <img className="play-img" src={li.thumbnail}></img>
               <div onClick={()=> {if (li.audio_url) {dispatch({type : "playandpause", 
@@ -182,8 +193,10 @@ function DetailPage({state1, dispatch1, state, dispatch}) {
             <nav className="play-art">{state1.infotitle}</nav>
             <nav className="play-time">{formatTime(durations[idx])}</nav>
             <ActionAddIcon />
+            <div onClick={()=> dispatch1({type : "showingoption", musicidx : li._id,})}>
             <ActionMoreIcon />
             </div>
+            </div>             
           </div>
           ))) : (       <div className="all-list">
           <div className="play-half1">
@@ -218,6 +231,7 @@ function DetailPage({state1, dispatch1, state, dispatch}) {
           <ActionAddIcon />
           <ActionMoreIcon />
           </div>
+          <Options />
         </div>)
               }
         </div>

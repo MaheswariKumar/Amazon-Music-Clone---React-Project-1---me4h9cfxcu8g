@@ -33,6 +33,7 @@ import CustomShareIcon from "./CustomShareIcon";
 import CustomChevronRightIcon from "./CustomChevronRightIcon";
 import CustomLikeIcon from "./CustomLikeIcon";
 import { Container, Slider } from "@mui/material";
+import ShareSong from "./ShareSong";
 // import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 // import { faThumbsUp } from '@fortawesome/free-solid-svg-icons';
 // import { runtime } from "webpack";
@@ -120,7 +121,7 @@ function Main({opensearch,
             `https://academics.newtonschool.co/api/v1/music/album?limit=${limit}`,
             {
               headers: {
-                projectId: "f104bi07c490",
+                projectId: "me4h9cfxcu8g",
               },
             }
           );
@@ -145,7 +146,7 @@ function Main({opensearch,
             `https://academics.newtonschool.co/api/v1/music/song?limit=${limit}`,
             {
               headers: {
-                projectId: "f104bi07c490",
+                projectId: "me4h9cfxcu8g",
               },
             }
           );
@@ -169,7 +170,7 @@ function Main({opensearch,
             `https://academics.newtonschool.co/api/v1/music/artist?limit=${limit}`,
             {
               headers: {
-                projectId: "f104bi07c490",
+                projectId: "me4h9cfxcu8g",
               },
             }
           );
@@ -192,7 +193,7 @@ function Main({opensearch,
             `https://academics.newtonschool.co/api/v1/music/song?filter={"mood":"happy"}&limit=${limit}`,
             {
               headers: {
-                projectId: "f104bi07c490",
+                projectId: "me4h9cfxcu8g",
               },
             }
           );
@@ -215,7 +216,7 @@ function Main({opensearch,
             `https://academics.newtonschool.co/api/v1/music/song?sort={"release":1}&limit=${limit}`,
             {
               headers: {
-                projectId: "f104bi07c490",
+                projectId: "me4h9cfxcu8g",
               },
             }
           );
@@ -238,7 +239,7 @@ function Main({opensearch,
             `https://academics.newtonschool.co/api/v1/music/song?filter={"mood":"sad"}&limit=${limit}`,
             {
               headers: {
-                projectId: "f104bi07c490",
+                projectId: "me4h9cfxcu8g",
               },
             }
           );
@@ -261,7 +262,7 @@ function Main({opensearch,
             `https://academics.newtonschool.co/api/v1/music/song?filter={"mood":"romantic"}&limit=${limit}`,
             {
               headers: {
-                projectId: "f104bi07c490",
+                projectId: "me4h9cfxcu8g",
               },
             }
           );
@@ -510,7 +511,7 @@ function Main({opensearch,
         <Route path="/music/album/:albumId" element={<DetailPage state1={state1} dispatch1={dispatch1} state={state} dispatch={dispatch} />}></Route>  
       </Routes>
       </Router> */}
-            {/* <TryPremium /> */}
+            {state.openpremium && <TryPremium dispatch={dispatch} />}
             {state2.openmusicpref && <MusicPreferences dispatch2={dispatch2} />}
             {state2.opensignoption &&  <SignOption dispatch2={dispatch2} />}
             {/* {state1.detailpageopen && <DetailPage state1={state1} dispatch1={dispatch1} state={state} dispatch={dispatch} />} */}

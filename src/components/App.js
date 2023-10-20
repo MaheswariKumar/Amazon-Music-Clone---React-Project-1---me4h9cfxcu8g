@@ -43,6 +43,11 @@ const App = () => {
     playAudio : false,
     playingIndex : -1,
     id : null,
+    openpremium: false,
+    openshare: false,
+    shareimg: "",
+    shareti: "",
+    sharepath: ""
   }
 
   function reducer(state, action) {
@@ -82,6 +87,21 @@ const App = () => {
           showerrorcomp: !state.showerrorcomp,
         };
 
+      case "showpremium":
+        return {
+          ...state,
+          openpremium: !state.openpremium
+        }
+
+      case "showsharesong":
+        return {
+          ...state,
+          openshare: !state.openshare,
+          shareimg : action.shareimg,
+          shareti: action.shareti,
+          sharepath: action.sharepath
+        }
+
       default:
         return state;
     }      
@@ -98,7 +118,11 @@ const App = () => {
     infoid : "",
     infocount : "",
     infotype : "",
-    infoaudio : ""
+    infoaudio : "",
+    showaddoption: false,
+    optionidx : "",
+    showoption: false,
+    musicidx : "",
   }
 
   function reducer1(state1, action) {
@@ -116,6 +140,24 @@ const App = () => {
           infotype : action.infotype,
           infoaudio : action.infoaudio
         }
+
+      case "showingaddoption":
+        return {
+          ...state1,
+          showaddoption : true,
+          optionidx : action.optionidx
+        }
+      
+      case "showingoption":
+        return {
+          ...state1,
+          showoption : !state1.showoption,
+          musicidx : action.musicidx
+        }
+      
+      
+      default:
+        return state1
     }
   }
 
