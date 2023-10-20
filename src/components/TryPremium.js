@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef, useReducer, Component } from "react";
+import { Link } from "react-router-dom";
 
 function TryPremium({dispatch}){
     return (
@@ -15,12 +16,12 @@ function TryPremium({dispatch}){
                 </div>
             </div>
             <div className="clear">
-          <div className="clear-all">
+          <Link to="/signin"><div className="clear-all">
             <nav>ALREADY SIGN IN</nav>
-          </div>
-          <div className="continue">
+          </div></Link>
+          <Link to="/signin"><div className="continue">
             <nav>TRY NOW</nav>
-          </div>
+          </div></Link>
         </div>
         </div>
     )

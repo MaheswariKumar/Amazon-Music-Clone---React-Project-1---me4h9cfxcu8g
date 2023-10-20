@@ -50,13 +50,10 @@ function Register() {
 
     let [stateSignUp, dispatchSignUp] = useReducer(reducerSignUp, initialStateSignUp)
 
- let  handleSignup = () => {
-    if (stateSignUp.pass !== stateSignUp.rePass ) {
-        dispatchSignUp({type: "handleError"})
-    }
-    else {
-        dispatchSignUp({type: "handleError"})
-    }
+  let handleSignup = () => {
+    // if (stateSignUp.pass !== stateSignUp.rePass ) {
+    //     dispatchSignUp({type: "handleError"})
+    // }
     
     const postData = {
       name: stateSignUp.name,

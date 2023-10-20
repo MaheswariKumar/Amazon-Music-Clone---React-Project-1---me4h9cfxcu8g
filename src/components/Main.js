@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef, useReducer, Component } from "react";
 import { BrowserRouter as Router, Link, Route, Routes, BrowserRouter } from "react-router-dom";
+import { useLocation } from 'react-router-dom';
 import TrendingPlayLists from "./TrendingPlayLists";
 import TrendingSongs from "./TrendingSongs";
 import ArtistShowcase from "./ArtistShowcase";
@@ -55,7 +56,8 @@ function Main({opensearch,
                state2,
                dispatch,
                dispatch1,
-               dispatch2, }){
+               dispatch2,
+               divRef }){
     let [playlists, setPlayLists] = useState([]);
     let [songlists, setSongLists] = useState([]);
     let [artistlists, setArtistLists] = useState([]);
@@ -87,6 +89,7 @@ function Main({opensearch,
     let [options, setOptions] = useState(true);
     let [result, setResults] = useState("");
     let [loading, setLoading] = useState(true);
+    const location = useLocation();
 
     // let initialState = {
     //   showTrendingPlaylists : true,
@@ -309,6 +312,18 @@ function Main({opensearch,
           // console.log("hello");
           // console.log(selectleft);
           // console.log(selectright);
+
+      if (location.pathname === "/"){
+        setShowTrendingPlaylists(true);
+        setShowTrendingSongs(true);
+        setShowArtists(true);
+        setShowHappySongs(true);
+        setShowNewRelease(true);
+        setShowSadSongs(true);
+        setShowRomanticSongs(true);
+        fetchData();
+      }
+      console.log(location.pathname)
     }, [])
 
     useEffect(() => {
@@ -348,6 +363,9 @@ function Main({opensearch,
         }
         console.log("hello");
         console.log(selectleft["trendingPlaylists"]);
+        if (location.pathname === "/"){
+          setLimit(20)
+        }
       }, [limit]);
 
       useEffect(() => {
@@ -501,6 +519,7 @@ function Main({opensearch,
         </div>
       );
     }
+    
 
     return (
         <div className="Main-section">
@@ -513,7 +532,7 @@ function Main({opensearch,
       </Router> */}
             {state.openpremium && <TryPremium dispatch={dispatch} />}
             {state2.openmusicpref && <MusicPreferences dispatch2={dispatch2} />}
-            {state2.opensignoption &&  <SignOption dispatch2={dispatch2} />}
+            {state2.opensignoption &&  <SignOption dispatch2={dispatch2} divRef={divRef} />}
             {/* {state1.detailpageopen && <DetailPage state1={state1} dispatch1={dispatch1} state={state} dispatch={dispatch} />} */}
             {!state1.detailpageopen && openresults && opensuggestion && opensearch && <ShowResults result={result} state={state} dispatch={dispatch} dispatch1={dispatch1} />}
             {opensuggestion && !openresults && opensearch && <Suggestions 
@@ -543,7 +562,8 @@ function Main({opensearch,
                                state={state} 
                                state1={state1}
                                dispatch={dispatch}
-                               dispatch1={dispatch1} /> }
+                               dispatch1={dispatch1}
+                               divRef={divRef} /> }
             {!opensearch && !opensuggestion && !openresults && showTrendingSongs && <TrendingSongs songlists={songlists}
                                handleLeftIcon={handleLeftIcon} 
                                handleRightIcon={handleRightIcon} 

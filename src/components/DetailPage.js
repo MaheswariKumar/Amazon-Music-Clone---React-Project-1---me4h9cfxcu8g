@@ -9,8 +9,9 @@ import CustomShareIcon from "./CustomShareIcon";
 import Loading from "./Loading";
 import Options from "./Options";
 import ShareSong from "./ShareSong";
+import TryPremium from "./TryPremium";
 
-function DetailPage({state1, dispatch1, state, dispatch}) {
+function DetailPage({state1, dispatch1, state, dispatch, divRef}) {
     let [list, setList] = useState([]);
     let [durations, setDurations] = useState([]);
     let [type, setType] = useState("");
@@ -130,6 +131,7 @@ function DetailPage({state1, dispatch1, state, dispatch}) {
       // <div className="main">
       <div className="detail">
         {state.openshare && <ShareSong dispatch={dispatch} state={state} />}
+        {state.openpremium && <TryPremium dispatch={dispatch} />}
         <div className="deatil-info">
           <img className="img-page" src={state1.infoimg}></img>
           <div className="artist-info">
@@ -143,18 +145,18 @@ function DetailPage({state1, dispatch1, state, dispatch}) {
             </div>
             <p className="info-count">{state1.infocount} SONGS</p>
             <div className="detail-icon">
-              <div className="play-btn">
+              <div className="play-btn" onClick={()=> dispatch({type : "showpremium"})}>
                 <CustomPlayIcon style={{ fontSize: '20px', color: 'black' }}/>
                 <nav className="play-text">Play</nav>
               </div>
-              <div>
-              <ActionAddIcon />
+              <div onClick={()=> dispatch({type : "showpremium"})}>
+              <ActionAddIcon style={{ color: 'white' }}/>
               </div>
               <div onClick={()=> dispatch({type: "showsharesong",
                                          shareimg: state1.infoimg,
                                          shareti: state1.infotitle,
                                          sharepath: window.location.href})}>
-              <CustomShareIcon />
+              <CustomShareIcon style={{ color: 'white' }}/>
               </div>
             </div>
           </div>
@@ -164,7 +166,7 @@ function DetailPage({state1, dispatch1, state, dispatch}) {
           <div key={idx} className="all-list">
             <div className="play-half1">
             <p>{idx+1}</p>
-            {state1.showoption && state1.musicidx === li._id  && <Options />} 
+            {state1.showoption && state1.musicidx === li._id  && <Options divRef={divRef} state1={state1} dispatch={dispatch} dispatch1={dispatch1} />} 
             <div className="play-img-container">
               <img className="play-img" src={li.thumbnail}></img>
               <div onClick={()=> {if (li.audio_url) {dispatch({type : "playandpause", 
@@ -192,9 +194,9 @@ function DetailPage({state1, dispatch1, state, dispatch}) {
             <div className="play-half2">
             <nav className="play-art">{state1.infotitle}</nav>
             <nav className="play-time">{formatTime(durations[idx])}</nav>
-            <ActionAddIcon />
-            <div onClick={()=> dispatch1({type : "showingoption", musicidx : li._id,})}>
-            <ActionMoreIcon />
+            <ActionAddIcon style={{ color: 'white' }}/>
+            <div onClick={()=> dispatch1({type : "showingoption", showoption : true, musicidx : li._id,})}>
+            <ActionMoreIcon style={{ color: 'white' }}/>
             </div>
             </div>             
           </div>

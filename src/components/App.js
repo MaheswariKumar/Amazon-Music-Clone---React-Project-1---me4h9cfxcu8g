@@ -13,6 +13,7 @@ import DetailPage from "./DetailPage";
 import Podcast from "./Podcast";
 import SignIn from "./SignIn";
 import Register from "./Register";
+import SeeAll from "./SeeAll";
 
 
 // {/* <Route path="/products/:id" element={<SingleProduct />} /> */}
@@ -26,6 +27,7 @@ const App = () => {
   let [opensuggestion, setOpenSuggestion] = useState(false);
   let [submit, setSubmit] = useState(false);
   let [searchseenresults, setSearchSeenResults] = useState([]);
+  let divRef = useRef(null);
   const apiEndpoint = 'https://academics.newtonschool.co/api/v1/music/song';
   const apiEndpointArtist = 'https://academics.newtonschool.co/api/v1/music/artist';
 
@@ -144,14 +146,14 @@ const App = () => {
       case "showingaddoption":
         return {
           ...state1,
-          showaddoption : true,
+          showaddoption : action.showaddoption,
           optionidx : action.optionidx
         }
       
       case "showingoption":
         return {
           ...state1,
-          showoption : !state1.showoption,
+          showoption : action.showoption,
           musicidx : action.musicidx
         }
       
@@ -174,7 +176,7 @@ const App = () => {
       case "signoption" :
         return {
           ...state2, 
-          opensignoption : !state2.opensignoption,
+          opensignoption : action.opensignoption,
         }
       
       case "prefoption" :
@@ -291,8 +293,30 @@ const App = () => {
     fetchArtistList();
     console.log("hi")
     console.log(submit);
+    console.log(state2.opensignoption)
   }, [searchTerm]);
 
+  useEffect(() => {
+    const handleMouseDown = (event) => {
+      if (divRef.current && !divRef.current.contains(event.target)) {
+      dispatch2({ type: "signoption", opensignoption : false});
+      dispatch1({type : "showingaddoption", showaddoption: false})
+      dispatch1({type : "showingoption", showoption : false})
+    };
+  }
+  
+    document.addEventListener("mousedown", handleMouseDown);
+  
+    return () => {
+      document.removeEventListener("mousedown", handleMouseDown);
+    };
+
+    // console.log(state2.opensignoption)
+  }, [dispatch2]);
+
+  useEffect(()=>{
+    console.log(state2.opensignoption)
+  })
 
   return (
     // <Router>
@@ -337,6 +361,11 @@ const App = () => {
     {/* <Podcast /> */}
     {/* <SignIn />  */}
     {/* <Register /> */}
+    {/* <SeeAll state={state}
+            state1={state1}
+            dispatch={dispatch}
+            dispatch1={dispatch1}
+            divRef={divRef}/> */}
     <Router>
       <Routes>
         <Route path="/" element={<><NavBar searching={searching} 
@@ -363,7 +392,8 @@ const App = () => {
             state2={state2}
             dispatch={dispatch}
             dispatch1={dispatch1}
-            dispatch2={dispatch2}  /></>}/>  
+            dispatch2={dispatch2}
+            divRef={divRef}  /></>}/>  
           <Route path="/playlists/:Id" element={<><NavBar searching={searching} 
               handleSearchChange={handleSearchChange} 
               searchTerm={searchTerm} 
@@ -371,7 +401,30 @@ const App = () => {
               opensearch={opensearch}
               setSubmit={setSubmit}
               dispatch2={dispatch2} /> 
-              <DetailPage state1={state1} dispatch1={dispatch1} state={state} dispatch={dispatch} />
+              <DetailPage state1={state1} dispatch1={dispatch1} state={state} dispatch={dispatch} divRef={divRef} />
+              {state.showmusiccomp && <MusicComponent state={state} 
+                               dispatch={dispatch} 
+                               songTitle={state.title} 
+                               songImg={state.img} 
+                               songName={state.name} 
+                               songAudio={state.audio}
+                               songPlay={state.playAudio}
+                               id = {state.id}
+                              //  idex = {state.idex}
+                              />}
+              </>}></Route> 
+              <Route path="/album/allplaylists" element={<><NavBar searching={searching} 
+              handleSearchChange={handleSearchChange} 
+              searchTerm={searchTerm} 
+              handleSearchSubmit={handleSearchSubmit}
+              opensearch={opensearch}
+              setSubmit={setSubmit}
+              dispatch2={dispatch2} /> 
+            <SeeAll state={state}
+            state1={state1}
+            dispatch={dispatch}
+            dispatch1={dispatch1}
+            divRef={divRef}/>
               {state.showmusiccomp && <MusicComponent state={state} 
                                dispatch={dispatch} 
                                songTitle={state.title} 

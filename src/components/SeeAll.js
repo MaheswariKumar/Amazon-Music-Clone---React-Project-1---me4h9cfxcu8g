@@ -1,52 +1,75 @@
 import React, { useState, useEffect, useRef, useReducer, Component } from "react";
 import { Link } from "react-router-dom";
-import ChevronCaretLeftIcon from "./ChevronCaretLeftIcon";
-import ChevronCaretrightIcon from "./ChevronCaretrightIcon";
 import PlaybackPlayIcon from "./PlaybackPlayIcon";
 import ActionMoreIcon from "./ActionMoreIcon";
 import ActionAddIcon from "./ActionAddIcon";
 import MyCustomPauseIcon from "./MyCustomPauseIcon";
 import AddOptions from "./AddOptions";
 
-function TrendingPlayLists({ playlists, 
-                             handleLeftIcon, 
-                             handleRightIcon, 
-                             selectleft, 
-                             selectright, 
-                             containerRef,
-                             handleSelectAll, 
-                             selectall, 
-                             identifier,
-                             options,
-                             state,
-                             state1,
-                             dispatch,
-                             dispatch1,
-                             divRef}) {
-                              
-  const [selectedOptionsIndex, setSelectedOptionsIndex] = useState(null);
+function SeeAll({
+                state,
+                state1,
+                dispatch,
+                dispatch1,
+                divRef}) {
+
+    let [playlists, setPlayLists] = useState([]);
+    let [limit, setLimit] = useState(12);
+
+    async function fetchTrendingPlaylists() {
+        try {
+          const response = await fetch(
+            `https://academics.newtonschool.co/api/v1/music/album?limit=${limit}`,
+            {
+              headers: {
+                projectId: "me4h9cfxcu8g",
+              },
+            }
+          );
+          if (!response.ok) {
+            throw new Error("Network response was not ok");
+          }
+          const data = await response.json();
+          setPlayLists((prevPlaylists) => [...prevPlaylists, ...data.data]);
+          console.log("trend");
+          console.log(data.data);
+          console.log(data.data[0]);
+        } catch (error) {
+          console.error("Error fetching trending playlists:", error);
+        }
+      }
+    
+      useEffect(() => {
+        fetchTrendingPlaylists();
+      }, [limit]);
+    
+      useEffect(() => {
+        function handleScroll() {
+          if (
+            window.innerHeight + document.documentElement.scrollTop ===
+            document.documentElement.offsetHeight
+          ) {
+            setLimit((prevLimit) => prevLimit + 12);
+          }
+        }
+        window.addEventListener("scroll", handleScroll);
+    
+        return () => {
+          window.removeEventListener("scroll", handleScroll);
+        };
+      }, []);
 
   return (
+    <div className="Main-section">
     <div className="feature">
       <div className="headertab">
         <div className="header">
           <h2>Trending Playlists</h2>
         </div>
-        <div className="options">
-          <div onClick={() => handleLeftIcon(identifier)}>
-            {options ? <ChevronCaretLeftIcon style={{ fontSize: "20px", color: `${selectleft}` }} /> : null}
-          </div>
-          <div onClick={() => handleRightIcon(identifier)}>
-            {options ? <ChevronCaretrightIcon style={{ fontSize: "20px", color: `${selectright}` }} /> : null}
-          </div>
-        </div>
-        <Link to="/album/allplaylists">{options ? <div onClick={() => handleSelectAll(identifier)} className="alloptions">
-          <span className="all">SEE ALL</span>
-        </div> : null }</Link>
       </div>
-      <div className={selectall ? "wrapper-all" : "wrapper"} ref={containerRef}>
+      <div className="wrapper-all" >
         {playlists.map((song, idx) => (
-          <div className={selectall ? "collections-all" : "collections"} key={idx}>
+          <div className="collections-all" key={idx}>
             <div className="image-container">
               <img className="imgtab" src={song.image} alt={song.title}></img>
               <div className="icon-container">
@@ -96,8 +119,9 @@ function TrendingPlayLists({ playlists,
         ))}
       </div>
     </div>
+    </div>
   );
 }
 
 
-export default TrendingPlayLists;
+export default SeeAll;

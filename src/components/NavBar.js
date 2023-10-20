@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef, useReducer, Component } from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation  } from "react-router-dom";
 import HomeIcon from './HomeIcon';
 import PodcastIcon from "./PodcastIcon";
 import MyMusicIcon from "./MyMusicIcon";
@@ -12,6 +12,7 @@ function NavBar({searching, handleSearchChange, searchTerm, handleSearchSubmit, 
     const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
     const [clickedInside, setClickedInside] = useState(false);
     const inputRef = useRef(null);
+    const location = useLocation();
 
     useEffect(() => {
       const handleResize = () => {
@@ -50,7 +51,7 @@ function NavBar({searching, handleSearchChange, searchTerm, handleSearchSubmit, 
                     <div className="logo-div">
                         <img className="logo" src="https://d5fx445wy2wpk.cloudfront.net/static/logo.svg"></img>
                     </div>
-                    <Link className="home-li" to="/"><div className="home-div">
+                    <Link className="home-li" to="/"><div className={location.pathname === '/' ? "home-li" : "home-div"}>
                       <li><HomeIcon /></li>
                       <li>HOME</li>
                       {/* <li>HOME</li> */}
@@ -100,7 +101,7 @@ function NavBar({searching, handleSearchChange, searchTerm, handleSearchSubmit, 
                   </div>
                   </form>
                   )}
-                    <div className="user-icon" onClick={()=> dispatch2({type : "signoption"})}>
+                    <div className="user-icon" onClick={()=> dispatch2({type : "signoption", opensignoption : true})}>
                         <li><ProfileIcon color="inherit"/></li>
                     </div>
                 </ul>
