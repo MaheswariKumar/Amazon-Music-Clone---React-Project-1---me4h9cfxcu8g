@@ -10,6 +10,9 @@ import Main from './Main';
 import Loading from "./Loading";
 import MusicComponent from "./MusicComponent";
 import DetailPage from "./DetailPage";
+import SearchComponent from "./SearchComponent";
+import Suggestions from "./Suggestions";
+import ShowResults from "./ShowResults";
 import Podcast from "./Podcast";
 import SignIn from "./SignIn";
 import Register from "./Register";
@@ -28,6 +31,7 @@ const App = () => {
   let [submit, setSubmit] = useState(false);
   let [searchseenresults, setSearchSeenResults] = useState([]);
   let divRef = useRef(null);
+  let [result, setResults] = useState("");
   const apiEndpoint = 'https://academics.newtonschool.co/api/v1/music/song';
   const apiEndpointArtist = 'https://academics.newtonschool.co/api/v1/music/artist';
 
@@ -231,6 +235,9 @@ const App = () => {
 
   const handleSearchSubmit = (event) => {
     event.preventDefault();
+    setOpenSearch(false);
+    setOpenSuggestion(true);
+    setOpenResults(false)
     setSubmit(true);
     let existingResults = localStorage.getItem('searchResults');
     let parsedResults = existingResults ? JSON.parse(existingResults) : [];
@@ -349,6 +356,11 @@ const App = () => {
     // </Router>
 
     <div id='main'>
+{/* <SearchComponent 
+                handleSelectAll={handleSelectAll} 
+                setOpenSearch={setOpenSearch}
+                searchseenresults={searchseenresults}
+                deleteSearchRes={deleteSearchRes} /> */}
     {/* <BrowserRouter> */}
     {/* <NavBar searching={searching} 
               handleSearchChange={handleSearchChange} 
@@ -425,6 +437,42 @@ const App = () => {
             dispatch={dispatch}
             dispatch1={dispatch1}
             divRef={divRef}/>
+              {state.showmusiccomp && <MusicComponent state={state} 
+                               dispatch={dispatch} 
+                               songTitle={state.title} 
+                               songImg={state.img} 
+                               songName={state.name} 
+                               songAudio={state.audio}
+                               songPlay={state.playAudio}
+                               id = {state.id}
+                              //  idex = {state.idex}
+                              />}
+              </>}></Route> 
+              <Route path="/search" element={<><NavBar searching={searching} 
+              handleSearchChange={handleSearchChange} 
+              searchTerm={searchTerm} 
+              handleSearchSubmit={handleSearchSubmit}
+              opensearch={opensearch}
+              setSubmit={setSubmit}
+              dispatch2={dispatch2} /> 
+              {!opensuggestion && <SearchComponent 
+                setOpenSearch={setOpenSearch}
+                searchseenresults={searchseenresults}
+                deleteSearchRes={deleteSearchRes} />}
+                {opensuggestion && !openresults && <Suggestions 
+                              filteredSuggestions={filteredSuggestions} 
+                              setResults={setResults}
+                              setOpenResults={setOpenResults}
+                              searchTerm={searchTerm}
+                              submit={submit}
+                              setSubmit={setSubmit}
+                              setSearchSeenResults={setSearchSeenResults}
+                              searchseenresults={searchseenresults}  />}
+              {openresults && <ShowResults result={result} 
+                                                                    state={state} 
+                                                                    dispatch={dispatch} 
+                                                                    dispatch1={dispatch1} />}
+
               {state.showmusiccomp && <MusicComponent state={state} 
                                dispatch={dispatch} 
                                songTitle={state.title} 

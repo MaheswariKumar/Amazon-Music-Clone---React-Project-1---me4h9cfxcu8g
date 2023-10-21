@@ -14,7 +14,8 @@ function SeeAll({
                 divRef}) {
 
     let [playlists, setPlayLists] = useState([]);
-    let [limit, setLimit] = useState(12);
+    let [limit, setLimit] = useState(20);
+    let containerRef = useRef(null);
 
     async function fetchTrendingPlaylists() {
         try {
@@ -38,29 +39,33 @@ function SeeAll({
           console.error("Error fetching trending playlists:", error);
         }
       }
-    
+
       useEffect(() => {
         fetchTrendingPlaylists();
-      }, [limit]);
+      }, []);
+    
+      // useEffect(() => {
+      //   fetchTrendingPlaylists();
+      //   console.log("Hello")
+      // }, [limit]);
     
       useEffect(() => {
         function handleScroll() {
-          if (
-            window.innerHeight + document.documentElement.scrollTop ===
-            document.documentElement.offsetHeight
-          ) {
-            setLimit((prevLimit) => prevLimit + 12);
+          if (window.innerHeight + Math.round(window.scrollY) >= document.body.offsetHeight){
+            fetchTrendingPlaylists();
+              setLimit((prevLimit) => prevLimit + 12);
+            }
           }
-        }
-        window.addEventListener("scroll", handleScroll);
-    
-        return () => {
-          window.removeEventListener("scroll", handleScroll);
-        };
+          window.addEventListener("scroll", handleScroll);
+        
+          return () => {
+            window.removeEventListener("scroll", handleScroll);
+          }; 
       }, []);
 
   return (
-    <div className="Main-section">
+    <div className="Main-section" ref={containerRef}>
+      <div className="categories"></div>
     <div className="feature">
       <div className="headertab">
         <div className="header">

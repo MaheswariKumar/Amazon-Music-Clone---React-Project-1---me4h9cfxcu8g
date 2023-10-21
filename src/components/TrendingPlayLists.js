@@ -24,7 +24,6 @@ function TrendingPlayLists({ playlists,
                              dispatch1,
                              divRef}) {
                               
-  const [selectedOptionsIndex, setSelectedOptionsIndex] = useState(null);
 
   return (
     <div className="feature">
@@ -64,11 +63,18 @@ function TrendingPlayLists({ playlists,
                                              className="play-container">
                   {state.playing && state.id === song._id ? <MyCustomPauseIcon /> : <PlaybackPlayIcon />}
                 </div>
-                <div onClick={()=> dispatch1({type : "showingaddoption", showaddoption: true, optionidx: idx})}>
+                <div onClick={()=> {dispatch1({type : "showingaddoption", showaddoption: true, optionidx: song._id}); dispatch1({type : "playingall", 
+                                            infotitle : song.title, 
+                                            infoimg : song.image, 
+                                            infodes : song.description, 
+                                            infoid : song._id,
+                                            infocount : song.songs.length,
+                                            infotype : "Album"
+                                            })}}>
                 <ActionMoreIcon />
                 </div>
               </div>
-              {state1.showaddoption && state1.optionidx === idx && <AddOptions dispatch={dispatch} dispatch1={dispatch1} divRef={divRef} />}
+              {state1.showaddoption && state1.optionidx === song._id && <AddOptions state1={state1} dispatch={dispatch} dispatch1={dispatch1} divRef={divRef} />}
               {state.playing && state.id === song._id ?               
               <div className="rythm-container">
                 <img src="https://m.media-amazon.com/images/G/01/digital/music/player/web/EQ_accent.gif" alt="Rythm" style={{ width: "40px", height: "40px"}}></img>

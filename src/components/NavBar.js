@@ -85,7 +85,7 @@ function NavBar({searching, handleSearchChange, searchTerm, handleSearchSubmit, 
                   </form>
                   ) : (
                     <form onSubmit={handleSearchSubmit}>
-                  <div className={clickedInside ? "search-container-1" : "search-container"} onClick={searching}>
+                  <Link to="/search"><div className={clickedInside ? "search-container-1" : "search-container"} onClick={searching}>
                     {/* <img className="icon" src="https://th.bing.com/th/id/OIP.6TcG8ShE1aAy3WyR4C3EoQAAAA?pid=ImgDet&rs=1" alt="Search Icon" /> */}
                     <input ref={inputRef} className="search" 
                                           type="search" 
@@ -98,7 +98,7 @@ function NavBar({searching, handleSearchChange, searchTerm, handleSearchSubmit, 
                         <Search style={{ color: 'black'}}/>
                       </div>
                     </div>
-                  </div>
+                  </div></Link>
                   </form>
                   )}
                     <div className="user-icon" onClick={()=> dispatch2({type : "signoption", opensignoption : true})}>

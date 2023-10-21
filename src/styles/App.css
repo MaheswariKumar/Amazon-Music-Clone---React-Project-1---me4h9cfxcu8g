@@ -349,6 +349,7 @@
     flex-direction: row;
     flex-wrap: wrap;
     gap: 20px;
+    padding-bottom: 20px;
 }
 
 .collections {
@@ -2241,6 +2242,7 @@ input {
     padding: 15px 0;
     font-family: "Ember", "Helvetica", "Arial", "sans-serif";
     cursor: pointer;
+    color: white;
 }
 
 .addoption nav:hover {

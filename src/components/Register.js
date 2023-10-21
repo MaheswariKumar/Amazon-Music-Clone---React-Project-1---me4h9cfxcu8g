@@ -50,10 +50,11 @@ function Register() {
 
     let [stateSignUp, dispatchSignUp] = useReducer(reducerSignUp, initialStateSignUp)
 
-  let handleSignup = () => {
+  let handleSignup = (e) => {
     // if (stateSignUp.pass !== stateSignUp.rePass ) {
     //     dispatchSignUp({type: "handleError"})
     // }
+    e.preventDefault();
     
     const postData = {
       name: stateSignUp.name,
@@ -133,7 +134,7 @@ function Register() {
                 <input className="passbox" type="password" value={stateSignUp.rePass} onChange={(e) => dispatchSignUp({ type: "handleRepassInput", rePass: e.target.value })}></input>
                 <br></br>
                 <br></br>
-                <button className="signbtn" onClick={()=> handleSignup()}>Create your Amazon Account</button>
+                <button className="signbtn" onClick={(e)=> handleSignup(e)}>Create your Amazon Account</button>
               </form>
               <div className="condition">
                 <p>By continuing, you agree to Amazon's <a href="https://www.amazon.in/gp/help/customer/display.html/ref=ap_signin_notification_condition_of_use?ie=UTF8&nodeId=200545940">Conditions of Use</a> and <a href="https://www.amazon.in/gp/help/customer/display.html/ref=ap_signin_notification_privacy_notice?ie=UTF8&nodeId=200534380">Privacy Notice.</a></p>
