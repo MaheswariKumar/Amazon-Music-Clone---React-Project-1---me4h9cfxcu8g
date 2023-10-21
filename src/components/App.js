@@ -17,6 +17,7 @@ import Podcast from "./Podcast";
 import SignIn from "./SignIn";
 import Register from "./Register";
 import SeeAll from "./SeeAll";
+import NoResults from "./NoResults";
 
 
 // {/* <Route path="/products/:id" element={<SingleProduct />} /> */}
@@ -201,6 +202,7 @@ const App = () => {
     setOpenSearch(true);
     setOpenSuggestion(false);
     setOpenResults(false)
+    setSubmit(false)
   }
 
   function deleteSearchRes() {
@@ -233,19 +235,29 @@ const App = () => {
     
   };
 
+  function handleValue(){
+    setSearchTerm("")
+  }
+
+  function handleKeyPress(event) {
+    if (event.key === 'Enter'){
+      setOpenSearch(false);
+      setOpenSuggestion(false);
+      setOpenResults(false)
+      setSubmit(true);
+      let existingResults = localStorage.getItem('searchResults');
+      let parsedResults = existingResults ? JSON.parse(existingResults) : [];
+      // setSearchSeenResults(updatedResults);
+      localStorage.setItem(
+        'searchResults',
+        JSON.stringify([...parsedResults, searchTerm])
+      );
+      console.log("enter")
+    }
+  }
+
   const handleSearchSubmit = (event) => {
     event.preventDefault();
-    setOpenSearch(false);
-    setOpenSuggestion(true);
-    setOpenResults(false)
-    setSubmit(true);
-    let existingResults = localStorage.getItem('searchResults');
-    let parsedResults = existingResults ? JSON.parse(existingResults) : [];
-    // setSearchSeenResults(updatedResults);
-    localStorage.setItem(
-      'searchResults',
-      JSON.stringify([...parsedResults, searchTerm])
-    );
   };
 
   const fetchSongList = async () => {
@@ -386,7 +398,9 @@ const App = () => {
               handleSearchSubmit={handleSearchSubmit}
               opensearch={opensearch}
               setSubmit={setSubmit}
-              dispatch2={dispatch2} />
+              dispatch2={dispatch2}
+              handleValue={handleValue}
+              handleKeyPress={handleKeyPress} />
           <Main opensearch={opensearch} 
             setOpenSearch={setOpenSearch}
             filteredSuggestions={filteredSuggestions} 
@@ -412,7 +426,9 @@ const App = () => {
               handleSearchSubmit={handleSearchSubmit}
               opensearch={opensearch}
               setSubmit={setSubmit}
-              dispatch2={dispatch2} /> 
+              dispatch2={dispatch2}
+              handleValue={handleValue}
+              handleKeyPress={handleKeyPress} /> 
               <DetailPage state1={state1} dispatch1={dispatch1} state={state} dispatch={dispatch} divRef={divRef} />
               {state.showmusiccomp && <MusicComponent state={state} 
                                dispatch={dispatch} 
@@ -431,7 +447,9 @@ const App = () => {
               handleSearchSubmit={handleSearchSubmit}
               opensearch={opensearch}
               setSubmit={setSubmit}
-              dispatch2={dispatch2} /> 
+              dispatch2={dispatch2}
+              handleValue={handleValue}
+              handleKeyPress={handleKeyPress} /> 
             <SeeAll state={state}
             state1={state1}
             dispatch={dispatch}
@@ -454,8 +472,10 @@ const App = () => {
               handleSearchSubmit={handleSearchSubmit}
               opensearch={opensearch}
               setSubmit={setSubmit}
-              dispatch2={dispatch2} /> 
-              {!opensuggestion && <SearchComponent 
+              dispatch2={dispatch2}
+              handleValue={handleValue}
+              handleKeyPress={handleKeyPress} /> 
+              {!opensuggestion && !openresults && opensearch && <SearchComponent 
                 setOpenSearch={setOpenSearch}
                 searchseenresults={searchseenresults}
                 deleteSearchRes={deleteSearchRes} />}
@@ -472,7 +492,7 @@ const App = () => {
                                                                     state={state} 
                                                                     dispatch={dispatch} 
                                                                     dispatch1={dispatch1} />}
-
+              {submit && <NoResults searchTerm={searchTerm} />}
               {state.showmusiccomp && <MusicComponent state={state} 
                                dispatch={dispatch} 
                                songTitle={state.title} 

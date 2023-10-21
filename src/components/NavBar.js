@@ -8,7 +8,7 @@ import SearchIcon from "./SearchIcon";
 import Search from "./Search";
 import ChevronCaretdownIcon from "./ChevronCaretdownIcon";
 
-function NavBar({searching, handleSearchChange, searchTerm, handleSearchSubmit, opensearch, setSubmit, dispatch2}){
+function NavBar({searching, handleSearchChange, searchTerm, handleSearchSubmit, opensearch, setSubmit, dispatch2, handleValue, handleKeyPress}){
     const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
     const [clickedInside, setClickedInside] = useState(false);
     const inputRef = useRef(null);
@@ -84,22 +84,24 @@ function NavBar({searching, handleSearchChange, searchTerm, handleSearchSubmit, 
                   </div>
                   </form>
                   ) : (
-                    <form onSubmit={handleSearchSubmit}>
-                  <Link to="/search"><div className={clickedInside ? "search-container-1" : "search-container"} onClick={searching}>
+                  <Link to="/search"><div ref={inputRef} className={clickedInside ? "search-container-1" : "search-container"} onClick={searching}>
+                    <form onSubmit={(e)=> handleSearchSubmit(e)} onKeyPress={(event) => handleKeyPress(event)}>
                     {/* <img className="icon" src="https://th.bing.com/th/id/OIP.6TcG8ShE1aAy3WyR4C3EoQAAAA?pid=ImgDet&rs=1" alt="Search Icon" /> */}
-                    <input ref={inputRef} className="search" 
+                    <input className="search" 
                                           type="search" 
                                           placeholder="Search" 
                                           value={searchTerm} 
-                                          onChange={handleSearchChange} />
-                    {clickedInside ? (<button className="cancel">X</button>) : null }
+                                          onChange={handleSearchChange}
+                                           />
+                    {clickedInside ? (<button onClick={handleValue} className="cancel">X</button>) : null }
                     <div className={clickedInside ? "icon-1" : "icon"}>
                       <div className={clickedInside ? "search-icon-1" : "search-icon"}>
                         <Search style={{ color: 'black'}}/>
                       </div>
                     </div>
+                    </form>
                   </div></Link>
-                  </form>
+                  
                   )}
                     <div className="user-icon" onClick={()=> dispatch2({type : "signoption", opensignoption : true})}>
                         <li><ProfileIcon color="inherit"/></li>

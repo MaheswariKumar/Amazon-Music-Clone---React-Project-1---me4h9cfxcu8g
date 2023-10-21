@@ -36,11 +36,11 @@ function Suggestions({filteredSuggestions, setResults, setOpenResults, searchTer
     <div className="Main-section">
         <div className="categories"></div>
       <div className="suggestions-list">
-        {filteredSuggestions.length === 0 && submit ? null : <div className="suggestions">Suggestions</div>}
+        <div className="suggestions">Suggestions</div>
         {filteredSuggestions.length === 0 ? (
-          submit ? 
-            <div className="noresult">No Results Found "{searchTerm}"</div> 
-            : 
+          // submit ? 
+          //   <div className="noresult">No Results Found "{searchTerm}"</div> 
+          //   : 
             <ul className="sugg-list">
               <li onClick={handleFunction("Happy Songs")}>Happy Songs</li>
               <li onClick={handleFunction("New Songs")}>New Songs</li>
