@@ -1,12 +1,11 @@
 import React, { useState, useEffect, useRef, useReducer, Component } from "react";
+import { Link, useLocation } from "react-router-dom";
 
 function Suggestions({filteredSuggestions, setResults, setOpenResults, searchTerm, submit, setSubmit, setSearchSeenResults, searchseenresults}) {
     let existingResults = localStorage.getItem('searchResults');
     let parsedResults = existingResults ? JSON.parse(existingResults) : [];
+    let location = useLocation();
   
-    useEffect(()=>{
-      console.log(handleFunction("Rhythms"))
-    } )
     function showres(suggestion) {
       setResults(suggestion);
       setOpenResults(true);
@@ -24,14 +23,6 @@ function Suggestions({filteredSuggestions, setResults, setOpenResults, searchTer
       }
     }
   
-    function handleFunction(opt) {
-      // setSubmit(true);
-      // localStorage.setItem(
-      //   'searchResults',
-      //   JSON.stringify([...parsedResults, opt])
-      // );
-    }
-  
     return (
     <div className="Main-section">
         <div className="categories"></div>
@@ -42,10 +33,10 @@ function Suggestions({filteredSuggestions, setResults, setOpenResults, searchTer
           //   <div className="noresult">No Results Found "{searchTerm}"</div> 
           //   : 
             <ul className="sugg-list">
-              <li onClick={handleFunction("Happy Songs")}>Happy Songs</li>
-              <li onClick={handleFunction("New Songs")}>New Songs</li>
-              <li onClick={handleFunction("Podcasts")}>Podcasts</li>
-              <li onClick={handleFunction("Rhythms")}>Rhythms</li>
+              <Link to="/songs/happytracks/collections"><li>Happy Songs</li></Link>
+              <Link to="/songs/newtracks/collections"><li>New Songs</li></Link>
+              <Link to="/podcasts"><li>Podcasts</li></Link>
+              <Link to="/songs/romantictracks/collections"><li>Rhythms</li></Link>
             </ul>
         ) : (
           <ul className="sugg-list">

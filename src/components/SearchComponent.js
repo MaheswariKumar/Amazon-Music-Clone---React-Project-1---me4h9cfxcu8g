@@ -27,19 +27,19 @@ function SearchComponent({setOpenSearch, searchseenresults, deleteSearchRes}){
             </div>)}
           <div className="Moods">Moods</div>
             <ul className="mood-list">
-              <li className="box-1">Happy</li>
-              <li className="box-2">Fresh</li>
-              <li className="box-3">Sad</li>
-              <li className="box-4">Romatic</li>
+              <Link to="/songs/happytracks/collections"><li className="box-1">Happy</li></Link>
+              <Link to="/songs/newtracks/collections"><li className="box-2">Fresh</li></Link>
+              <Link to="/songs/sadtracks/collections"><li className="box-3">Sad</li></Link>
+              <Link to="/songs/romantictracks/collections"><li className="box-4">Romatic</li></Link>
             </ul>
           <div className="Listen-Your-Way">Listen Your Way</div>
             <ul className="Listen-list">
-              <li className="box-5">Trending Albums</li>
-              <li className="box-6">Trending Songs</li>
+              <Link to="/album/collections"><li className="box-5">Trending Albums</li></Link>
+              <Link to="/songs/collections"><li className="box-6">Trending Songs</li></Link>
             </ul>
           <div className="Artists">Artists</div>
             <ul className="Artists-list">
-              <li className="box-7">Artistic Collection</li>
+              <Link to="/artists/collections"><li className="box-7">Artistic Collection</li></Link>
             </ul>
         </div>
       </div>

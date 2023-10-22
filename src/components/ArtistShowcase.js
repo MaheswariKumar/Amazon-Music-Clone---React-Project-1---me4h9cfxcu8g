@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import ChevronCaretLeftIcon from "./ChevronCaretLeftIcon";
 import ChevronCaretrightIcon from "./ChevronCaretrightIcon";
 import CustomChevronRightIcon from "./CustomChevronRightIcon";
@@ -12,8 +13,12 @@ function ArtistShowcase({artistlists,
                          handleSelectAll, 
                          selectall, 
                          identifier,
+                         options,
+                         state,
                          state1,
-                         dispatch1 }) {
+                         dispatch,
+                         dispatch1,
+                         divRef }) {
     return (
         <div className="feature">
             <div className="headertab">
@@ -28,9 +33,9 @@ function ArtistShowcase({artistlists,
                         <ChevronCaretrightIcon style={{ fontSize: '20px', color: `${selectright}` }}/>
                     </div>
                 </div>
-                <div onClick={()=> handleSelectAll(identifier)} className="alloptions">
-                    <span className="all">SEE ALL</span>
-                </div>
+        <Link to="/artists/collections">{options ? <div className="alloptions">
+          <span className="all">SEE ALL</span>
+        </div> : null }</Link>
             </div>
             <div className={selectall ? "wrapper-all" : "wrapper"} ref={artistContainerRef}>
                 {artistlists.map((song, idx)=>(
@@ -38,7 +43,7 @@ function ArtistShowcase({artistlists,
                     <div className="image-container">
                     <img className="imgtab" src={song.image} alt={song.name}></img>
                     <div className="icon-container">
-                        <div onClick={()=> dispatch1({type : "playingall", 
+                    <Link className="path-pref" to={`/playlists/${song._id}`}><div onClick={()=> dispatch1({type : "playingall", 
                                             infotitle : song.name, 
                                             infoimg : song.image, 
                                             infodes : song.description, 
@@ -49,12 +54,19 @@ function ArtistShowcase({artistlists,
                                              className="play-container">
                         {/* {state.playing && state.id === song._id ? <MyCustomPauseIcon /> : <PlaybackPlayIcon />} */}
                         <CustomChevronRightIcon style={{ fontSize: '40px'}}/>
-                        </div>
+                        </div></Link>
                     </div> 
                     </div>
-                    <div className="link-container">
+                    <Link className="path-pref" to={`/playlists/${song._id}`}><div onClick={()=> dispatch1({type : "playingall", 
+                                            infotitle : song.name, 
+                                            infoimg : song.image, 
+                                            infodes : song.description, 
+                                            infoid : song._id,
+                                            infocount : song.songs.length,
+                                            infotype : "Artists"
+                                            })}  className="link-container">
                         <span className="link">{song.name}</span>
-                    </div> 
+                    </div></Link>
                     <div className="content-container">
                         <span className="content">{song.description}</span>
                     </div>

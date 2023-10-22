@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 function Options({divRef, state1, dispatch, dispatch1}) {
     return (
         <div className="option" ref={divRef}>
-            <Link to="/"><nav>Go to Playlists</nav></Link>
+            <Link to="/"><nav onClick={()=> dispatch1({type : "showingoption", showoption : false})}>Go to Playlists</nav></Link>
             <p className="border1"></p>
             <nav onClick={()=> {dispatch({type : "showpremium"});  dispatch1({type : "showingoption", showoption : false})}}>Add to Queue</nav>
             <p className="border1"></p>

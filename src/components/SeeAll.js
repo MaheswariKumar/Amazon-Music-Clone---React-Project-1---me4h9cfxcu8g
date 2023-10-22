@@ -5,6 +5,10 @@ import ActionMoreIcon from "./ActionMoreIcon";
 import ActionAddIcon from "./ActionAddIcon";
 import MyCustomPauseIcon from "./MyCustomPauseIcon";
 import AddOptions from "./AddOptions";
+import Loading from "./Loading";
+import ShareSong from "./ShareSong";
+import TryPremium from "./TryPremium";
+import PlayBackError from "./PlayBackError";
 
 function SeeAll({
                 state,
@@ -14,9 +18,10 @@ function SeeAll({
                 divRef}) {
 
     let [playlists, setPlayLists] = useState([]);
-    let [limit, setLimit] = useState(20);
+    let [limit, setLimit] = useState(100);
     let containerRef = useRef(null);
-
+    let [loading, setLoading] = useState(true);
+    
     async function fetchTrendingPlaylists() {
         try {
           const response = await fetch(
@@ -31,7 +36,8 @@ function SeeAll({
             throw new Error("Network response was not ok");
           }
           const data = await response.json();
-          setPlayLists((prevPlaylists) => [...prevPlaylists, ...data.data]);
+          setPlayLists((prevData)=> [...prevData, ...data.data]);
+          // setLimit((prevLimit) => prevLimit + 12);
           console.log("trend");
           console.log(data.data);
           console.log(data.data[0]);
@@ -41,30 +47,75 @@ function SeeAll({
       }
 
       useEffect(() => {
-        fetchTrendingPlaylists();
+        async function fetchData() {
+          try {
+            await Promise.all([
+              fetchTrendingPlaylists()
+            ]);
+            setLoading(false);
+          } catch (error) {
+            console.error("Error fetching data:", error);
+            setLoading(false);
+          }
+        }
+        fetchData();
       }, []);
     
+      // const handleScroll = () => {
+      //   const { scrollTop, clientHeight, scrollHeight } = document.documentElement;
+      //   if (scrollHeight - scrollTop === clientHeight) {
+      //     setLimit((prevLimit) => prevLimit + 10); // Increase the limit when scrolled to the bottom
+      //     fetchTrendingPlaylists();
+      //   }
+      // };
+
       // useEffect(() => {
       //   fetchTrendingPlaylists();
-      //   console.log("Hello")
+      //   window.addEventListener("scroll", handleScroll);
+      //   return () => {
+      //     window.removeEventListener("scroll", handleScroll);
+      //   };
       // }, [limit]);
     
-      useEffect(() => {
-        function handleScroll() {
-          if (window.innerHeight + Math.round(window.scrollY) >= document.body.offsetHeight){
-            fetchTrendingPlaylists();
-              setLimit((prevLimit) => prevLimit + 12);
-            }
-          }
-          window.addEventListener("scroll", handleScroll);
+      // useEffect(() => {
+      //   function handleScroll() {
+      //     if (window.innerHeight + document.documentElement.scrollTop >=
+      //       document.documentElement.offsetHeight){
+      //         fetchTrendingPlaylists();
+      //       }
+      //     }
+      //     window.addEventListener("scroll", handleScroll);
         
+      //     return () => {
+      //       window.removeEventListener("scroll", handleScroll);
+      //     }; 
+      // }, []);
+      useEffect(() => {
+        if (state.showerrorcomp) {
+          // Set a timeout to hide the error component after 2 seconds
+          const errorTimeout = setTimeout(() => {
+            dispatch({ type: "error"});
+          }, 1000);
+    
           return () => {
-            window.removeEventListener("scroll", handleScroll);
-          }; 
-      }, []);
+            clearTimeout(errorTimeout);
+          };
+        }
+      }, [state.showerrorcomp, dispatch]);
+
+      if (loading) {
+        return (
+          // <div className="Main-section">
+            <Loading />
+          // </div>
+        );
+      }
 
   return (
     <div className="Main-section" ref={containerRef}>
+      {state.showerrorcomp && <PlayBackError state={state} dispatch={dispatch}/>}
+        {state.openshare && <ShareSong dispatch={dispatch} state={state} />}
+        {state.openpremium && <TryPremium dispatch={dispatch} />}
       <div className="categories"></div>
     <div className="feature">
       <div className="headertab">
@@ -92,11 +143,19 @@ function SeeAll({
                                              className="play-container">
                   {state.playing && state.id === song._id ? <MyCustomPauseIcon /> : <PlaybackPlayIcon />}
                 </div>
-                <div onClick={()=> dispatch1({type : "showingaddoption", showaddoption: true, optionidx: idx})}>
+                <div onClick={()=> {dispatch1({type : "showingaddoption", showaddoption: true, optionidx: song._id}); 
+                                   dispatch1({type : "playingall", 
+                                            infotitle : song.title, 
+                                            infoimg : song.image, 
+                                            infodes : song.description, 
+                                            infoid : song._id,
+                                            infocount : song.songs.length,
+                                            infotype : "Album"
+                                            })}}>
                 <ActionMoreIcon />
                 </div>
               </div>
-              {state1.showaddoption && state1.optionidx === idx && <AddOptions dispatch={dispatch} dispatch1={dispatch1} divRef={divRef} />}
+              {state1.showaddoption && state1.optionidx === song._id && <AddOptions state1={state1} dispatch={dispatch} dispatch1={dispatch1} divRef={divRef} />}
               {state.playing && state.id === song._id ?               
               <div className="rythm-container">
                 <img src="https://m.media-amazon.com/images/G/01/digital/music/player/web/EQ_accent.gif" alt="Rythm" style={{ width: "40px", height: "40px"}}></img>

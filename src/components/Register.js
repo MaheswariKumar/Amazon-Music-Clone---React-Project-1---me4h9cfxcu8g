@@ -1,59 +1,72 @@
 import { name } from "file-loader";
 import React, { useState, useEffect, useRef, useReducer, Component } from "react";
-import { Link } from "react-router-dom";
+import { Link, redirect } from "react-router-dom";
+
+
+let initialStateSignUp = {
+  name : "",
+  email : "",
+  pass : "",
+  rePass : "",
+  error: false,
+  errormsg: ""
+}
+
+function reducerSignUp(stateSignUp, action) {
+  switch(action.type) {
+      case "handleNameInput" :
+          return {
+              ...stateSignUp,
+              name : action.name,
+              error:false,
+              errormsg:""
+          }
+      case "handleEmailInput" :
+          return {
+              ...stateSignUp,
+              email : action.email,
+              error:false,
+              errormsg:""
+          }
+
+      case "handlePassInput" :
+          return {
+              ...stateSignUp,
+              pass : action.pass,
+              error:false,
+              errormsg:""
+          }
+
+      case "handleRepassInput" :
+          return {
+              ...stateSignUp,
+              rePass : action.rePass,
+              error:false,
+              errormsg:""
+          }
+      
+      case "handleError":
+          return {
+              ...stateSignUp,
+              error: true,
+              errormsg: action.errormsg
+          }
+
+      default :
+        return stateSignUp
+      
+  }
+}  
 
 function Register() {
-    let initialStateSignUp = {
-        name : "",
-        email : "",
-        pass : "",
-        rePass : "",
-        error: false
-    }
-
-    function reducerSignUp(stateSignUp, action) {
-        switch(action.type) {
-            case "handleNameInput" :
-                return {
-                    ...stateSignUp,
-                    name : action.name
-                }
-            case "handleEmailInput" :
-                return {
-                    ...stateSignUp,
-                    email : action.email
-                }
-
-            case "handlePassInput" :
-                return {
-                    ...stateSignUp,
-                    pass : action.pass
-                }
-
-            case "handleRepassInput" :
-                return {
-                    ...stateSignUp,
-                    rePass : action.rePass
-                }
-            
-            case "handleError":
-                return {
-                    ...stateSignUp,
-                    error: !stateSignUp.error
-                }
-
-            default :
-              return stateSignUp
-            
-        }
-    }  
 
     let [stateSignUp, dispatchSignUp] = useReducer(reducerSignUp, initialStateSignUp)
+    console.log("stateSignUp", stateSignUp)
 
   let handleSignup = (e) => {
-    // if (stateSignUp.pass !== stateSignUp.rePass ) {
-    //     dispatchSignUp({type: "handleError"})
-    // }
+    if (stateSignUp.pass !== stateSignUp.rePass ) {
+        dispatchSignUp({type: "handleError"})
+    }
     e.preventDefault();
     
     const postData = {
@@ -67,6 +80,7 @@ function Register() {
     const url = 'https://academics.newtonschool.co/api/v1/user/signup';
     const projectId = 'me4h9cfxcu8g';
 
+    console.log("handleSignup")
     fetch(url, {
       method: 'POST',
       headers: {
@@ -76,14 +90,19 @@ function Register() {
       body: JSON.stringify(postData)
     })
       .then(response => {
-        console.log(response.json())
-        if (!response.ok) {
-          throw new Error('Network response was not ok');
+        if (!response.ok){
+          if (response.status===403) {
+            dispatchSignUp({type: "handleError", errormsg: "User already existed"})
+          }
+          else {
+            throw new Error("error found")
+          }
         }
         return response.json();
       })
       .then(data => {
         console.log('Success:', data);
+        redirect("/signin")
         // Handle the success response here
       })
       .catch(error => {
@@ -110,7 +129,8 @@ function Register() {
           }
           <div className="accbox">
               <h1 className="createti">Create Account</h1>
-              <form>
+              <div>
+              <span>{stateSignUp.error && stateSignUp.errormsg}</span>
                 <br></br>
                 <label className="name">Your name</label>
                 <br></br>
@@ -135,14 +155,14 @@ function Register() {
                 <br></br>
                 <br></br>
                 <button className="signbtn" onClick={(e)=> handleSignup(e)}>Create your Amazon Account</button>
-              </form>
+              </div>
               <div className="condition">
                 <p>By continuing, you agree to Amazon's <a href="https://www.amazon.in/gp/help/customer/display.html/ref=ap_signin_notification_condition_of_use?ie=UTF8&nodeId=200545940">Conditions of Use</a> and <a href="https://www.amazon.in/gp/help/customer/display.html/ref=ap_signin_notification_privacy_notice?ie=UTF8&nodeId=200534380">Privacy Notice.</a></p>
               </div>
-              <form className="checksign1">
+              <div className="checksign1">
                 <label className="keep">Already have an account?</label>
                 <a href="#" className="again">Sign in</a>
-              </form>
+              </div>
               <div>
           </div>
             </div>

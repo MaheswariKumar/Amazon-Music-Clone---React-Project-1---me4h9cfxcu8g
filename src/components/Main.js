@@ -15,6 +15,7 @@ import SignIn from "./SignIn";
 import Loading from "./Loading";
 import MusicPreferences from "./MusicPreferences";
 import TryPremium from "./TryPremium";
+import PlayBackError from "./PlayBackError";
 import ChevronCaretLeftIcon from "./ChevronCaretLeftIcon";
 import ChevronCaretrightIcon from "./ChevronCaretrightIcon";
 import PlaybackPlayIcon from "./PlaybackPlayIcon";
@@ -35,6 +36,7 @@ import CustomChevronRightIcon from "./CustomChevronRightIcon";
 import CustomLikeIcon from "./CustomLikeIcon";
 import { Container, Slider } from "@mui/material";
 import ShareSong from "./ShareSong";
+import MyPlaylists from "./MyPlaylists";
 // import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 // import { faThumbsUp } from '@fortawesome/free-solid-svg-icons';
 // import { runtime } from "webpack";
@@ -435,81 +437,81 @@ function Main({opensearch,
       
 
     function handleSelectAll(identifier) {
-      setOptions(false)
-        if (identifier === "trendingPlaylists") {
-            setShowTrendingPlaylists(true);
-            setShowTrendingSongs(false);
-            setShowArtists(false);
-            setShowHappySongs(false);
-            setShowNewRelease(false);
-            setShowSadSongs(false);
-            setShowRomanticSongs(false);
-        } else if (identifier === "trendingSongs") {
-            setShowTrendingPlaylists(false);
-            setShowTrendingSongs(true);
-            setShowArtists(false);
-            setShowHappySongs(false);
-            setShowNewRelease(false);
-            setShowSadSongs(false);
-            setShowRomanticSongs(false);
-        } else if (identifier=== "artistlists") {
-            setShowTrendingPlaylists(false);
-            setShowTrendingSongs(false);
-            setShowArtists(true);
-            setShowHappySongs(false);
-            setShowNewRelease(false);
-            setShowSadSongs(false);
-            setShowRomanticSongs(false);
-        } else if (identifier=== "happySongs") {
-            setShowTrendingPlaylists(false);
-            setShowTrendingSongs(false);
-            setShowArtists(false);
-            setShowHappySongs(true);
-            setShowNewRelease(false);
-            setShowSadSongs(false);
-            setShowRomanticSongs(false);
-        } else if (identifier=== "newRelease") {
-            setShowTrendingPlaylists(false);
-            setShowTrendingSongs(false);
-            setShowArtists(false);
-            setShowHappySongs(false);
-            setShowNewRelease(true);
-            setShowSadSongs(false);
-            setShowRomanticSongs(false);
-        } else if (identifier=== "sadSongs") {
-            setShowTrendingPlaylists(false);
-            setShowTrendingSongs(false);
-            setShowArtists(false);
-            setShowHappySongs(false);
-            setShowNewRelease(false);
-            setShowSadSongs(true);
-            setShowRomanticSongs(false);
-        }
-        else {
-            setShowTrendingPlaylists(false);
-            setShowTrendingSongs(false);
-            setShowArtists(false);
-            setShowHappySongs(false);
-            setShowNewRelease(false);
-            setShowSadSongs(false);
-            setShowRomanticSongs(true);
-        }
-        setLimit((prevLimit)=> prevLimit+20);
-        setSelectAll(true);
-        function handleScroll() {
-            // if (
-            //   containerRef.current &&
-            //   containerRef.current.scrollTop + containerRef.current.clientHeight >=
-            //     containerRef.current.scrollHeight
-            // ) {
-              setLimit((prevLimit) => prevLimit + 12);
-            // }
-          }
-          window.addEventListener("scroll", handleScroll);
+      // setOptions(false)
+      //   if (identifier === "trendingPlaylists") {
+      //       setShowTrendingPlaylists(true);
+      //       setShowTrendingSongs(false);
+      //       setShowArtists(false);
+      //       setShowHappySongs(false);
+      //       setShowNewRelease(false);
+      //       setShowSadSongs(false);
+      //       setShowRomanticSongs(false);
+      //   } else if (identifier === "trendingSongs") {
+      //       setShowTrendingPlaylists(false);
+      //       setShowTrendingSongs(true);
+      //       setShowArtists(false);
+      //       setShowHappySongs(false);
+      //       setShowNewRelease(false);
+      //       setShowSadSongs(false);
+      //       setShowRomanticSongs(false);
+      //   } else if (identifier=== "artistlists") {
+      //       setShowTrendingPlaylists(false);
+      //       setShowTrendingSongs(false);
+      //       setShowArtists(true);
+      //       setShowHappySongs(false);
+      //       setShowNewRelease(false);
+      //       setShowSadSongs(false);
+      //       setShowRomanticSongs(false);
+      //   } else if (identifier=== "happySongs") {
+      //       setShowTrendingPlaylists(false);
+      //       setShowTrendingSongs(false);
+      //       setShowArtists(false);
+      //       setShowHappySongs(true);
+      //       setShowNewRelease(false);
+      //       setShowSadSongs(false);
+      //       setShowRomanticSongs(false);
+      //   } else if (identifier=== "newRelease") {
+      //       setShowTrendingPlaylists(false);
+      //       setShowTrendingSongs(false);
+      //       setShowArtists(false);
+      //       setShowHappySongs(false);
+      //       setShowNewRelease(true);
+      //       setShowSadSongs(false);
+      //       setShowRomanticSongs(false);
+      //   } else if (identifier=== "sadSongs") {
+      //       setShowTrendingPlaylists(false);
+      //       setShowTrendingSongs(false);
+      //       setShowArtists(false);
+      //       setShowHappySongs(false);
+      //       setShowNewRelease(false);
+      //       setShowSadSongs(true);
+      //       setShowRomanticSongs(false);
+      //   }
+      //   else {
+      //       setShowTrendingPlaylists(false);
+      //       setShowTrendingSongs(false);
+      //       setShowArtists(false);
+      //       setShowHappySongs(false);
+      //       setShowNewRelease(false);
+      //       setShowSadSongs(false);
+      //       setShowRomanticSongs(true);
+      //   }
+      //   setLimit((prevLimit)=> prevLimit+20);
+      //   setSelectAll(true);
+      //   function handleScroll() {
+      //       // if (
+      //       //   containerRef.current &&
+      //       //   containerRef.current.scrollTop + containerRef.current.clientHeight >=
+      //       //     containerRef.current.scrollHeight
+      //       // ) {
+      //         setLimit((prevLimit) => prevLimit + 12);
+      //       // }
+      //     }
+      //     window.addEventListener("scroll", handleScroll);
         
-          return () => {
-            window.removeEventListener("scroll", handleScroll);
-          }; 
+      //     return () => {
+      //       window.removeEventListener("scroll", handleScroll);
+      //     }; 
     }
 
     if (loading) {
@@ -530,6 +532,7 @@ function Main({opensearch,
         <Route path="/music/album/:albumId" element={<DetailPage state1={state1} dispatch1={dispatch1} state={state} dispatch={dispatch} />}></Route>  
       </Routes>
       </Router> */}
+            {/* <MyPlaylists dispatch={dispatch} /> */}
             {state.openpremium && <TryPremium dispatch={dispatch} />}
             {state2.openmusicpref && <MusicPreferences dispatch2={dispatch2} />}
             {state2.opensignoption &&  <SignOption dispatch2={dispatch2} divRef={divRef} />}
@@ -573,9 +576,12 @@ function Main({opensearch,
                                handleSelectAll={handleSelectAll}
                                selectall={selectall}
                                identifier="trendingSongs"
-                               state={state}
+                               options={options}
+                               state={state} 
+                               state1={state1}
                                dispatch={dispatch}
-                               dispatch1={dispatch1} /> }
+                               dispatch1={dispatch1}
+                               divRef={divRef} /> }
             {showartists && <ArtistShowcase artistlists={artistlists} 
                                handleLeftIcon={handleLeftIcon} 
                                handleRightIcon={handleRightIcon} 
@@ -585,9 +591,13 @@ function Main({opensearch,
                                handleSelectAll={handleSelectAll}
                                selectall={selectall}
                                identifier="artistlists"
+                               options={options}
+                               state={state} 
                                state1={state1}
-                               dispatch1={dispatch1} /> }
-            {!state1.detailpageopen && showhappysongs && <HappyHarmonies happylists={happylists}
+                               dispatch={dispatch}
+                               dispatch1={dispatch1}
+                               divRef={divRef} /> }
+            {showhappysongs && <HappyHarmonies happylists={happylists}
                                handleLeftIcon={handleLeftIcon}
                                handleRightIcon={handleRightIcon}
                                selectleft={selectleft}
@@ -596,9 +606,12 @@ function Main({opensearch,
                                handleSelectAll={handleSelectAll}
                                selectall={selectall}
                                identifier="happySongs"
-                               state={state}
+                               options={options}
+                               state={state} 
+                               state1={state1}
                                dispatch={dispatch}
-                               dispatch1={dispatch1} />}
+                               dispatch1={dispatch1}
+                               divRef={divRef} />}
             {shownewrelease && <NewMusicShowcase newlists={newlists}
                                handleLeftIcon={handleLeftIcon}
                                handleRightIcon={handleRightIcon}
@@ -608,9 +621,12 @@ function Main({opensearch,
                                handleSelectAll={handleSelectAll}
                                selectall={selectall}
                                identifier="newRelease"
-                               state={state}
+                               options={options}
+                               state={state} 
+                               state1={state1}
                                dispatch={dispatch}
-                               dispatch1={dispatch1} />}
+                               dispatch1={dispatch1}
+                               divRef={divRef} />}
             {showsadsongs && <SoulfulHealing sadlists={sadlists}
                                handleLeftIcon={handleLeftIcon}
                                handleRightIcon={handleRightIcon}
@@ -620,9 +636,12 @@ function Main({opensearch,
                                handleSelectAll={handleSelectAll}
                                selectall={selectall}
                                identifier="sadSongs"
-                               state={state}
+                               options={options}
+                               state={state} 
+                               state1={state1}
                                dispatch={dispatch}
-                               dispatch1={dispatch1} />}
+                               dispatch1={dispatch1}
+                               divRef={divRef} />}
             {showromanticsongs && <RomanticRhythms romanticlists={romanticlists}
                                handleLeftIcon={handleLeftIcon}
                                handleRightIcon={handleRightIcon}
@@ -632,9 +651,12 @@ function Main({opensearch,
                                handleSelectAll={handleSelectAll}
                                selectall={selectall}
                                identifier="romanticSongs"
-                               state={state}
+                               options={options}
+                               state={state} 
+                               state1={state1}
                                dispatch={dispatch}
-                               dispatch1={dispatch1} />}
+                               dispatch1={dispatch1}
+                               divRef={divRef}/>}
             {state.showmusiccomp && <MusicComponent state={state} 
                                dispatch={dispatch} 
                                songTitle={state.title} 
@@ -651,14 +673,6 @@ function Main({opensearch,
     )
 }
 
-
-function PlayBackError({state, dispatch}) {
-  return (
-    <div className="errordiv">
-      <p className="errormsg">Playback Error! Check Your Network</p>
-    </div>
-  )
-}
 
 // function SearchComponent({handleSelectAll, setOpenSearch, searchseenresults, deleteSearchRes}){
 //   let storedResults = JSON.parse(localStorage.getItem('searchResults'))

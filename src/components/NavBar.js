@@ -8,11 +8,11 @@ import SearchIcon from "./SearchIcon";
 import Search from "./Search";
 import ChevronCaretdownIcon from "./ChevronCaretdownIcon";
 
-function NavBar({searching, handleSearchChange, searchTerm, handleSearchSubmit, opensearch, setSubmit, dispatch2, handleValue, handleKeyPress}){
+function NavBar({searching, handleSearchChange, searchTerm, handleSearchSubmit, inputRef, opensearch, setSubmit, dispatch2, handleValue, handleKeyPress}){
     const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
     const [clickedInside, setClickedInside] = useState(false);
-    const inputRef = useRef(null);
     const location = useLocation();
+    
 
     useEffect(() => {
       const handleResize = () => {
@@ -60,13 +60,18 @@ function NavBar({searching, handleSearchChange, searchTerm, handleSearchSubmit, 
                         <li><PodcastIcon /></li>
                         <li>PODCASTS</li>
                     </div></Link>
-                    <div className="lib-div">
-                        <li><MyMusicIcon color="inherit"/></li>
+                   <div className="lib-div">
+                        <li><MyMusicIcon/></li>
                         <li>LIBRARY</li>
-                        <li><ChevronCaretdownIcon color="inherit"/></li>
+                        <li><ChevronCaretdownIcon/></li>
                     </div>
+                    {/* <Link className="lib-li" to="/myplaylists"><div className={location.pathname === '/myplaylists' ? "lib-li" : "lib-div"}>
+                        <li><MyMusicIcon/></li>
+                        <li>LIBRARY</li>
+                        <li><ChevronCaretdownIcon/></li>
+                    </div></Link> */}
                 </ul>
-            </div> 
+            </div>      
             {/* : null } */}
             <div className="right-icons">
                 <ul className="right-lists">
@@ -84,10 +89,10 @@ function NavBar({searching, handleSearchChange, searchTerm, handleSearchSubmit, 
                   </div>
                   </form>
                   ) : (
-                  <Link to="/search"><div ref={inputRef} className={clickedInside ? "search-container-1" : "search-container"} onClick={searching}>
-                    <form onSubmit={(e)=> handleSearchSubmit(e)} onKeyPress={(event) => handleKeyPress(event)}>
+                  <Link to="/search"><div className={clickedInside ? "search-container-1" : "search-container"} onKeyPress={(event) => handleKeyPress(event)} onClick={searching}>
+                    {/* <form onSubmit={(e)=> handleSearchSubmit(e)} onKeyPress={(event) => handleKeyPress(event)}> */}
                     {/* <img className="icon" src="https://th.bing.com/th/id/OIP.6TcG8ShE1aAy3WyR4C3EoQAAAA?pid=ImgDet&rs=1" alt="Search Icon" /> */}
-                    <input className="search" 
+                    <input ref={inputRef} className="search" 
                                           type="search" 
                                           placeholder="Search" 
                                           value={searchTerm} 
@@ -99,7 +104,7 @@ function NavBar({searching, handleSearchChange, searchTerm, handleSearchSubmit, 
                         <Search style={{ color: 'black'}}/>
                       </div>
                     </div>
-                    </form>
+                    {/* </form> */}
                   </div></Link>
                   
                   )}

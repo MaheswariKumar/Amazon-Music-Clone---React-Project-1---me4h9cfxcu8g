@@ -90,6 +90,17 @@
     text-decoration: none;
 }
 
+.lib-div {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+    height: 35px;
+    color: white;
+    text-decoration: none;
+}
+
 .home-li {
     display: flex;
     justify-content: center;
@@ -101,8 +112,24 @@
     text-decoration: none;
 }
 
-.home-div:hover {
+.lib-li {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+    height: 35px;
+    color: #25d1da;
+    text-decoration: none;  
+}
+
+.lib-li li {
+    cursor: pointer;
+}
+
+.home-div:hover , .lib-div:hover{
     color:#bce8eb;
+    cursor: pointer;
 }
 
 .pod-li {
@@ -114,6 +141,8 @@
     color: #25d1da;
     cursor: pointer;
 }
+
+
 
 .search-container {
     padding: 10px;
@@ -261,6 +290,8 @@
 }
 
 .main {
+    background-color: rgb(0, 0, 0.5);
+    color: white;
     width: 100%;
     height: 100%;
     padding-top: 75px;
@@ -764,14 +795,14 @@
     bottom: 0;
     left: 0;
     right: 0; 
-    width: 1410px;
+    width: 100%;
     height: 75px;
     border-radius: 30px;
     display: flex;
     justify-content: center;
     align-items: center;
-    padding: 0px 50px 5px 50px;
-    margin: 0px 50px 5px 50px;
+    /* padding: 0px 50px 5px 50px;
+    margin: 0px 50px 5px 50px; */
     border: 1px solid gray;
     z-index: 6;
 }
@@ -1250,7 +1281,7 @@ ul.mood-list li[class*="box"],  ul.Listen-list li[class*="box"], ul.Artists-list
     padding-top: 120px;
     padding-bottom: 110px;
     background: linear-gradient(
-      rgba(0, 0, 0, 0.800) 0%,
+      rgba(0, 0, 0, 0.800) 10%,
       rgba(102, 56, 56, 0.8) 20%,
       rgba(94, 67, 67, 0.8) 40%,
       rgba(47, 43, 43, 0.8) 75%,
@@ -2256,6 +2287,47 @@ input {
     border-bottom: 1px inset rgba(255,255,255,.15);
 }
 
+
+.lib-div:hover{
+    cursor: pointer;
+}
+
+.musicoption {
+    display: none;
+    position: absolute;
+    top: 55px;
+    left: 500px;
+    z-index: 14;
+    border: 1px solid hsla(0,0%,100%,.3);
+    box-shadow: 5px 5px 5px #000;
+    border-radius: 8px;
+    background-color: rgba(40, 38, 38, 0.15);
+    backdrop-filter: blur(30px);
+    width: 280px;
+    height: 120px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: start;
+    color: white;
+    text-indent: 20px;
+    padding: 10px 0;
+}
+
+.musicoption nav {
+    font-size: 18px;
+    font-weight: 700;
+    padding: 15px 0;
+    font-family: "Ember", "Helvetica", "Arial", "sans-serif";
+    cursor: pointer;
+    color: white;
+}
+
+.musicoption nav:hover {
+    width: 280px;
+    background-color: rgba(216, 199, 199, 0.15);
+}
+
 .option {
     position: absolute;
     bottom: 20px;
@@ -2460,4 +2532,71 @@ input {
 .social {
     display: flex;
     gap: 10px;
+}
+
+.myplay {
+    padding-bottom: 310px;
+}
+
+.create h1 {
+    font-size: 50px;
+    font-weight: bold;
+}
+
+.create {
+    padding-top: 20px;
+    padding-left: 50px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.createicon {
+    display: flex;
+    gap: 5px;
+    cursor: pointer;
+    font-size: 20px;
+    color: #25d1da;
+}
+
+.playli {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding-top: 140px;
+}
+
+.playli p {
+    font-size: 25px;
+    font-weight: bold;
+}
+
+.playli nav {
+    font-size: 18px;
+}
+
+.sub {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+}
+
+.subback {
+    background-color: rgb(76, 26, 184);
+    height: 80%;
+}
+
+.imgpri {
+    justify-content: center;
+    display: flex;
+    gap: 5px;
+    color: white;
+}
+
+.imgpri img {
+    width: 400px; 
+    height: 100px;
 }

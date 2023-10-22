@@ -121,14 +121,14 @@ function DetailPage({state1, dispatch1, state, dispatch, divRef}) {
 
       if (loading) {
         return (
-          <div className="Main-section">
+          // <div className="Main-section">
             <Loading />
-          </div>
+          // </div>
         );
       }
   
     return (
-      // <div className="main">
+    // <div className="main">
       <div className="detail">
         {state.openshare && <ShareSong dispatch={dispatch} state={state} />}
         {state.openpremium && <TryPremium dispatch={dispatch} />}
@@ -203,6 +203,7 @@ function DetailPage({state1, dispatch1, state, dispatch, divRef}) {
           ))) : (       <div className="all-list">
           <div className="play-half1">
           <p>1</p>
+          {state1.showoption && state1.musicidx === state1.infoid  && <Options divRef={divRef} state1={state1} dispatch={dispatch} dispatch1={dispatch1} />}
           <div className="play-img-container">
             <img className="play-img" src={state1.infoimg}></img>
             <div onClick={()=> {if (state1.infoaudio) {dispatch({type : "playandpause", 
@@ -230,15 +231,16 @@ function DetailPage({state1, dispatch1, state, dispatch, divRef}) {
           <div className="play-half2">
           <nav className="play-art">{state1.infotitle}</nav>
           <nav className="play-time">{formatTime(durations[0])}</nav>
-          <ActionAddIcon />
-          <ActionMoreIcon />
+          <ActionAddIcon style={{ color: 'white' }}/>
+          <div onClick={()=> dispatch1({type : "showingoption", showoption : true, musicidx : state1.infoid,})}>
+            <ActionMoreIcon style={{ color: 'white' }}/>
+            </div>
           </div>
-          <Options />
         </div>)
               }
         </div>
       </div>
-      // </div>
+    //  </div>
     )
   }
 
