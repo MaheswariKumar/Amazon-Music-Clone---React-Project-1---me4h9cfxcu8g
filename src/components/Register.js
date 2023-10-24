@@ -1,6 +1,7 @@
 import { name } from "file-loader";
 import React, { useState, useEffect, useRef, useReducer, Component } from "react";
-import { Link, redirect } from "react-router-dom";
+import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 
 let initialStateSignUp = {
@@ -59,8 +60,9 @@ function reducerSignUp(stateSignUp, action) {
 }  
 
 function Register() {
+  const navigate = useNavigate();
 
-    let [stateSignUp, dispatchSignUp] = useReducer(reducerSignUp, initialStateSignUp)
+  let [stateSignUp, dispatchSignUp] = useReducer(reducerSignUp, initialStateSignUp)
     console.log("stateSignUp", stateSignUp)
 
   let handleSignup = (e) => {
@@ -102,12 +104,17 @@ function Register() {
       })
       .then(data => {
         console.log('Success:', data);
-        redirect("/signin")
-        // Handle the success response here
+        // redirect("/signin")
+        if (data.token) {
+          localStorage.setItem("token", data.token);
+          
+          navigate("/signin");
+        }
+        
       })
       .catch(error => {
         console.error('Error:', error);
-        // Handle errors here
+        
       });
   };
     return (

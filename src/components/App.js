@@ -419,45 +419,6 @@ const App = () => {
             divRef={divRef}/> */}
       {/* <Router> */}
         <Routes>
-        <Route
-            path="/playlists/:Id"
-            element={
-              <>
-                <NavBar
-                  searching={searching}
-                  handleSearchChange={handleSearchChange}
-                  searchTerm={searchTerm}
-                  handleSearchSubmit={handleSearchSubmit}
-                  opensearch={opensearch}
-                  setSubmit={setSubmit}
-                  dispatch2={dispatch2}
-                  handleValue={handleValue}
-                  handleKeyPress={handleKeyPress}
-                  inputRef={inputRef}
-                />
-                <DetailPage
-                  state1={state1}
-                  dispatch1={dispatch1}
-                  state={state}
-                  dispatch={dispatch}
-                  divRef={divRef}
-                />
-                {state.showmusiccomp && (
-                  <MusicComponent
-                    state={state}
-                    dispatch={dispatch}
-                    songTitle={state.title}
-                    songImg={state.img}
-                    songName={state.name}
-                    songAudio={state.audio}
-                    songPlay={state.playAudio}
-                    id={state.id}
-                    //  idex = {state.idex}
-                  />
-                )}
-              </>
-            }
-          ></Route>
           <Route
             path="/"
             element={
@@ -498,9 +459,47 @@ const App = () => {
               </>
             }
           />
-          
+        <Route
+            path="/playlists/:Id"
+            element={
+              <>
+                <NavBar
+                  searching={searching}
+                  handleSearchChange={handleSearchChange}
+                  searchTerm={searchTerm}
+                  handleSearchSubmit={handleSearchSubmit}
+                  opensearch={opensearch}
+                  setSubmit={setSubmit}
+                  dispatch2={dispatch2}
+                  handleValue={handleValue}
+                  handleKeyPress={handleKeyPress}
+                  inputRef={inputRef}
+                />
+                <DetailPage
+                  state1={state1}
+                  dispatch1={dispatch1}
+                  state={state}
+                  dispatch={dispatch}
+                  divRef={divRef}
+                />
+                {state.showmusiccomp && (
+                  <MusicComponent
+                    state={state}
+                    dispatch={dispatch}
+                    songTitle={state.title}
+                    songImg={state.img}
+                    songName={state.name}
+                    songAudio={state.audio}
+                    songPlay={state.playAudio}
+                    id={state.id}
+                    //  idex = {state.idex}
+                  />
+                )}
+              </>
+            }
+          ></Route>
           <Route
-            path="/album/collections"
+           exact path="/album/collections"
             element={
               <>
                 <NavBar
