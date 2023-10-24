@@ -2581,15 +2581,17 @@ input {
     top: 0;
     left: 0;
     right: 0;
-    bottom: 0;
 }
 
 .subback {
     background-color: rgb(76, 26, 184);
-    height: 80%;
+    height: 100%;
+    padding-bottom: 50px;
 }
 
 .imgpri {
+    padding-top: 60px;
+    margin-bottom: 30px;
     justify-content: center;
     display: flex;
     gap: 5px;
@@ -2599,4 +2601,153 @@ input {
 .imgpri img {
     width: 400px; 
     height: 100px;
+}
+
+.imgpri nav {
+    font-size: 70px;
+}
+
+@media (max-width: 768px) {
+    .imgpri img {
+        width: 100px; 
+        height: 50px;
+    }
+    
+    .imgpri nav {
+        font-size: 35px;
+    }
+
+    .img-more img {
+        width: 400px !important;
+        height: 250px !important;
+    }
+
+    .cards-sub {
+        display: flex;
+        justify-content: center;
+        gap: 20px;
+        flex-direction: column;
+    }
+}
+
+
+.limit {
+    display: flex;
+    justify-content: center;
+}
+
+.limit nav {
+    width: 200px;
+    padding: 10px;
+    font-size: 30px;
+    text-align: center;
+    background-color: white;
+    color: rgb(76, 26, 184);
+    font-weight: bold;
+}
+
+.cards-sub {
+    display: flex;
+    color: white;
+    justify-content: space-evenly;
+    align-items: center;
+    padding-top: 60px;
+}
+
+.sub1, .sub2, .sub3, .sub4 {
+    font-family:Arial, Helvetica, sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.sub1 h1{
+    font-weight: 300;
+}
+
+.sub1 nav:nth-last-child(2) {
+    font-weight: bold;
+    font-size: 50px;
+    padding-top: 20px;
+}
+
+.sub1 nav:nth-last-child(1) {
+    font-size: 10px;
+    font-weight: bold;
+}
+
+.sub1 nav:nth-last-child(3) {
+    font-size: 10px;
+    font-weight: bold;
+}
+
+.sub2 h1{
+    font-weight: 300;
+}
+
+.sub2 nav:nth-last-child(2) {
+    font-weight: bold;
+    font-size: 50px;
+    padding-top: 20px;
+}
+
+.sub2 nav:nth-last-child(1) {
+    font-size: 10px;
+    font-weight: bold;
+}
+
+.sub2 nav:nth-last-child(3) {
+    font-size: 10px;
+    font-weight: bold;
+}
+.sub3 h1{
+    font-weight: 300;
+}
+
+.sub3 nav:nth-last-child(2) {
+    font-weight: bold;
+    font-size: 50px;
+    padding-top: 20px;
+}
+
+.sub3 nav:nth-last-child(1) {
+    font-size: 10px;
+    font-weight: bold;
+}
+
+.sub3 nav:nth-last-child(3) {
+    font-size: 10px;
+    font-weight: bold;
+}
+
+.sub4 h1{
+    font-weight: 300;
+}
+
+.sub4 nav:nth-last-child(2) {
+    font-weight: bold;
+    font-size: 50px;
+    padding-top: 20px;
+}
+
+.sub4 nav:nth-last-child(1) {
+    font-size: 10px;
+    font-weight: bold;
+}
+
+.sub4 nav:nth-last-child(3) {
+    font-size: 10px;
+    font-weight: bold;
+}
+
+.img-more {
+    padding-top: 10px;
+    display: flex;
+    justify-content: center;
+}
+
+.img-more img {
+    width: 800px;
+    height: 250px;
 }
