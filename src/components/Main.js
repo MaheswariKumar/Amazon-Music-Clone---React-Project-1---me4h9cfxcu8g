@@ -37,6 +37,7 @@ import CustomLikeIcon from "./CustomLikeIcon";
 import { Container, Slider } from "@mui/material";
 import ShareSong from "./ShareSong";
 import MyPlaylists from "./MyPlaylists";
+import LoginMsg from "./LoginMsg";
 // import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 // import { faThumbsUp } from '@fortawesome/free-solid-svg-icons';
 // import { runtime } from "webpack";
@@ -59,7 +60,9 @@ function Main({opensearch,
                dispatch,
                dispatch1,
                dispatch2,
-               divRef }){
+               divRef,
+               loggedin,
+               setLoggedIn }){
     let [playlists, setPlayLists] = useState([]);
     let [songlists, setSongLists] = useState([]);
     let [artistlists, setArtistLists] = useState([]);
@@ -383,6 +386,19 @@ function Main({opensearch,
         }
       }, [state.showerrorcomp, dispatch]);
 
+      useEffect(() => {
+        if (state.showloginmsg) {
+          // Set a timeout to hide the error component after 2 seconds
+          const errorTimeout = setTimeout(() => {
+            dispatch({ type: "showloginmsg"});
+          }, 1000);
+    
+          return () => {
+            clearTimeout(errorTimeout);
+          };
+        }
+      }, [state.showloginmsg, dispatch]);
+
     function handleLeftIcon(identifier) {
         const container =   identifier === "trendingPlaylists" ? containerRef
         : identifier === "trendingSongs" ? songContainerRef
@@ -535,7 +551,7 @@ function Main({opensearch,
             {/* <MyPlaylists dispatch={dispatch} /> */}
             {state.openpremium && <TryPremium dispatch={dispatch} />}
             {state2.openmusicpref && <MusicPreferences dispatch2={dispatch2} />}
-            {state2.opensignoption &&  <SignOption dispatch2={dispatch2} divRef={divRef} />}
+            {state2.opensignoption &&  <SignOption dispatch2={dispatch2} divRef={divRef} loggedin={loggedin} setLoggedIn={setLoggedIn} />}
             {/* {state1.detailpageopen && <DetailPage state1={state1} dispatch1={dispatch1} state={state} dispatch={dispatch} />} */}
             {/* {!state1.detailpageopen && openresults && opensuggestion && opensearch && <ShowResults result={result} state={state} dispatch={dispatch} dispatch1={dispatch1} />} */}
             {/* {opensuggestion && !openresults && opensearch && <Suggestions 
@@ -668,6 +684,7 @@ function Main({opensearch,
                               //  idex = {state.idex}
                               />}
             {state.showerrorcomp && <PlayBackError state={state} dispatch={dispatch}/>}
+            {state.showloginmsg && <LoginMsg />} 
         </div>
 
     )

@@ -54,7 +54,7 @@ function reducerSignUp1(stateSignUp1, action) {
   }
 } 
 
-function SignIn(){
+function SignIn({setLoggedIn, dispatch}){
   const navigate = useNavigate();
 
   let [stateSignUp1, dispatchSignUp1] = useReducer(reducerSignUp1, initialStateSignUp1)
@@ -97,6 +97,8 @@ function SignIn(){
         const token = localStorage.getItem('token');
         if (data.token && token === data.token) {
           navigate('/');
+          setLoggedIn(true)
+          dispatch({type: "showloginmsg"})
         } else {
           dispatchSignUp1({ type: 'handleError', errormsg: 'Invalid token' });
         }

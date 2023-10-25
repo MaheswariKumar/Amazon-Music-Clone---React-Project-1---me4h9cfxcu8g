@@ -38,6 +38,7 @@ import SadSongsSeeAll from "./SadSongsSeeAll";
 import RomanticSongSeeAll from "./RomanticSongSeeAll";
 import MyPlaylists from "./MyPlaylists";
 import Subscription from "./Subscription";
+import MyProfile from "./MyProfile";
 
 // {/* <Route path="/products/:id" element={<SingleProduct />} /> */}
 
@@ -57,6 +58,7 @@ const App = () => {
   let divRef = useRef(null);
   let [result, setResults] = useState("");
   const inputRef = useRef(null);
+  let [loggedin, setLoggedIn] = useState(true);
   const apiEndpoint = "https://academics.newtonschool.co/api/v1/music/song";
   const apiEndpointArtist =
     "https://academics.newtonschool.co/api/v1/music/artist";
@@ -80,6 +82,7 @@ const App = () => {
     shareimg: "",
     shareti: "",
     sharepath: "",
+    showloginmsg : false,
   };
 
   function reducer(state, action) {
@@ -117,6 +120,12 @@ const App = () => {
           ...state,
           showerrorcomp: !state.showerrorcomp,
         };
+
+      case "showloginmsg":
+        return {
+          ...state,
+          showloginmsg: !state.showloginmsg,
+        }
 
       case "showpremium":
         return {
@@ -455,6 +464,8 @@ const App = () => {
                   dispatch1={dispatch1}
                   dispatch2={dispatch2}
                   divRef={divRef}
+                  loggedin={loggedin}
+                  setLoggedIn={setLoggedIn}
                 />
               </>
             }
@@ -852,8 +863,41 @@ const App = () => {
               </>
             }
           ></Route>
-          <Route path="/signin" element={<SignIn />}></Route>
+          <Route path="/signin" element={<SignIn setLoggedIn={setLoggedIn} dispatch={dispatch} />}></Route>
           <Route path="/register" element={<Register />}></Route>
+          <Route
+            path="/myprofile"
+            element={
+              <>
+                <NavBar
+                  searching={searching}
+                  handleSearchChange={handleSearchChange}
+                  searchTerm={searchTerm}
+                  handleSearchSubmit={handleSearchSubmit}
+                  opensearch={opensearch}
+                  setSubmit={setSubmit}
+                  dispatch2={dispatch2}
+                  handleValue={handleValue}
+                  handleKeyPress={handleKeyPress}
+                  inputRef={inputRef}
+                />
+                <MyProfile/>
+                {state.showmusiccomp && (
+                  <MusicComponent
+                    state={state}
+                    dispatch={dispatch}
+                    songTitle={state.title}
+                    songImg={state.img}
+                    songName={state.name}
+                    songAudio={state.audio}
+                    songPlay={state.playAudio}
+                    id={state.id}
+                    //  idex = {state.idex}
+                  />
+                )}
+              </>
+            }
+          ></Route>
         </Routes>
       {/* </Router> */}
       {/* </BrowserRouter> */}

@@ -1565,6 +1565,40 @@ ul.mood-list li[class*="box"],  ul.Listen-list li[class*="box"], ul.Artists-list
     align-items: center;
 }
 
+.signout {
+    position: absolute;
+    top: 55px;
+    right: 40px;
+    z-index: 7;
+    box-shadow: 5px 5px 5px #000;
+    border-radius: 8px;
+    background-color: rgba(40, 38, 38, 0.15);
+    backdrop-filter: blur(30px);
+    width: 300px;
+    height: 210px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center; 
+}
+
+.signout nav:hover {
+    display: flex;
+    justify-content: center;
+    width: 280px;
+    background-color: rgba(216, 199, 199, 0.15);
+    cursor: pointer;
+}
+
+.signout nav , .signout a{
+    font-size: 19px;
+    color: white;
+}
+
+.signout a {
+    font-weight: normal;
+}
+
 .sign {
     padding: 10px 106px;
     background-color: rgb(37, 209, 218);
@@ -1597,6 +1631,10 @@ ul.mood-list li[class*="box"],  ul.Listen-list li[class*="box"], ul.Artists-list
 .music:hover {
     transform: scale(1.1);
     cursor: pointer;
+}
+
+.prof {
+    padding: 10px 0;
 }
 
 .music-pref {
@@ -2750,4 +2788,59 @@ input {
 .img-more img {
     width: 800px;
     height: 250px;
+}
+
+.profileback {
+    padding-bottom: 255px;
+    padding-left: 40px;
+}
+
+.imgprof {
+    display: flex;
+    align-items: center;
+    gap: 25px;
+}
+
+.imgprof img {
+    border-radius: 50%;
+}
+
+.folowers {
+    display: flex;
+}
+
+.folowers nav {
+    color: gray;
+    font-size: 18px;
+}
+
+.userdetails h1 {
+    font-family: "Sharp Grotesk Bold 20", Helvetica, Arial, "sans-serif";
+    font-size: 50px;
+    font-weight: bold;
+    padding-bottom: 10px;
+}
+
+
+
+@media (max-width: 768px) {
+    .imgprof img {
+        border-radius: 50%;
+        width: 200px;
+        height: 200px;
+    }
+
+    .imgprof {
+        display: flex;
+        align-items: center;
+        gap: 20px;
+        flex-direction: column;
+    }
+
+    .folowers {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
 }
