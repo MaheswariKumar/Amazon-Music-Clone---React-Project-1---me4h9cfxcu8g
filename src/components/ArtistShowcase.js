@@ -33,7 +33,7 @@ function ArtistShowcase({artistlists,
                         <ChevronCaretrightIcon style={{ fontSize: '20px', color: `${selectright}` }}/>
                     </div>
                 </div>
-        <Link to="/artists/collections">{options ? <div className="alloptions">
+        <Link to="/artistsCollections">{options ? <div className="alloptions">
           <span className="all">SEE ALL</span>
         </div> : null }</Link>
             </div>

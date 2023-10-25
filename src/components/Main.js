@@ -391,7 +391,7 @@ function Main({opensearch,
           // Set a timeout to hide the error component after 2 seconds
           const errorTimeout = setTimeout(() => {
             dispatch({ type: "showloginmsg"});
-          }, 1000);
+          }, 2000);
     
           return () => {
             clearTimeout(errorTimeout);
@@ -549,7 +549,7 @@ function Main({opensearch,
       </Routes>
       </Router> */}
             {/* <MyPlaylists dispatch={dispatch} /> */}
-            {state.openpremium && <TryPremium dispatch={dispatch} />}
+            {state.openpremium && <TryPremium dispatch={dispatch} loggedin={loggedin} />}
             {state2.openmusicpref && <MusicPreferences dispatch2={dispatch2} />}
             {state2.opensignoption &&  <SignOption dispatch2={dispatch2} divRef={divRef} loggedin={loggedin} setLoggedIn={setLoggedIn} />}
             {/* {state1.detailpageopen && <DetailPage state1={state1} dispatch1={dispatch1} state={state} dispatch={dispatch} />} */}

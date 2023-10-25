@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef, useReducer, Component } from "react";
 import { Link } from "react-router-dom";
 
-function TryPremium({dispatch}){
+function TryPremium({dispatch, loggedin}){
     return (
         <div className="premium">
             <div className="cancel-pref" onClick={()=> dispatch({type: "showpremium"})}>
@@ -16,12 +16,15 @@ function TryPremium({dispatch}){
                 </div>
             </div>
             <div className="clear">
-          <Link to="/signin"><div className="clear-all">
+          {!loggedin && <Link to="/signin"><div className="clear-all">
             <nav>ALREADY SIGN IN</nav>
-          </div></Link>
-          <Link to="/signin"><div className="continue">
+          </div></Link>}
+          {!loggedin ? <Link to="/signin"><div className="continue">
             <nav>TRY NOW</nav>
           </div></Link>
+          : <Link to="/subscribe"><div className="continue">
+          <nav>TRY NOW</nav>
+        </div></Link> }
         </div>
         </div>
     )

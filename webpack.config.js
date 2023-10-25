@@ -48,5 +48,8 @@ module.exports = {
             "crypto": false
         },
         extensions: ['.js', '.jsx'],
+    },
+    devServer: {
+        historyApiFallback: true        
     }
 };

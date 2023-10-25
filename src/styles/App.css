@@ -2791,8 +2791,9 @@ input {
 }
 
 .profileback {
-    padding-bottom: 255px;
-    padding-left: 40px;
+    padding-bottom: 235px;
+    padding-left: 50px;
+    padding-top: 20px;
 }
 
 .imgprof {

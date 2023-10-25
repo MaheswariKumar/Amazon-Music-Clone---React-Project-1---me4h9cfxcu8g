@@ -58,7 +58,7 @@ const App = () => {
   let divRef = useRef(null);
   let [result, setResults] = useState("");
   const inputRef = useRef(null);
-  let [loggedin, setLoggedIn] = useState(true);
+  let [loggedin, setLoggedIn] = useState(false);
   const apiEndpoint = "https://academics.newtonschool.co/api/v1/music/song";
   const apiEndpointArtist =
     "https://academics.newtonschool.co/api/v1/music/artist";
@@ -205,6 +205,8 @@ const App = () => {
   let initialState2 = {
     opensignoption: false,
     openmusicpref: false,
+    username: "",
+
   };
 
   function reducer2(state2, action) {
@@ -220,6 +222,12 @@ const App = () => {
           ...state2,
           openmusicpref: !state2.openmusicpref,
         };
+
+      case "setusername":
+        return {
+          ...state2,
+          username: action.username,
+        }
 
       default:
         return state2;
@@ -470,7 +478,8 @@ const App = () => {
               </>
             }
           />
-        <Route
+        {/* <Route path="/playlists" element={<Podcast />}></Route> */}
+            <Route
             path="/playlists/:Id"
             element={
               <>
@@ -509,8 +518,9 @@ const App = () => {
               </>
             }
           ></Route>
+          {/* <Route path="/album" element={<Podcast />}></Route> */}
           <Route
-           exact path="/album/collections"
+            path="/albumCollections"
             element={
               <>
                 <NavBar
@@ -549,7 +559,7 @@ const App = () => {
             }
           ></Route>
           <Route
-            path="/songs/collections"
+            path="/songsCollections"
             element={
               <>
                 <NavBar
@@ -588,7 +598,7 @@ const App = () => {
             }
           ></Route>
           <Route
-            path="/artists/collections"
+            path="/artistsCollections"
             element={
               <>
                 <NavBar
@@ -627,7 +637,7 @@ const App = () => {
             }
           ></Route>
           <Route
-            path="/songs/happytracks/collections"
+            path="/happytracksCollections"
             element={
               <>
                 <NavBar
@@ -666,7 +676,7 @@ const App = () => {
             }
           ></Route>
           <Route
-            path="/songs/newtracks/collections"
+            path="/newtracksCollections"
             element={
               <>
                 <NavBar
@@ -705,7 +715,7 @@ const App = () => {
             }
           ></Route>
           <Route
-            path="/songs/sadtracks/collections"
+            path="/sadtracksCollections"
             element={
               <>
                 <NavBar
@@ -744,7 +754,7 @@ const App = () => {
             }
           ></Route>
           <Route
-            path="/songs/romantictracks/collections"
+            path="/romantictracksCollections"
             element={
               <>
                 <NavBar
@@ -863,8 +873,9 @@ const App = () => {
               </>
             }
           ></Route>
-          <Route path="/signin" element={<SignIn setLoggedIn={setLoggedIn} dispatch={dispatch} />}></Route>
+          <Route path="/signin" element={<SignIn setLoggedIn={setLoggedIn} dispatch={dispatch} dispatch2={dispatch2} />}></Route>
           <Route path="/register" element={<Register />}></Route>
+          <Route path="/subscribe" element={<Subscription />}></Route>
           <Route
             path="/myprofile"
             element={
@@ -881,7 +892,7 @@ const App = () => {
                   handleKeyPress={handleKeyPress}
                   inputRef={inputRef}
                 />
-                <MyProfile/>
+                <MyProfile state2={state2}/>
                 {state.showmusiccomp && (
                   <MusicComponent
                     state={state}

@@ -54,7 +54,7 @@ function reducerSignUp1(stateSignUp1, action) {
   }
 } 
 
-function SignIn({setLoggedIn, dispatch}){
+function SignIn({setLoggedIn, dispatch, dispatch2}){
   const navigate = useNavigate();
 
   let [stateSignUp1, dispatchSignUp1] = useReducer(reducerSignUp1, initialStateSignUp1)
@@ -92,20 +92,23 @@ function SignIn({setLoggedIn, dispatch}){
       })
       .then(data => {
         console.log('Success:', data);
+        dispatch2({type: "setusername", username: data.data.name})
         console.log("Loggedin");
+        console.log(data.data.name);
         localStorage.setItem("token", data.token);
         const token = localStorage.getItem('token');
         if (data.token && token === data.token) {
           navigate('/');
           setLoggedIn(true)
           dispatch({type: "showloginmsg"})
+          dispatch2({type : "signoption", opensignoption : false})
         } else {
           dispatchSignUp1({ type: 'handleError', errormsg: 'Invalid token' });
         }
       })
       .catch(error => {
         console.error('Error:', error);
-        // Handle errors here
+        dispatchSignUp1({type: "handleError", errormsg: "Email Id or Password Incorrect"})
       });
   };
 
@@ -122,14 +125,14 @@ function SignIn({setLoggedIn, dispatch}){
                 <br></br>
                 <label className="email">Email or mobile phone number</label>
                 <br></br>
-                <input className="emailbox" value={stateSignUp1.email} onChange={(e)=> dispatchSignUp1({type: "handleEmailInput", email: e.target.value})} type="email"></input>
+                <input required className="emailbox" value={stateSignUp1.email} onChange={(e)=> dispatchSignUp1({type: "handleEmailInput", email: e.target.value})} type="email"></input>
                 <br></br>
                 <br></br>
                 <div className="passdiv">
                 <label className="pass">Password</label>
                 <a href="#">Forgot your Password?</a>
                 </div>
-                <input className="passbox" value={stateSignUp1.pass} onChange={(e)=> dispatchSignUp1({type: "handlePassInput", pass: e.target.value })} type="password"></input>
+                <input required className="passbox" value={stateSignUp1.pass} onChange={(e)=> dispatchSignUp1({type: "handlePassInput", pass: e.target.value })} type="password"></input>
                 <br></br>
                 <br></br>
                 <button className="signbtn" onClick={(e)=> handleSignIn(e)}>Sign in</button>

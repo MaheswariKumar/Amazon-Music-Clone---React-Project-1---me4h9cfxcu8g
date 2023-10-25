@@ -37,7 +37,7 @@ function HappyHarmonies({happylists,
                         <ChevronCaretrightIcon style={{ fontSize: '20px', color: `${selectright[identifier]}` }}/>
                     </div>
                 </div>
-                <Link to="/songs/happytracks/collections">{options ? <div onClick={() => handleSelectAll(identifier)} className="alloptions">
+                <Link to="/happytracksCollections">{options ? <div onClick={() => handleSelectAll(identifier)} className="alloptions">
           <span className="all">SEE ALL</span>
         </div> : null }</Link>
             </div>

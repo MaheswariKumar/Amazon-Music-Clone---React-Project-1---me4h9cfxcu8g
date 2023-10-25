@@ -37,7 +37,7 @@ function NewMusicShowcase({newlists,
                         <ChevronCaretrightIcon style={{ fontSize: '20px', color: `${selectright[identifier]}` }}/>
                     </div>
                 </div>
-        <Link to="/songs/newtracks/collections">{options ? <div onClick={() => handleSelectAll(identifier)} className="alloptions">
+        <Link to="/newtracksCollections">{options ? <div onClick={() => handleSelectAll(identifier)} className="alloptions">
           <span className="all">SEE ALL</span>
         </div> : null }</Link>
             </div>

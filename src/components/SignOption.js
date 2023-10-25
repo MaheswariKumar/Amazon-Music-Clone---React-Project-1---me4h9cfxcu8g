@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 
 function SignOption({dispatch2, divRef, loggedin, setLoggedIn}){
     function handlesignout(){
+      dispatch2({type : "signoption", opensignoption : false})
       setLoggedIn(false)
     }
 

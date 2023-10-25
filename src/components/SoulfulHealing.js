@@ -37,7 +37,7 @@ function SoulfulHealing({sadlists,
                         <ChevronCaretrightIcon style={{ fontSize: '20px', color: `${selectright[identifier]}` }}/>
                     </div>
                 </div>
-        <Link to="/songs/sadtracks/collections">{options ? <div onClick={() => handleSelectAll(identifier)} className="alloptions">
+        <Link to="/sadtracksCollections">{options ? <div onClick={() => handleSelectAll(identifier)} className="alloptions">
           <span className="all">SEE ALL</span>
         </div> : null }</Link>
             </div>

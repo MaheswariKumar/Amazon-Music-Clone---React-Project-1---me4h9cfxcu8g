@@ -37,7 +37,7 @@ function TrendingSongs({songlists,
                         <ChevronCaretrightIcon style={{ fontSize: '20px', color: `${selectright}` }}/>
                     </div>
                 </div>
-        <Link to="/songs/collections">{options ? <div onClick={() => handleSelectAll(identifier)} className="alloptions">
+        <Link to="/songsCollections">{options ? <div onClick={() => handleSelectAll(identifier)} className="alloptions">
           <span className="all">SEE ALL</span>
         </div> : null }</Link>
             </div>
