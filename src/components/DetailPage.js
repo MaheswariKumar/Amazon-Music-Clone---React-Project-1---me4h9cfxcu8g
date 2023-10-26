@@ -192,7 +192,9 @@ function DetailPage({state1, dispatch1, state, dispatch, divRef}) {
             <div className="play-half2">
             <nav className="play-art">{state1.infotitle}</nav>
             <nav className="play-time">{formatTime(durations[idx])}</nav>
-            <ActionAddIcon style={{ color: 'white' }}/>
+            <div onClick={()=> dispatch({type : "showpremium"})}>
+              <ActionAddIcon style={{ color: 'white' }}/>
+              </div>
             <div onClick={()=> dispatch1({type : "showingoption", showoption : true, musicidx : li._id,})}>
             <ActionMoreIcon style={{ color: 'white' }}/>
             </div>
@@ -229,7 +231,9 @@ function DetailPage({state1, dispatch1, state, dispatch, divRef}) {
           <div className="play-half2">
           <nav className="play-art">{state1.infotitle}</nav>
           <nav className="play-time">{formatTime(durations[0])}</nav>
-          <ActionAddIcon style={{ color: 'white' }}/>
+          <div onClick={()=> dispatch({type : "showpremium"})}>
+              <ActionAddIcon style={{ color: 'white' }}/>
+            </div>
           <div onClick={()=> dispatch1({type : "showingoption", showoption : true, musicidx : state1.infoid,})}>
             <ActionMoreIcon style={{ color: 'white' }}/>
             </div>
