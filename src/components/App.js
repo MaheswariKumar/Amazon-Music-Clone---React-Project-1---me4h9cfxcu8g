@@ -39,6 +39,7 @@ import SignOption from "./SignOption";
 import MusicPreferences from "./MusicPreferences";
 import TryPremium from "./TryPremium";
 
+
 const App = () => {
   let [opensearch, setOpenSearch] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
