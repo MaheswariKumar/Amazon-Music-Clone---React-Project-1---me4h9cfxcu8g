@@ -16,13 +16,13 @@ function TryPremium({dispatch, loggedin}){
                 </div>
             </div>
             <div className="clear">
-          {!loggedin && <Link to="/signin"><div className="clear-all">
+          {!loggedin && <Link to="/signin"><div className="clear-all" onClick={()=> dispatch({type: "showpremium"})}>
             <nav>ALREADY SIGN IN</nav>
           </div></Link>}
-          {!loggedin ? <Link to="/signin"><div className="continue">
+          {!loggedin ? <Link to="/signin"><div className="continue" onClick={()=> dispatch({type: "showpremium"})}>
             <nav>TRY NOW</nav>
           </div></Link>
-          : <Link to="/subscribe"><div className="continue">
+          : <Link to="/subscribe"><div className="continue" onClick={()=> dispatch({type: "showpremium"})}>
           <nav>TRY NOW</nav>
         </div></Link> }
         </div>

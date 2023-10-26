@@ -27,19 +27,19 @@ function SearchComponent({setOpenSearch, searchseenresults, deleteSearchRes}){
             </div>)}
           <div className="Moods">Moods</div>
             <ul className="mood-list">
-              <Link to="/songs/happytracks/collections"><li className="box-1">Happy</li></Link>
-              <Link to="/songs/newtracks/collections"><li className="box-2">Fresh</li></Link>
-              <Link to="/songs/sadtracks/collections"><li className="box-3">Sad</li></Link>
-              <Link to="/songs/romantictracks/collections"><li className="box-4">Romatic</li></Link>
+              <Link to="/happytracksCollections"><li className="box-1">Happy</li></Link>
+              <Link to="/newtracksCollections"><li className="box-2">Fresh</li></Link>
+              <Link to="/sadtracksCollections"><li className="box-3">Sad</li></Link>
+              <Link to="/romantictracksCollections"><li className="box-4">Romatic</li></Link>
             </ul>
           <div className="Listen-Your-Way">Listen Your Way</div>
             <ul className="Listen-list">
-              <Link to="/album/collections"><li className="box-5">Trending Albums</li></Link>
-              <Link to="/songs/collections"><li className="box-6">Trending Songs</li></Link>
+              <Link to="/albumCollections"><li className="box-5">Trending Albums</li></Link>
+              <Link to="/songsCollections"><li className="box-6">Trending Songs</li></Link>
             </ul>
           <div className="Artists">Artists</div>
             <ul className="Artists-list">
-              <Link to="/artists/collections"><li className="box-7">Artistic Collection</li></Link>
+              <Link to="/artistsCollections"><li className="box-7">Artistic Collection</li></Link>
             </ul>
         </div>
       </div>

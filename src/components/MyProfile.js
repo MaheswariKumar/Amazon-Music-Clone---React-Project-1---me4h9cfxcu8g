@@ -6,8 +6,6 @@ function MyProfile({state2}) {
     })
     
     return (
-        <div className="Main-section">
-            <div className="categories"></div>
             <div className="profileback">
                 <div className="imgprof">
                     <img src="https://images-na.ssl-images-amazon.com/images/S/amazon-avatars-global/default._BG172,182,184_SS800_CR0,0,1024,1024_SX500__UX358_FMpng_QL85__UX358_FMpng_QL85_.png"></img>
@@ -22,7 +20,6 @@ function MyProfile({state2}) {
                 </div>
 
             </div>
-        </div>
     )
 }
 

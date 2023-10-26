@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect, useRef, useReducer, Component } from "react";
 import { Link } from "react-router-dom";
 import ChevronCaretLeftIcon from "./ChevronCaretLeftIcon";
 import ChevronCaretrightIcon from "./ChevronCaretrightIcon";
@@ -19,6 +19,34 @@ function ArtistShowcase({artistlists,
                          dispatch,
                          dispatch1,
                          divRef }) {
+
+    const [screenWidth, setScreenWidth] = useState(window.innerWidth);
+
+    useEffect(() => {
+    const handleResize = () => {
+      setScreenWidth(window.innerWidth);
+    };
+
+    window.addEventListener('resize', handleResize);
+
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
+  const getIconColorleft = () => {
+    if (screenWidth <= 1064) {
+      return 'white';
+    } else {
+      return `${selectleft}`;
+    }
+  };
+
+  const getIconColorright = () => {
+    if (screenWidth <= 1064) {
+      return 'white'; 
+    } else {
+      return `${selectright}`; 
+    }
+  };
     return (
         <div className="feature">
             <div className="headertab">
@@ -27,10 +55,10 @@ function ArtistShowcase({artistlists,
                 </div>
                 <div className="options">
                     <div onClick={()=> handleLeftIcon(identifier)}>
-                        <ChevronCaretLeftIcon style={{ fontSize: '20px', color: `${selectleft}` }}/>
+                        <ChevronCaretLeftIcon style={{ fontSize: '20px', color: getIconColorleft() }}/>
                     </div>
                     <div onClick={()=> handleRightIcon(identifier)}>
-                        <ChevronCaretrightIcon style={{ fontSize: '20px', color: `${selectright}` }}/>
+                        <ChevronCaretrightIcon style={{ fontSize: '20px', color: getIconColorright() }}/>
                     </div>
                 </div>
         <Link to="/artistsCollections">{options ? <div className="alloptions">

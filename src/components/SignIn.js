@@ -56,11 +56,17 @@ function reducerSignUp1(stateSignUp1, action) {
 
 function SignIn({setLoggedIn, dispatch, dispatch2}){
   const navigate = useNavigate();
+  const [keepSignedIn, setKeepSignedIn] = useState(false);
 
   let [stateSignUp1, dispatchSignUp1] = useReducer(reducerSignUp1, initialStateSignUp1)
 
   let handleSignIn = (e) => {
     e.preventDefault();
+
+    if (!stateSignUp1.email || !stateSignUp1.pass) {
+      dispatchSignUp1({ type: "handleError", errormsg: "Please fill in all the required fields." });
+      return;
+    }
 
     const postData = {
       email: stateSignUp1.email,
@@ -95,6 +101,9 @@ function SignIn({setLoggedIn, dispatch, dispatch2}){
         dispatch2({type: "setusername", username: data.data.name})
         console.log("Loggedin");
         console.log(data.data.name);
+        if (keepSignedIn) {
+          localStorage.setItem("keepSignedIn", true);
+        }
         localStorage.setItem("token", data.token);
         const token = localStorage.getItem('token');
         if (data.token && token === data.token) {
@@ -103,7 +112,7 @@ function SignIn({setLoggedIn, dispatch, dispatch2}){
           dispatch({type: "showloginmsg"})
           dispatch2({type : "signoption", opensignoption : false})
         } else {
-          dispatchSignUp1({ type: 'handleError', errormsg: 'Invalid token' });
+          dispatchSignUp1({ type: 'handleError', errormsg: "Email Id or Password Incorrect" });
         }
       })
       .catch(error => {
@@ -118,7 +127,18 @@ function SignIn({setLoggedIn, dispatch, dispatch2}){
             <img className="amaimg" src="https://logos-world.net/wp-content/uploads/2020/04/Amazon-Logo.png"></img>
             <nav className="in">.in</nav>
           </div>
-          <span>{stateSignUp1.error && stateSignUp1.errormsg}</span>
+          {/* <span>{stateSignUp1.error && stateSignUp1.errormsg}</span> */}
+          {stateSignUp1.error && 
+          <div className="errorbox">
+            <div>
+                <h1>!</h1>
+            </div>
+            <div>
+            <h2>There was a Problem</h2>
+            <nav>{stateSignUp1.errormsg}</nav>
+            </div>
+          </div>
+          }
           <div className="signbox">
               <h1 className="signti">Sign in</h1>
               <form>
@@ -130,7 +150,7 @@ function SignIn({setLoggedIn, dispatch, dispatch2}){
                 <br></br>
                 <div className="passdiv">
                 <label className="pass">Password</label>
-                <a href="#">Forgot your Password?</a>
+                <a>Forgot your Password?</a>
                 </div>
                 <input required className="passbox" value={stateSignUp1.pass} onChange={(e)=> dispatchSignUp1({type: "handlePassInput", pass: e.target.value })} type="password"></input>
                 <br></br>
@@ -141,7 +161,7 @@ function SignIn({setLoggedIn, dispatch, dispatch2}){
                 <p>By continuing, you agree to Amazon's <a href="https://www.amazon.in/gp/help/customer/display.html/ref=ap_signin_notification_condition_of_use?ie=UTF8&nodeId=200545940">Conditions of Use</a> and <a href="https://www.amazon.in/gp/help/customer/display.html/ref=ap_signin_notification_privacy_notice?ie=UTF8&nodeId=200534380">Privacy Notice.</a></p>
               </div>
               <form className="checksign">
-                <input type="checkbox"></input>
+                <input type="checkbox" checked={keepSignedIn} onChange={() => setKeepSignedIn(!keepSignedIn)}></input>
                 <label className="keep">Keep me signed in.</label>
                 <nav href="#" className="arow">Detail</nav>
               </form>

@@ -10,7 +10,8 @@ let initialStateSignUp = {
   pass : "",
   rePass : "",
   error: false,
-  errormsg: ""
+  errormsg: "",
+  match: false
 }
 
 function reducerSignUp(stateSignUp, action) {
@@ -53,6 +54,12 @@ function reducerSignUp(stateSignUp, action) {
               errormsg: action.errormsg
           }
 
+      case "handlematch":
+        return {
+          ...stateSignUp,
+          match: true,
+        }
+
       default :
         return stateSignUp
       
@@ -66,10 +73,16 @@ function Register() {
     console.log("stateSignUp", stateSignUp)
 
   let handleSignup = (e) => {
-    if (stateSignUp.pass !== stateSignUp.rePass ) {
-        dispatchSignUp({type: "handleError"})
-    }
     e.preventDefault();
+    if (!stateSignUp.name || !stateSignUp.email || !stateSignUp.pass || !stateSignUp.rePass) {
+      dispatchSignUp({ type: "handleError", errormsg: "Please fill in all the required fields." });
+      return;
+    }
+
+    if (stateSignUp.pass !== stateSignUp.rePass ) {
+      dispatchSignUp({ type: "handleError", errormsg: "Password must Match" });
+      return;
+  }
     
     const postData = {
       name: stateSignUp.name,
@@ -93,6 +106,7 @@ function Register() {
     })
       .then(response => {
         if (!response.ok){
+          console.log(response)
           if (response.status===403) {
             dispatchSignUp({type: "handleError", errormsg: "User already existed"})
           }
@@ -123,6 +137,7 @@ function Register() {
             <img className="amaimg" src="https://logos-world.net/wp-content/uploads/2020/04/Amazon-Logo.png"></img>
             <nav className="in">.in</nav>
           </div>
+          {/* <span>{stateSignUp.error && stateSignUp.errormsg && "or Password not match"}</span> */}
           {stateSignUp.error && 
           <div className="errorbox">
             <div>
@@ -130,35 +145,34 @@ function Register() {
             </div>
             <div>
             <h2>There was a Problem</h2>
-            <nav>Password must match</nav>
+            <nav>{stateSignUp.errormsg}</nav>
             </div>
           </div>
           }
           <div className="accbox">
               <h1 className="createti">Create Account</h1>
               <div>
-              <span>{stateSignUp.error && stateSignUp.errormsg}</span>
                 <br></br>
                 <label className="name">Your name</label>
                 <br></br>
-                <input className="namebox" type="text" value={stateSignUp.name} onChange={(e)=> dispatchSignUp({type: "handleNameInput", name: e.target.value})} placeholder="First and Last name"></input>
+                <input required className="namebox" type="text" value={stateSignUp.name} onChange={(e)=> dispatchSignUp({type: "handleNameInput", name: e.target.value})} placeholder="First and Last name"></input>
                 <br></br>
                 <br></br>
                 <label className="email">Email</label>
                 <br></br>
-                <input className="emailbox" value={stateSignUp.email} onChange={(e)=> dispatchSignUp({type: "handleEmailInput", email: e.target.value})} type="email"></input>
+                <input required className="emailbox" value={stateSignUp.email} onChange={(e)=> dispatchSignUp({type: "handleEmailInput", email: e.target.value})} type="email"></input>
                 <br></br>
                 <br></br>
                 <label className="pass">Password</label>
                 <br></br>
-                <input className="passbox" type="password" value={stateSignUp.pass} onChange={(e)=> dispatchSignUp({type: "handlePassInput", pass: e.target.value })} placeholder="Password"></input>
+                <input required className="passbox" type="password" value={stateSignUp.pass} onChange={(e)=> dispatchSignUp({type: "handlePassInput", pass: e.target.value })} placeholder="Password"></input>
                 <div className="passdiv1">
                     <nav className="i">i</nav>
                     <nav className="pass-char">Passwords must be at least 6 characters.</nav>
                 </div>
                 <label className="pass">Re-enter password</label>
                 <br></br>
-                <input className="passbox" type="password" value={stateSignUp.rePass} onChange={(e) => dispatchSignUp({ type: "handleRepassInput", rePass: e.target.value })}></input>
+                <input required className="passbox" type="password" value={stateSignUp.rePass} onChange={(e) => dispatchSignUp({ type: "handleRepassInput", rePass: e.target.value })}></input>
                 <br></br>
                 <br></br>
                 <button className="signbtn" onClick={(e)=> handleSignup(e)}>Create your Amazon Account</button>
@@ -168,7 +182,7 @@ function Register() {
               </div>
               <div className="checksign1">
                 <label className="keep">Already have an account?</label>
-                <a href="#" className="again">Sign in</a>
+                <Link to="/signin"><a href="#" className="again">Sign in</a></Link>
               </div>
               <div>
           </div>

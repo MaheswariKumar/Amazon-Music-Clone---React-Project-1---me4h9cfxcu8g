@@ -22,11 +22,14 @@ function MusicComponent({state, dispatch, songTitle, songImg, songName, songAudi
     
     useEffect(() => {
       if (audioRef.current.src !== songAudio && state.playing && state.id === id) {
-        audioRef.current = new Audio(songAudio);
+        audioRef.current.src = songAudio; 
+        audioRef.current.load();
       }
   
         if (state.playing && state.id === id) {
-          audioRef.current.play();
+          audioRef.current.play().catch(error => {
+            console.log("Error occurred while playing audio: ", error);
+          });
         } else{
           audioRef.current.pause();
         }
@@ -36,10 +39,10 @@ function MusicComponent({state, dispatch, songTitle, songImg, songName, songAudi
             setRemainingTime(audioRef.current.duration - audioRef.current.currentTime);
             console.log(songAudio);
             console.log(formatTime(audioRef.current.duration-audioRef.current.currentTime));
-          }, 100); // Update every 100 milliseconds
+          }, 100);
   
           audioRef.current.addEventListener('ended', handleSongEnded);
-          // Clean up the timer when component unmounts or when audio is paused
+          
           return () => {
             clearInterval(timer);
             audioRef.current.removeEventListener('ended', handleSongEnded); 
@@ -48,7 +51,7 @@ function MusicComponent({state, dispatch, songTitle, songImg, songName, songAudi
   
         // console.log(formatTime(audioRef.current.duration-audioRef.current.currentTime))
   
-    }, [state.playing]);
+    }, [songAudio, state.playing, id]);
   
     const handleSongEnded = () => {
       dispatch({ type: "playandpause", songTitle, songImg, songName, songAudio, id });
@@ -63,15 +66,12 @@ function MusicComponent({state, dispatch, songTitle, songImg, songName, songAudi
     const handleSliderChange = (_, newValue) => {
       if (audioRef.current) {
         audioRef.current.currentTime = newValue;
-    
-        // Update the current time in the component's state to keep the slider position updated
         setCurrentTime(newValue);
         setRemainingTime(audioRef.current.duration - newValue);
       }
     };
   
     const toggleVolumeSlider = () => {
-      // Toggle the visibility of the volume slider
       setShowVolumeSlider(!showVolumeSlider);
     };
   
@@ -85,8 +85,8 @@ function MusicComponent({state, dispatch, songTitle, songImg, songName, songAudi
     function formatTime(durationInSeconds) {
       const minutes = Math.floor(durationInSeconds / 60);
       const seconds = Math.floor(durationInSeconds % 60);
-      const formattedMinutes = String(minutes).padStart(2, '0'); // Ensure two digits for minutes
-      const formattedSeconds = String(seconds).padStart(2, '0'); // Ensure two digits for seconds
+      const formattedMinutes = String(minutes).padStart(2, '0'); 
+      const formattedSeconds = String(seconds).padStart(2, '0'); 
       return `${formattedMinutes}:${formattedSeconds}`;
     }
   

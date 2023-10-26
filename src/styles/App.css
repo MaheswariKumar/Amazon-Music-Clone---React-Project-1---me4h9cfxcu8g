@@ -54,16 +54,15 @@
 
 .left-icons {
     float: left;
-    width: 25%;
+    /* width: 25%; */
     padding: 15px;
 }
 
 .right-icons {
     float: right;
-    width: 75%;
+    /* width: 75%; */
     padding: 15px;
 }
-
 
 .logo {
     height: 30px;
@@ -105,6 +104,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    flex-direction: row;
     gap: 10px;
     cursor: pointer;
     height: 35px;
@@ -116,6 +116,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    flex-direction: row;
     gap: 10px;
     cursor: pointer;
     height: 35px;
@@ -123,12 +124,19 @@
     text-decoration: none;  
 }
 
-.lib-li li {
+
+.home-div:hover , .lib-div:hover, .pod-div:hover{
+    color:#bce8eb;
     cursor: pointer;
 }
 
-.home-div:hover , .lib-div:hover{
-    color:#bce8eb;
+.lib-div:hover {
+    color: #bce8eb !important;
+    cursor: pointer !important;  
+}
+
+.lib-div:hover li {
+    color: #bce8eb;
     cursor: pointer;
 }
 
@@ -138,11 +146,9 @@
 }
 
 .pod-div:hover  {
-    color: #25d1da;
+    color: #bce8eb;
     cursor: pointer;
 }
-
-
 
 .search-container {
     padding: 10px;
@@ -180,12 +186,18 @@
     outline: none;
 } 
 
+.search-container-1 {
+    display: flex;
+    justify-content: center; 
+}
+
+
 /* inputbased */
 .search-container-1 input {
     /* position: relative; */
     /* display: inline-block; */
     padding-top: 57px;
-    width: 750px;
+    width: 700px;
     height: 130px;
     background-color: rgba(255,255,255,.15);
     cursor: pointer;
@@ -213,7 +225,7 @@
     color: black;
     height: 20px;
     width: 20px;
-    background-color: white; /* Change this to your desired color */
+    background-color: white; 
     cursor: pointer;
     border-radius: 50%;
 }
@@ -522,6 +534,16 @@
     .lib-div li:not(:first-child) {
         display: none;
     }
+
+    .icon-li {
+        display: none;
+    }
+
+    .home-li {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
 }
 
 @media (max-width: 768px) {
@@ -544,27 +566,7 @@
     .search-container-1 input {
         width: 100%;
     }
-
-
-
-    /* .home-div, .pod-div, .lib-div {
-        position: relative;
-        left: 400px;
-        top: -5px;
-    }
-
-    .search-container {
-        position: absolute;
-        top: 10px;
-        right: 10px;
-    }
-
-    .user-icon {
-        position: absolute;
-        top: 10px;
-        right: 60px;
-    } */
-    
+   
 }
 
 @media (max-width: 1025px) {
@@ -572,6 +574,18 @@
     .pod-div li:not(:first-child),
     .lib-div li:not(:first-child) {
         display: none;
+    }
+}
+
+@media (max-width: 1250px) {
+    .home-div li:not(:first-child),
+    .pod-div li:not(:first-child),
+    .lib-div li:not(:first-child) {
+        display: none;
+    }
+
+    .search-container-1 input {
+        width: 100%;
     }
 }
 
@@ -611,7 +625,7 @@
 
 
 .audio-input.MuiSlider-root {
-    width: 1513px;
+    width: 100%;
     height: 2.5px;
     color: white;
     position: fixed;
@@ -722,7 +736,7 @@
     height: 80px;
     position: fixed;
     bottom: 65px;
-    left: 1463px;
+    left: 95%;
     right: 0px;
     border-radius: 0%;
     display: none;
@@ -734,7 +748,7 @@
     height: 80px;
     position: absolute;
     bottom: 65px;
-    left: 1442px;
+    left: 95%;
     right: 0px;
     border-radius: 0%;
     display: block;
@@ -817,7 +831,7 @@
 }
 
 
-@media (max-width: 1024px) {
+@media (max-width: 768px) {
     .music-container {
         display: flex;
         justify-content: space-between;
@@ -841,8 +855,37 @@
         width: 100%;
     }
 
-    /* ... (other style adjustments for small screens) ... */
+    .MuiSlider-root.volume-adjust-visible {
+        color: white;
+        width: 5px;
+        height: 80px;
+        position: absolute;
+        bottom: 65px;
+        left: 91%;
+        right: 0px;
+        border-radius: 0%;
+        display: block;
+    }    
 }
+
+@media (max-width: 550px) {
+   .volume-icon, .adjust, .prev-play-container, .next-play-container {
+    display: none;
+   }
+}
+
+@media (max-width: 1250px) {
+    .volume-icon-1{
+     cursor: default;
+    }
+ }
+
+@media (max-width: 1250px) {
+    .volume-icon, .adjust, .volume-icon-1, .adjust-1 {
+     display: none;
+     cursor: default;
+    }
+ }
 
 .music-container-1 {
     /* background-color: rgba(0, 0, 0, 1);  */
@@ -884,7 +927,7 @@
 }
 
 .audio-input-1.MuiSlider-root {
-    width: 1410px;
+    width: 93%;
     height: 2.5px;
     color: white;
     position: fixed;
@@ -1020,9 +1063,23 @@
     padding-bottom: 8px;
     cursor: pointer;
     position: fixed;
-    right: 20px;
+    right: 40px;
     bottom: 50px;
 }
+
+/* .adjust-1 {
+    display: flex;
+    flex-direction: column;
+    justify-content: end;
+    align-items: end;
+    padding-right: 50px;
+    padding-top: 8px;
+    padding-bottom: 8px;
+    cursor: pointer;
+    position: fixed;
+    right: 40px;
+    bottom: 50px;
+} */
 
 
 .MuiSlider-root.volume-adjust-1 {
@@ -1030,8 +1087,8 @@
     width: 5px;
     height: 80px;
     position: fixed;
-    bottom: 65px;
-    left: 1463px;
+    top: 570px;
+    left: 92%;
     right: 0px;
     border-radius: 0%;
     display: none;
@@ -1042,8 +1099,8 @@
     width: 5px;
     height: 80px;
     position: fixed;
-    bottom: 95px;
-    left: 1413px;
+    top: 570px;
+    left: 92%;
     right: 0px;
     border-radius: 0%;
     display: block;
@@ -1062,9 +1119,11 @@
     box-shadow: none;
 }
 
-@media (max-width: 1024px) {
+@media (max-width: 768px) {
     .music-icon-container-1 .skip-container,
-    .music-icon-container-1 .shuffle-container {
+    .music-icon-container-1 .shuffle-container,
+    .music-icon-container-1 .prev-play-container,
+    .music-icon-container-1 .next-play-container {
       display: none;
     }
 
@@ -1079,11 +1138,23 @@
     }
 
     .audio-input-1.MuiSlider-root {
-        /* width: 100%; */
-        height: 2.5px;
-        position: absolute;
-        left: 50px;
-        right: 10px;
+        width: 87%;
+    }
+
+    .MuiSlider-root.volume-adjust-1 {
+        position: fixed;
+        left: 85%;
+    }
+    
+    .MuiSlider-root.volume-adjust-visible-1 {
+        position: fixed;
+        left: 85%;
+    }
+}
+
+@media (max-width: 600px) {
+    .adjust-1, .volume-icon-1 {
+        display: none;
     }
 }
 
@@ -1565,6 +1636,10 @@ ul.mood-list li[class*="box"],  ul.Listen-list li[class*="box"], ul.Artists-list
     align-items: center;
 }
 
+.sign-option nav {
+    color: white;
+}
+
 .signout {
     position: absolute;
     top: 55px;
@@ -1575,23 +1650,25 @@ ul.mood-list li[class*="box"],  ul.Listen-list li[class*="box"], ul.Artists-list
     background-color: rgba(40, 38, 38, 0.15);
     backdrop-filter: blur(30px);
     width: 300px;
-    height: 210px;
+    height: 190px;
     display: flex;
     flex-direction: column;
-    justify-content: center;
-    align-items: center; 
+    justify-content: start;
+    align-items: start; 
+    text-indent: 20px;
 }
 
 .signout nav:hover {
     display: flex;
-    justify-content: center;
+    justify-content: start;
     width: 280px;
     background-color: rgba(216, 199, 199, 0.15);
     cursor: pointer;
 }
 
 .signout nav , .signout a{
-    font-size: 19px;
+    font-family: "Ember", "Helvetica", "Arial", "sans-serif";
+    font-size: 18px;
     color: white;
 }
 
@@ -1634,7 +1711,7 @@ ul.mood-list li[class*="box"],  ul.Listen-list li[class*="box"], ul.Artists-list
 }
 
 .prof {
-    padding: 10px 0;
+    padding: 13px 0;
 }
 
 .music-pref {
@@ -1692,6 +1769,7 @@ ul.mood-list li[class*="box"],  ul.Listen-list li[class*="box"], ul.Artists-list
 }
 
 .music-ti {
+    color: white;
     font-family: "Sharp Grotesk Semi Bold 20", "Helvetica", "Arial", "sans-serif";
     font-size: 22px;
     font-weight: bold;
@@ -1701,6 +1779,7 @@ ul.mood-list li[class*="box"],  ul.Listen-list li[class*="box"], ul.Artists-list
     font-family: "Sharp Grotesk Semi Bold 20", "Helvetica", "Arial", "sans-serif";
     font-size: 16px;
     font-weight: bold; 
+    color: white;
 }
 
 .lang-list {
@@ -1722,6 +1801,7 @@ ul.mood-list li[class*="box"],  ul.Listen-list li[class*="box"], ul.Artists-list
     /* padding: 120px 500px 15px 500px; */
     border-bottom: 1px inset rgba(255, 255, 255, 0.733);
     gap: 350px;
+    color: white;
 
     /* width: 100%;
     display: flex;
@@ -2573,10 +2653,17 @@ input {
 }
 
 .myplay {
-    padding-bottom: 310px;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-color: #0a0b0b;
+    padding-top: 120px;
 }
 
 .create h1 {
+    color: white;
     font-size: 50px;
     font-weight: bold;
 }
@@ -2598,6 +2685,7 @@ input {
 }
 
 .playli {
+    color: white;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -2606,11 +2694,13 @@ input {
 }
 
 .playli p {
+    color: white;
     font-size: 25px;
     font-weight: bold;
 }
 
 .playli nav {
+    color: white;
     font-size: 18px;
 }
 
@@ -2791,9 +2881,14 @@ input {
 }
 
 .profileback {
-    padding-bottom: 235px;
-    padding-left: 50px;
-    padding-top: 20px;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: gray;
+    padding-top: 120px;
+    padding-left: 40px;
 }
 
 .imgprof {
@@ -2811,17 +2906,17 @@ input {
 }
 
 .folowers nav {
-    color: gray;
+    color: white;
     font-size: 18px;
 }
 
 .userdetails h1 {
+    color: white;
     font-family: "Sharp Grotesk Bold 20", Helvetica, Arial, "sans-serif";
     font-size: 50px;
     font-weight: bold;
     padding-bottom: 10px;
 }
-
 
 
 @media (max-width: 768px) {

@@ -33,10 +33,10 @@ function Suggestions({filteredSuggestions, setResults, setOpenResults, searchTer
           //   <div className="noresult">No Results Found "{searchTerm}"</div> 
           //   : 
             <ul className="sugg-list">
-              <Link to="/songs/happytracks/collections"><li>Happy Songs</li></Link>
-              <Link to="/songs/newtracks/collections"><li>New Songs</li></Link>
+              <Link to="/happytracksCollections"><li>Happy Songs</li></Link>
+              <Link to="/newtracksCollections"><li>New Songs</li></Link>
               <Link to="/podcasts"><li>Podcasts</li></Link>
-              <Link to="/songs/romantictracks/collections"><li>Rhythms</li></Link>
+              <Link to="/romantictracksCollections"><li>Rhythms</li></Link>
             </ul>
         ) : (
           <ul className="sugg-list">

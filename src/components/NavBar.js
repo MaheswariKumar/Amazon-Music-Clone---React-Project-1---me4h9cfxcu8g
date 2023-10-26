@@ -51,43 +51,42 @@ function NavBar({searching, handleSearchChange, searchTerm, handleSearchSubmit, 
                     <div className="logo-div">
                         <img className="logo" src="https://d5fx445wy2wpk.cloudfront.net/static/logo.svg"></img>
                     </div>
-                    <Link className="home-li" to="/"><div className={location.pathname === '/' ? "home-li" : "home-div"}>
+                    <Link to="/"><div className={location.pathname === '/' ? "home-li" : "home-div"}>
                       <li><HomeIcon /></li>
-                      <li>HOME</li>
-                      {/* <li>HOME</li> */}
+                      <li className="icon-li">HOME</li>
                     </div></Link>
                     <Link className="pod-li" to="/podcasts"><div className="pod-div">
                         <li><PodcastIcon /></li>
                         <li>PODCASTS</li>
                     </div></Link>
-                   <div className="lib-div">
+                   {/* <div className="lib-div">
                         <li><MyMusicIcon/></li>
                         <li>LIBRARY</li>
                         <li><ChevronCaretdownIcon/></li>
-                    </div>
-                    {/* <Link className="lib-li" to="/myplaylists"><div className={location.pathname === '/myplaylists' ? "lib-li" : "lib-div"}>
+                    </div> */}
+                    <Link to="/myplaylists"><div className={location.pathname === '/myplaylists' ? "lib-li" : "lib-div"}>
                         <li><MyMusicIcon/></li>
-                        <li>LIBRARY</li>
-                        <li><ChevronCaretdownIcon/></li>
-                    </div></Link> */}
+                        <li className="icon-li">LIBRARY</li>
+                        <li className="icon-li"><ChevronCaretdownIcon/></li>
+                    </div></Link>
                 </ul>
             </div>      
             {/* : null } */}
             <div className="right-icons">
                 <ul className="right-lists">
                   {isMobile ? (
-                    <form onSubmit={handleSearchSubmit}>
-                  <div className={opensearch ? "search-container-1" : "search-container"} onClick={searching}>
+                  <Link to="/search"><div className={opensearch ? "search-container-1" : "search-container"} onKeyPress={(event) => handleKeyPress(event)} onClick={searching}>
                     {!opensearch ? <Search style={{ color: 'white' }}/> : null}
-                    {opensearch ? <input className="search" type="search" placeholder="Search" value={searchTerm} onChange={handleSearchChange} />: null}
-                    {opensearch ? (<button className="cancel">X</button>) : null }
+                    {opensearch ? <input ref={inputRef} className="search" type="search" placeholder="Search" 
+                                                    value={searchTerm} 
+                                                    onChange={handleSearchChange} />: null}
+                    {opensearch ? (<button onClick={handleValue} className="cancel">X</button>) : null }
                     {opensearch ? (<div className="icon-1">
                       <div className="search-icon-1">
                         <Search style={{ color: 'black'}}/>
                       </div>
                     </div>) : null}
-                  </div>
-                  </form>
+                  </div></Link>
                   ) : (
                   <Link to="/search"><div className={clickedInside ? "search-container-1" : "search-container"} onKeyPress={(event) => handleKeyPress(event)} onClick={searching}>
                     {/* <form onSubmit={(e)=> handleSearchSubmit(e)} onKeyPress={(event) => handleKeyPress(event)}> */}

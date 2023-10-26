@@ -61,7 +61,6 @@ function DetailPage({state1, dispatch1, state, dispatch, divRef}) {
           }
         }
         fetchData();
-        // fetchSongs(); 
 
           const fetchDurations = async () => {
               const durationsArray = await Promise.all(
@@ -96,7 +95,6 @@ function DetailPage({state1, dispatch1, state, dispatch, divRef}) {
               setDurations([duration])
               console.log(dur);
               console.log(durations[0]);
-              // Set the duration in the state or use it as required
           } catch (error) {
               console.error("Error fetching audio duration:", error);
           }
@@ -114,8 +112,8 @@ function DetailPage({state1, dispatch1, state, dispatch, divRef}) {
       function formatTime(durationInSeconds) {
         const minutes = Math.floor(durationInSeconds / 60);
         const seconds = Math.floor(durationInSeconds % 60);
-        const formattedMinutes = String(minutes).padStart(2, '0'); // Ensure two digits for minutes
-        const formattedSeconds = String(seconds).padStart(2, '0'); // Ensure two digits for seconds
+        const formattedMinutes = String(minutes).padStart(2, '0');
+        const formattedSeconds = String(seconds).padStart(2, '0'); 
         return `${formattedMinutes}:${formattedSeconds}`;
       }
 

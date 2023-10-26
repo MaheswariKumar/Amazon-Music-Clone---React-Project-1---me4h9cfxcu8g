@@ -92,7 +92,6 @@ function SeeAll({
       // }, []);
       useEffect(() => {
         if (state.showerrorcomp) {
-          // Set a timeout to hide the error component after 2 seconds
           const errorTimeout = setTimeout(() => {
             dispatch({ type: "error"});
           }, 1000);

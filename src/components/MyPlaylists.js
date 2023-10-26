@@ -1,10 +1,12 @@
 import React, { useState, useEffect, useRef, useReducer, Component } from "react";
 import ActionAddIcon from "./ActionAddIcon";
+import TryPremium from "./TryPremium";
 
 
-function MyPlaylists({dispatch}){
+function MyPlaylists({state, dispatch, loggedin}){
     return (
     <div className="myplay">
+        {state.openpremium && <TryPremium dispatch={dispatch} loggedin={loggedin} />}
         <div className="create">
             <h1>PlayLists</h1>
             <div className="createicon" onClick={()=> dispatch({type : "showpremium"})}>

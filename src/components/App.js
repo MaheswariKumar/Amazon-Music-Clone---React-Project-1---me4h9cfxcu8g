@@ -13,10 +13,6 @@ import {
   Routes,
   BrowserRouter,
 } from "react-router-dom";
-// import Logo from "./Logo";
-// import Home from "./Home";
-// import Podcasts from "./Podcasts";
-// import Library from "./Library";
 import NavBar from "./NavBar";
 import Main from "./Main";
 import Loading from "./Loading";
@@ -39,8 +35,9 @@ import RomanticSongSeeAll from "./RomanticSongSeeAll";
 import MyPlaylists from "./MyPlaylists";
 import Subscription from "./Subscription";
 import MyProfile from "./MyProfile";
-
-// {/* <Route path="/products/:id" element={<SingleProduct />} /> */}
+import SignOption from "./SignOption";
+import MusicPreferences from "./MusicPreferences";
+import TryPremium from "./TryPremium";
 
 const App = () => {
   let [opensearch, setOpenSearch] = useState(false);
@@ -64,9 +61,6 @@ const App = () => {
     "https://academics.newtonschool.co/api/v1/music/artist";
 
   let initialState = {
-    // playlists: Array(100).fill().map(() => ({
-    //   play: true,
-    // })),
     playing: false,
     showmusiccomp: false,
     showerrorcomp: false,
@@ -88,19 +82,6 @@ const App = () => {
   function reducer(state, action) {
     switch (action.type) {
       case "playandpause":
-        // const { playlistIndex } = action;
-        // const playlists = [...state.playlists];
-        // playlists[playlistIndex].play = !playlists[playlistIndex].play;
-        // console.log(audio);
-        // console.log(state.audio);
-        // console.log(action.audio);
-
-        // if (window.onerror) {
-        //   return {
-        //     ...state,
-        //     showerrorcomp: true,
-        //   };
-        // }
         return {
           ...state,
           showmusiccomp: true,
@@ -109,10 +90,7 @@ const App = () => {
           name: action.songName,
           audio: action.songAudio,
           playingIndex: action.playingIndex,
-          // playAudio : action.songPlay,
-          // playId : action.playIdx,
           playing: !state.playing,
-          // index : action.idex,
           id: action.id,
         };
       case "error":
@@ -284,7 +262,6 @@ const App = () => {
       inputRef.current.blur();
       let existingResults = localStorage.getItem("searchResults");
       let parsedResults = existingResults ? JSON.parse(existingResults) : [];
-      // setSearchSeenResults(updatedResults);
       localStorage.setItem(
         "searchResults",
         JSON.stringify([...parsedResults, searchTerm])
@@ -321,7 +298,7 @@ const App = () => {
         data.data.map((suggestion, index) => console.log(suggestion.title));
       }
 
-      setFilteredSuggestions(...[data.data]); // Update the song list state with the fetched data
+      setFilteredSuggestions(...[data.data]);
     } catch (error) {
       console.error("Error fetching song list:", error);
     }
@@ -350,7 +327,6 @@ const App = () => {
   };
 
   useEffect(() => {
-    // Fetch the song list when the search term changes
     fetchSongList();
     fetchArtistList();
     console.log("hi");
@@ -381,60 +357,10 @@ const App = () => {
   });
 
   return (
-    // <Router>
-    //   <div id="main">
-    //     <NavBar />
-    //     <nav>
-    //       <ul>
-    //         <li>
-    //           <Link to="/">logo</Link>
-    //         </li>
-    //         <li>
-    //           <Link to="/home">Home</Link>
-    //         </li>
-    //         <li>
-    //           <Link to="/podcasts">Podcasts</Link>
-    //         </li>
-    //         <li>
-    //           <Link to="/library">Library</Link>
-    //         </li>
-    //       </ul>
-    //     </nav>
-
-    // <Routes>
-    //   <Route path="/" element={<Logo />}/>
-    //   <Route path="/home" element={<Home />}/>
-    //   <Route path="/podcasts" element={<Podcasts />}/>
-    //   <Route path="/library" element={<Library />}/>
-    // </Routes>
-    //   </div>
-    // </Router>
-
-    <div id="main">
-      {/* <Subscription /> */}
-      {/* <SearchComponent 
-                handleSelectAll={handleSelectAll} 
-                setOpenSearch={setOpenSearch}
-                searchseenresults={searchseenresults}
-                deleteSearchRes={deleteSearchRes} /> */}
-      {/* <BrowserRouter> */}
-      {/* <NavBar searching={searching} 
-              handleSearchChange={handleSearchChange} 
-              searchTerm={searchTerm} 
-              handleSearchSubmit={handleSearchSubmit}
-              opensearch={opensearch}
-              setSubmit={setSubmit}
-              dispatch2={dispatch2} /> */}
-      {/* <Loading /> */}
-      {/* <Podcast /> */}
-      {/* <SignIn />  */}
-      {/* <Register /> */}
-      {/* <SeeAll state={state}
-            state1={state1}
-            dispatch={dispatch}
-            dispatch1={dispatch1}
-            divRef={divRef}/> */}
-      {/* <Router> */}
+    <div id="main">      
+      {state2.opensignoption &&  <SignOption dispatch2={dispatch2} divRef={divRef} loggedin={loggedin} setLoggedIn={setLoggedIn} />}
+      {state.openpremium && <TryPremium dispatch={dispatch} loggedin={loggedin} />}
+      {state2.openmusicpref && <MusicPreferences dispatch2={dispatch2} />}
         <Routes>
           <Route
             path="/"
@@ -518,7 +444,6 @@ const App = () => {
               </>
             }
           ></Route>
-          {/* <Route path="/album" element={<Podcast />}></Route> */}
           <Route
             path="/albumCollections"
             element={
@@ -552,7 +477,6 @@ const App = () => {
                     songAudio={state.audio}
                     songPlay={state.playAudio}
                     id={state.id}
-                    //  idex = {state.idex}
                   />
                 )}
               </>
@@ -591,7 +515,6 @@ const App = () => {
                     songAudio={state.audio}
                     songPlay={state.playAudio}
                     id={state.id}
-                    //  idex = {state.idex}
                   />
                 )}
               </>
@@ -630,7 +553,6 @@ const App = () => {
                     songAudio={state.audio}
                     songPlay={state.playAudio}
                     id={state.id}
-                    //  idex = {state.idex}
                   />
                 )}
               </>
@@ -669,7 +591,6 @@ const App = () => {
                     songAudio={state.audio}
                     songPlay={state.playAudio}
                     id={state.id}
-                    //  idex = {state.idex}
                   />
                 )}
               </>
@@ -708,7 +629,6 @@ const App = () => {
                     songAudio={state.audio}
                     songPlay={state.playAudio}
                     id={state.id}
-                    //  idex = {state.idex}
                   />
                 )}
               </>
@@ -747,7 +667,6 @@ const App = () => {
                     songAudio={state.audio}
                     songPlay={state.playAudio}
                     id={state.id}
-                    //  idex = {state.idex}
                   />
                 )}
               </>
@@ -786,7 +705,6 @@ const App = () => {
                     songAudio={state.audio}
                     songPlay={state.playAudio}
                     id={state.id}
-                    //  idex = {state.idex}
                   />
                 )}
               </>
@@ -846,7 +764,6 @@ const App = () => {
                     songAudio={state.audio}
                     songPlay={state.playAudio}
                     id={state.id}
-                    //  idex = {state.idex}
                   />
                 )}
               </>
@@ -869,7 +786,19 @@ const App = () => {
                   handleKeyPress={handleKeyPress}
                   inputRef={inputRef}
                 />
-                <MyPlaylists />
+                <MyPlaylists state={state} dispatch={dispatch} loggedin={loggedin} />
+                {state.showmusiccomp && (
+                  <MusicComponent
+                    state={state}
+                    dispatch={dispatch}
+                    songTitle={state.title}
+                    songImg={state.img}
+                    songName={state.name}
+                    songAudio={state.audio}
+                    songPlay={state.playAudio}
+                    id={state.id}
+                  />
+                )}
               </>
             }
           ></Route>
@@ -903,36 +832,12 @@ const App = () => {
                     songAudio={state.audio}
                     songPlay={state.playAudio}
                     id={state.id}
-                    //  idex = {state.idex}
                   />
                 )}
               </>
             }
           ></Route>
         </Routes>
-      {/* </Router> */}
-      {/* </BrowserRouter> */}
-      {/* <NavBar searching={searching} 
-              handleSearchChange={handleSearchChange} 
-              searchTerm={searchTerm} 
-              handleSearchSubmit={handleSearchSubmit}
-              opensearch={opensearch}
-              setSubmit={setSubmit}
-              dispatch2={dispatch2} />
-      <Main opensearch={opensearch} 
-            setOpenSearch={setOpenSearch}
-            filteredSuggestions={filteredSuggestions} 
-            opensuggestion={opensuggestion} 
-            openresults={openresults}
-            setOpenResults={setOpenResults}
-            searchTerm={searchTerm}
-            submit={submit} 
-            setSubmit={setSubmit}
-            searchseenresults={searchseenresults}
-            setSearchSeenResults={setSearchSeenResults}
-            deleteSearchRes={deleteSearchRes}
-            state2={state2}
-            dispatch2={dispatch2} /> */}
     </div>
   );
 };
