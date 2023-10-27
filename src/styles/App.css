@@ -1184,7 +1184,7 @@
     right: 0; */
     background-color: rgb(0, 0, 0.5);
     /* padding-left: 40px; */
-    padding-top: 0px;
+    padding-top: 80px;
     min-height: 100vh;
     padding-bottom: 80px;
     
@@ -1202,6 +1202,7 @@
     font-size: 20px;
     line-height: 24px;  
     padding-bottom: 15px;
+    color: white;
 }
 
 .res-list {
@@ -1217,6 +1218,7 @@
     font-family: "Sharp Grotesk Semi Bold 20", "Helvetica", "Arial", "sans-serif";
     font-size: 16px;
     line-height: 24px;   
+    color: white;
 }
 
 .res-li {
@@ -1248,6 +1250,7 @@
     font-size: 30px;
     line-height: 24px;
     font-weight: bold;
+    color: white;
 }
 
 .mood-list, .Listen-list, .Artists-list{
