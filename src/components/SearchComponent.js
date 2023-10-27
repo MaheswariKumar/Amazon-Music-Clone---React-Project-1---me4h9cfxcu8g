@@ -4,8 +4,8 @@ import { Link } from "react-router-dom";
 function SearchComponent({setOpenSearch, searchseenresults, deleteSearchRes}){
     let storedResults = JSON.parse(localStorage.getItem('searchResults'))
     return (
-    <div className="Main-section">
-        <div className="categories"></div>
+    // <div className="Main-section">
+    //     <div className="categories"></div>
       <div className="Search-Lists">
         <div className="Search-Types">
           {storedResults  && storedResults.length > 0 ? (
@@ -43,7 +43,7 @@ function SearchComponent({setOpenSearch, searchseenresults, deleteSearchRes}){
             </ul>
         </div>
       </div>
-    </div>
+    // </div>
     )
   }
 

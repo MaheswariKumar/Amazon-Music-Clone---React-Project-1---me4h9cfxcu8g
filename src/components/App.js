@@ -751,7 +751,9 @@ const App = () => {
                     result={result}
                     state={state}
                     dispatch={dispatch}
+                    state1={state1}
                     dispatch1={dispatch1}
+                    divRef={divRef}
                   />
                 )}
                 {submit && <NoResults searchTerm={searchTerm} />}

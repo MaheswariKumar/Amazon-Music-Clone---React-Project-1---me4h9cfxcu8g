@@ -24,8 +24,8 @@ function Suggestions({filteredSuggestions, setResults, setOpenResults, searchTer
     }
   
     return (
-    <div className="Main-section">
-        <div className="categories"></div>
+    // <div className="Main-section">
+    //     <div className="categories"></div>
       <div className="suggestions-list">
         <div className="suggestions">Suggestions</div>
         {filteredSuggestions.length === 0 ? (
@@ -51,7 +51,7 @@ function Suggestions({filteredSuggestions, setResults, setOpenResults, searchTer
           </ul>
         )}
       </div>
-    </div>
+    // </div>
     );
   }
 

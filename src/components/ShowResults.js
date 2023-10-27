@@ -1,14 +1,16 @@
 import React, { useState, useEffect, useRef, useReducer, Component } from "react";
+import { Link } from "react-router-dom";
 import PlaybackPlayIcon from "./PlaybackPlayIcon";
 import MyCustomPauseIcon from "./MyCustomPauseIcon";
 import ActionMoreIcon from "./ActionMoreIcon";
 import ActionAddIcon from "./ActionAddIcon";
 import CustomChevronRightIcon from "./CustomChevronRightIcon";
+import AddOptions from "./AddOptions";
 
-function ShowResults({result, state, dispatch, dispatch1}) {
+function ShowResults({result, state, dispatch, state1, dispatch1, divRef}) {
     return (
-    <div className="Main-section">
-        <div className="categories"></div>
+    // <div className="Main-section">
+    //     <div className="categories"></div>
       <div className="showresult">
         {!result.name ? <div className="result">Search results for "{result.title}"</div> : <div className="result">Search results for "{result.name}"</div> }
         <div className="result">Songs</div>
@@ -18,7 +20,9 @@ function ShowResults({result, state, dispatch, dispatch1}) {
                       <div className="image-container">
                       <img className="imgtab" src={result.thumbnail} alt={result.title}></img>
                       <div className="icon-container">
-                          <ActionAddIcon />
+                      <div onClick={()=> dispatch({type : "showpremium"})}>
+              <ActionAddIcon style={{ color: 'white' }}/>
+              </div>
                           <div onClick={()=> {if (result.audio_url) {dispatch({type : "playandpause", 
                                               songTitle : result.title, 
                                               songImg : result.thumbnail, 
@@ -30,16 +34,35 @@ function ShowResults({result, state, dispatch, dispatch1}) {
                                                className="play-container">
                            {state.playing && state.id === result._id ? <MyCustomPauseIcon /> : <PlaybackPlayIcon />}
                           </div>
-                          <ActionMoreIcon />
+                          <div onClick={()=> {dispatch1({type : "showingaddoption", showaddoption: true, optionidx: result._id}); dispatch1({type : "playingall", 
+                                            infotitle : result.title, 
+                                            infoimg : result.thumbnail,
+                                            infodes :  result.artist[0].description, 
+                                            infoid : result._id,
+                                            infocount : 1,
+                                            infotype : "Songs",
+                                            infoaudio : result.audio_url,
+                                            })}}>
+                <ActionMoreIcon style={{ color: 'white' }}/>
+                </div>
                       </div>
+                      {state1.showaddoption && state1.optionidx === result._id && <AddOptions state1={state1} dispatch={dispatch} dispatch1={dispatch1} divRef={divRef} />}
                       {state.playing && state.id === result._id ?
                       <div className="rythm-container">
                           <img src="https://m.media-amazon.com/images/G/01/digital/music/player/web/EQ_accent.gif" alt="Rythm" style={{ width: "40px", height: "40px"}}></img>
                       </div> :  null} 
                       </div>
-                      <div className="link-container">
+                      <Link className="path-pref" to={`/playlists/${result._id}`}><div className="link-container" onClick={()=> dispatch1({type : "playingall", 
+                                            infotitle : result.title, 
+                                            infoimg : result.thumbnail,
+                                            infodes :  result.artist[0].description, 
+                                            infoid : result._id,
+                                            infocount : 1,
+                                            infotype : "Songs",
+                                            infoaudio : result.audio_url,
+                                            })}>
                           <span className="link">{result.title}</span>
-                      </div> 
+                      </div></Link>
                       <div className="content-container">
                           {/* <span className="content">{song.artist[0].name}</span> */}
                             {result.artist.map((artist, idx) => (
@@ -54,29 +77,37 @@ function ShowResults({result, state, dispatch, dispatch1}) {
         <div className="image-container">
         <img className="imgtab" src={result.image} alt={result.name}></img>
         <div className="icon-container">
-        <div onClick={()=> dispatch1({type : "playingall", 
+        <Link className="path-pref" to={`/playlists/${result._id}`}><div onClick={()=> dispatch1({type : "playingall", 
                                               infotitle : result.name, 
                                               infoimg : result.image, 
                                               infodes : result.description, 
                                               infoid : result._id,
                                               infocount : result.songs.length,
+                                              infotype : "Artists"
                                               })} 
                                                className="play-container">
                           {/* {state.playing && state.id === song._id ? <MyCustomPauseIcon /> : <PlaybackPlayIcon />} */}
                           <CustomChevronRightIcon style={{ fontSize: '40px'}}/>
-                          </div>
+                          </div></Link>
         </div> 
         </div>
-        <div className="link-container">
+        <Link className="path-pref" to={`/playlists/${result._id}`}><div className="link-container" onClick={()=> dispatch1({type : "playingall", 
+                                              infotitle : result.name, 
+                                              infoimg : result.image, 
+                                              infodes : result.description, 
+                                              infoid : result._id,
+                                              infocount : result.songs.length,
+                                              infotype : "Artists"
+                                              })} >
             <span className="link">{result.name}</span>
-        </div> 
+        </div></Link>
         <div className="content-container">
             <span className="content">{result.description}</span>
         </div>
     </div>)  
   }    
       </div>
-    </div>
+    // </div>
     )
   }
 

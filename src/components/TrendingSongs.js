@@ -112,7 +112,7 @@ function TrendingSongs({songlists,
                                             infoimg : song.thumbnail, 
                                             infodes : song.artist[0].description, 
                                             infoid : song._id,
-                                            infocount : 0,
+                                            infocount : 1,
                                             infotype : "Songs",
                                             infoaudio : song.audio_url
                                             })}>

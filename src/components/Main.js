@@ -412,7 +412,7 @@ function Main({opensearch,
           container.current.scrollLeft -= 1000;
         }
       
-        if (container.current.scrollLeft <= 0) {
+        if (container.current.scrollLeft > 0) {
             setSelectRight((prevSelectRight) => ({
                 ...prevSelectRight,
                 [identifier]: "white",
@@ -432,12 +432,22 @@ function Main({opensearch,
         : identifier === "newRelease" ? newReleaseContainerRef
         : identifier === "sadSongs" ? sadSongContainerRef
         : romanticContainerRef;
-
-        if (container.current) {
+        // const { scrollWidth, clientWidth, scrollLeft } = container.current;
+        // if (scrollWidth > clientWidth && scrollLeft < scrollWidth - clientWidth) {
+        //   container.current.scrollLeft += 1000;
+        // }
+        // container.current.scrollLeft += 1000;
+        // console.log(container.current.scrollLeft+1000);
+        // console.log(container.current)
+        if (container.current.scrollLeft === 0) {
+          console.log(container.current.scrollLeft)
           container.current.scrollLeft += 1000;
         }
 
         // console.log(container.current.scrollWidth - container.current.clientWidth);
+        // console.log(container.current.scrollWidth)
+        // console.log(container.current.scrollLeft)
+        // console.log(container.current.clientWidth);
       
         if (container.current.scrollLeft < 1000) {
             setSelectRight((prevSelectRight) => ({
