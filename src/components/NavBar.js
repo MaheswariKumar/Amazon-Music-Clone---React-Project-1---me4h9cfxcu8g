@@ -71,17 +71,17 @@ function NavBar({searching, handleSearchChange, searchTerm, handleSearchSubmit, 
                     </div></Link>
                 </ul>
             </div>      
-            {/* : null } */}
+
             <div className="right-icons">
                 <ul className="right-lists">
                   {isMobile ? (
-                  <Link to="/search"><div className={opensearch ? "search-container-1" : "search-container"} onKeyPress={(event) => handleKeyPress(event)} onClick={searching}>
-                    {!opensearch ? <Search style={{ color: 'white' }}/> : null}
-                    {opensearch ? <input ref={inputRef} className="search" type="search" placeholder="Search" 
+                  <Link to="/search"><div className={clickedInside ? "search-container-1" : "search-container"} onKeyPress={(event) => handleKeyPress(event)} onClick={searching}>
+                    {!clickedInside ? <div ref={inputRef}> <Search style={{ color: 'white' }}/> </div> : null}
+                    {clickedInside ? <input className="search" type="search" placeholder="Search" 
                                                     value={searchTerm} 
                                                     onChange={handleSearchChange} />: null}
-                    {opensearch ? (<button onClick={handleValue} className="cancel">X</button>) : null }
-                    {opensearch ? (<div className="icon-1">
+                    {clickedInside ? (<button onClick={handleValue} className="cancel">X</button>) : null }
+                    {clickedInside ? (<div className="icon-1">
                       <div className="search-icon-1">
                         <Search style={{ color: 'black'}}/>
                       </div>

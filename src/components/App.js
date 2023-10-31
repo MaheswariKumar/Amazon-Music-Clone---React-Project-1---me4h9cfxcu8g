@@ -57,6 +57,8 @@ const App = () => {
   let [result, setResults] = useState("");
   const inputRef = useRef(null);
   let [loggedin, setLoggedIn] = useState(false);
+  const [favoriteSongs, setFavoriteSongs] = useState([]);
+  const [mylist, setMylist] = useState([])
   const apiEndpoint = "https://academics.newtonschool.co/api/v1/music/song";
   const apiEndpointArtist =
     "https://academics.newtonschool.co/api/v1/music/artist";
@@ -142,6 +144,8 @@ const App = () => {
     optionidx: "",
     showoption: false,
     musicidx: "",
+    playsongid: "",
+    removesongid: ""
   };
 
   function reducer1(state1, action) {
@@ -173,6 +177,18 @@ const App = () => {
           showoption: action.showoption,
           musicidx: action.musicidx,
         };
+
+      case "addplaylist":
+        return {
+          ...state1,
+          playsongid: action.playsongid,
+        }
+
+      case "removesong":
+        return {
+          ...state1,
+          removesongid: action.playsongid,
+        }
 
       default:
         return state1;
@@ -353,9 +369,68 @@ const App = () => {
     // console.log(state2.opensignoption)
   }, [dispatch2]);
 
-  useEffect(() => {
-    console.log(state2.opensignoption);
-  });
+  // useEffect(() => {
+  //   console.log(state2.opensignoption);
+  // });
+
+  const token = localStorage.getItem('token');
+  const addToFavorites = async (songId, jwtToken, projectId) => {
+      try {
+        const url = 'https://academics.newtonschool.co/api/v1/music/favorites/like';
+        const response = await fetch(url, {
+          method: 'PATCH',
+          headers: {
+            'Authorization': `Bearer ${jwtToken}`,
+            'projectID': projectId,
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({ "songId": songId })
+        });
+    
+        const data = await response.json();
+        console.log(data);
+        console.log(data.data.songs);
+        setMylist(data.data.songs);
+        setFavoriteSongs(data.data.songs.map(item => item._id));
+        // if (favoriteSongs.includes(state1.playsongid)) {
+        //   // dispatch({type: "removesong", removesongid: (state1.removesongid.filter((id) => id !== songId)) })
+        //   setFavoriteSongs(favoriteSongs.filter((id) => id !== state1.playsongid)); 
+        // } else {
+        //   // dispatch({type: "removesong", removesongid: [...state1.removesongid, songId]})
+        //   setFavoriteSongs([...favoriteSongs, state1.playsongid]);
+        // }
+      } catch (error) {
+        console.error('Error:', error);
+      }
+    };
+
+    // const fetchFavorites = async () => {
+    //   try {
+    //     const url = 'https://academics.newtonschool.co/api/v1/music/favorites/like';
+    //     const response = await fetch(url, {
+    //       method: 'GET',
+    //       headers: {
+    //         'Authorization': `Bearer ${token}`,
+    //         'projectID': 'me4h9cfxcu8g',
+    //         'Content-Type': 'application/json'
+    //       }
+    //     });
+  
+    //     const data = await response.json();
+    //     console.log(data);
+    //     if (data && data.data && data.data.songs) {
+    //       setMylist(data.data.songs);
+    //     }
+    //   } catch (error) {
+    //     console.error('Error fetching favorites:', error);
+    //   }
+    // };
+
+    useEffect(()=>{
+      addToFavorites(state1.playsongid, token, "me4h9cfxcu8g")
+      // fetchFavorites();
+      console.log(state1.playsongid)
+    }, [state1.playsongid])
 
   return (
     <div id="main">      
@@ -427,6 +502,11 @@ const App = () => {
                   dispatch1={dispatch1}
                   state={state}
                   dispatch={dispatch}
+                  favoriteSongs={favoriteSongs}
+                  setFavoriteSongs={setFavoriteSongs}
+                  mylist={mylist}
+                  setMylist={setMylist}
+                  loggedin={loggedin}
                   divRef={divRef}
                 />
                 {state.showmusiccomp && (
@@ -789,7 +869,15 @@ const App = () => {
                   handleKeyPress={handleKeyPress}
                   inputRef={inputRef}
                 />
-                <MyPlaylists state={state} dispatch={dispatch} loggedin={loggedin} />
+                <MyPlaylists state={state} 
+                             dispatch={dispatch} 
+                             dispatch1={dispatch1} 
+                             state1={state1}
+                             favoriteSongs={favoriteSongs}
+                             setFavoriteSongs={setFavoriteSongs}
+                             mylist={mylist}
+                             setMylist={setMylist} 
+                             loggedin={loggedin} />
                 {state.showmusiccomp && (
                   <MusicComponent
                     state={state}

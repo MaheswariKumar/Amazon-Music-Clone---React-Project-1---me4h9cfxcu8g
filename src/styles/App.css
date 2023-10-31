@@ -10,7 +10,6 @@
     background-color: #0a0b0b;
     color: white;
     height: 75px;
-    width: 100%;
     font-weight: bold;
     font-size: 16px;
     font-family:  "Ember", "Helvetica", "Arial", "sans-serif";
@@ -582,8 +581,36 @@
     }
 
     .search-container-1 input {
-        width: 100%;
+        width: 150%;
     }
+
+    .search-container-1 {
+        display: flex;
+        justify-content: center;
+        padding-top: 0;
+    }
+
+    .right-icons {
+        padding-left: 0;
+    }
+
+    .right-lists {
+        display: flex;
+        justify-content: center;
+    }
+
+    .left-icons {
+        padding-right: 0;
+    }
+
+    .search-container, .search-container-1 {
+        padding-left: 0px;
+    }
+    
+    .left-icons {
+        display: none;
+    }
+
    
 }
 
@@ -2692,11 +2719,13 @@ input {
 }
 
 .myplay {
-    position: absolute;
+    /* position: absolute;
     top: 0;
     bottom: 0;
     left: 0;
-    right: 0;
+    right: 0; */
+    width: 100%;
+    min-height: 100vh;
     background-color: #0a0b0b;
     padding-top: 120px;
 }
