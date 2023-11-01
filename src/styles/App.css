@@ -993,6 +993,10 @@
    .volume-icon, .adjust, .prev-play-container, .next-play-container {
     display: none;
    }
+
+   .audio-input.MuiSlider-root {
+    bottom: 60px;
+  }
 }
 
 @media (max-width: 1250px) {
@@ -1756,7 +1760,11 @@ ul.mood-list li[class*="box"],  ul.Listen-list li[class*="box"], ul.Artists-list
 
     .moreicon {
         display: none;
-    }    
+    }   
+    
+    .showresult {
+        padding-left: 20px;
+    }
 }
 
 /* Responsive Css for Detail Page */
@@ -2470,6 +2478,18 @@ input {
         gap: 2px;
     }
 
+    .hindi {
+        gap: 200px;
+    }
+
+    .music-pref {
+        padding: 80px 0px 0px 0px;
+    }
+
+    .music-des {
+        font-size: 14px;
+    }
+
 }
 
 .loading-container {
@@ -2788,6 +2808,10 @@ input {
         left: 30%;
         position: absolute;
         cursor: pointer;
+    }
+
+    .cancel-pref {
+        right: -145px;
     }
 }
 
