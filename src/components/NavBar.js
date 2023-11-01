@@ -10,6 +10,7 @@ import ChevronCaretdownIcon from "./ChevronCaretdownIcon";
 
 function NavBar({searching, handleSearchChange, searchTerm, handleSearchSubmit, inputRef, opensearch, setSubmit, dispatch2, handleValue, handleKeyPress}){
     const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
+    const [screen, setScreen] = useState(window.innerWidth <= 376);
     const [clickedInside, setClickedInside] = useState(false);
     const location = useLocation();
     
@@ -17,6 +18,7 @@ function NavBar({searching, handleSearchChange, searchTerm, handleSearchSubmit, 
     useEffect(() => {
       const handleResize = () => {
         setIsMobile(window.innerWidth <= 768);
+        setScreen(window.innerWidth <= 376);
       };
   
       window.addEventListener('resize', handleResize);
@@ -44,9 +46,9 @@ function NavBar({searching, handleSearchChange, searchTerm, handleSearchSubmit, 
 
     
     return (
-        <div id="Navbar">
+        <div id={screen && !clickedInside ? "Navbar-1" : "Navbar"}>
           {/* {!isMobile && !opensearch ?  */}
-            <div className="left-icons">
+            <div className={isMobile && clickedInside ? "left-icons-1" : "left-icons" }>
                 <ul className="left-lists">
                     <div className="logo-div">
                         <img className="logo" src="https://d5fx445wy2wpk.cloudfront.net/static/logo.svg"></img>
@@ -72,16 +74,16 @@ function NavBar({searching, handleSearchChange, searchTerm, handleSearchSubmit, 
                 </ul>
             </div>      
 
-            <div className="right-icons">
-                <ul className="right-lists">
+            <div className={isMobile && clickedInside ? "right-icons-1" : "right-icons"} >
+                <ul className={isMobile && clickedInside ? "right-lists-1" : "right-lists"}>
                   {isMobile ? (
                   <Link to="/search"><div className={clickedInside ? "search-container-1" : "search-container"} onKeyPress={(event) => handleKeyPress(event)} onClick={searching}>
                     {!clickedInside ? <div ref={inputRef}> <Search style={{ color: 'white' }}/> </div> : null}
-                    {clickedInside ? <input className="search" type="search" placeholder="Search" 
+                    {clickedInside ? <input ref={inputRef} className="search" type="search" placeholder="Search" 
                                                     value={searchTerm} 
                                                     onChange={handleSearchChange} />: null}
-                    {clickedInside ? (<button onClick={handleValue} className="cancel">X</button>) : null }
-                    {clickedInside ? (<div className="icon-1">
+                    {clickedInside ? (<button onClick={handleValue} className="cancel-1">X</button>) : null }
+                    {clickedInside ? (<div className="icon-2">
                       <div className="search-icon-1">
                         <Search style={{ color: 'black'}}/>
                       </div>
@@ -107,7 +109,7 @@ function NavBar({searching, handleSearchChange, searchTerm, handleSearchSubmit, 
                   </div></Link>
                   
                   )}
-                    <div className="user-icon" onClick={()=> dispatch2({type : "signoption", opensignoption : true})}>
+                    <div className={isMobile && clickedInside ? "user-icon-1" : "user-icon"} onClick={()=> dispatch2({type : "signoption", opensignoption : true})}>
                         <li><ProfileIcon color="inherit"/></li>
                     </div>
                 </ul>

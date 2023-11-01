@@ -265,7 +265,7 @@ function DetailPage({state1, dispatch1, state, dispatch, divRef, favoriteSongs, 
     <ActionAddIcon style={{ color: 'white' }} />
    )}
               </div> }
-            <div onClick={()=> dispatch1({type : "showingoption", showoption : true, musicidx : li._id,})}>
+            <div className="moreicon" onClick={()=> dispatch1({type : "showingoption", showoption : true, musicidx : li._id,})}>
             <ActionMoreIcon style={{ color: 'white' }}/>
             </div>
             </div>             
@@ -311,7 +311,7 @@ function DetailPage({state1, dispatch1, state, dispatch, divRef, favoriteSongs, 
     <ActionAddIcon style={{ color: 'white' }} />
    )}
               </div> }
-          <div onClick={()=> dispatch1({type : "showingoption", showoption : true, musicidx : state1.infoid,})}>
+          <div className="moreicon" onClick={()=> dispatch1({type : "showingoption", showoption : true, musicidx : state1.infoid,})}>
             <ActionMoreIcon style={{ color: 'white' }}/>
             </div>
           </div>

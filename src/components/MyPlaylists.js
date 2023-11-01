@@ -7,7 +7,7 @@ import PlaybackPlayIcon from "./PlaybackPlayIcon";
 import CustomDoneIcon from "./CustomDoneIcon";
 
 
-function MyPlaylists({state, dispatch, loggedin, dispatch1, state1, favoriteSongs, setFavoriteSongs, mylist, setMylist}){
+function MyPlaylists({state, dispatch, loggedin, dispatch1, state1, favoriteSongs, setFavoriteSongs, mylist, setMylist, addToFavorites}){
     // const token = localStorage.getItem('token');
     // const addToFavorites = async (songId) => {
     //     try {
@@ -125,7 +125,7 @@ function MyPlaylists({state, dispatch, loggedin, dispatch1, state1, favoriteSong
             {/* <div onClick={()=> dispatch({type : "showpremium"})}>
               <ActionAddIcon style={{ color: 'white' }}/>
               </div> */}
-              <div onClick={()=> dispatch1({type : "addplaylist", playsongid: li._id})}>
+              <div onClick={() => addToFavorites(li._id, token, "me4h9cfxcu8g")}>
                 <CustomDoneIcon style={{ color: 'white' }} />
               </div>
             </div>             

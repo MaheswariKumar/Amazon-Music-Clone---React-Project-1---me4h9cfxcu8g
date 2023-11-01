@@ -876,7 +876,8 @@ const App = () => {
                              favoriteSongs={favoriteSongs}
                              setFavoriteSongs={setFavoriteSongs}
                              mylist={mylist}
-                             setMylist={setMylist} 
+                             setMylist={setMylist}
+                             addToFavorites={addToFavorites} 
                              loggedin={loggedin} />
                 {state.showmusiccomp && (
                   <MusicComponent
