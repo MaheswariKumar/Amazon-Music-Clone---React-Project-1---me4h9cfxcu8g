@@ -62,6 +62,8 @@ function Main({opensearch,
                dispatch2,
                divRef,
                loggedin,
+               favoriteSongs,
+               addToFavorites,
                setLoggedIn }){
     let [playlists, setPlayLists] = useState([]);
     let [songlists, setSongLists] = useState([]);
@@ -566,6 +568,9 @@ function Main({opensearch,
                                state1={state1}
                                dispatch={dispatch}
                                dispatch1={dispatch1}
+                               loggedin={loggedin}
+                               favoriteSongs={favoriteSongs}
+                               addToFavorites={addToFavorites}
                                divRef={divRef} /> }
             {showTrendingSongs && <TrendingSongs songlists={songlists}
                                handleLeftIcon={handleLeftIcon} 

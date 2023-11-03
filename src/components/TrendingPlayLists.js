@@ -7,6 +7,7 @@ import ActionMoreIcon from "./ActionMoreIcon";
 import ActionAddIcon from "./ActionAddIcon";
 import MyCustomPauseIcon from "./MyCustomPauseIcon";
 import AddOptions from "./AddOptions";
+import CustomDoneIcon from "./CustomDoneIcon";
 
 function TrendingPlayLists({ playlists, 
                              handleLeftIcon, 
@@ -22,6 +23,9 @@ function TrendingPlayLists({ playlists,
                              state1,
                              dispatch,
                              dispatch1,
+                             loggedin,
+                             favoriteSongs,
+                             addToFavorites,
                              divRef}) {
     const [screenWidth, setScreenWidth] = useState(window.innerWidth);
 
@@ -50,6 +54,7 @@ function TrendingPlayLists({ playlists,
       return `${selectright}`; 
     }
   };
+  const token = localStorage.getItem('token');
                               
 
   return (
@@ -76,9 +81,17 @@ function TrendingPlayLists({ playlists,
             <div className="image-container">
               <img className="imgtab" src={song.image} alt={song.title}></img>
               <div className="icon-container">
-                <div onClick={()=> dispatch({type: "showpremium"})}>
-                <ActionAddIcon />
-                </div>
+              {!loggedin ? <div onClick={()=> dispatch({type : "showpremium"})}>
+              <ActionAddIcon style={{ color: 'white' }}/>
+              </div>
+         : <div onClick={() => addToFavorites(song.songs && song.songs[0] && song.songs[0]._id, token, "me4h9cfxcu8g")}>
+         {favoriteSongs.includes(song.songs && song.songs[0] && song.songs[0]._id) ? (
+           <CustomDoneIcon style={{ color: 'white' }} />
+         ) : (
+           <ActionAddIcon style={{ color: 'white' }} />
+         )}
+       </div>
+        }
                 <div onClick={()=> {if (song.songs && song.songs.length > 0 && song.songs[0].audio_url) {dispatch({type : "playandpause", 
                                             songTitle : song.title, 
                                             songImg : song.image, 

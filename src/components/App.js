@@ -390,6 +390,7 @@ const App = () => {
         const data = await response.json();
         console.log(data);
         console.log(data.data.songs);
+        console.log(songId);
         setMylist(data.data.songs);
         setFavoriteSongs(data.data.songs.map(item => item._id));
         // if (favoriteSongs.includes(state1.playsongid)) {
@@ -475,6 +476,8 @@ const App = () => {
                   dispatch2={dispatch2}
                   divRef={divRef}
                   loggedin={loggedin}
+                  favoriteSongs={favoriteSongs}
+                  addToFavorites={addToFavorites}
                   setLoggedIn={setLoggedIn}
                 />
               </>
