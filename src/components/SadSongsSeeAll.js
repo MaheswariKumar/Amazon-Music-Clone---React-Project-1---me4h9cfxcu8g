@@ -14,9 +14,10 @@ import React, {
   import Loading from "./Loading";
   import ShareSong from "./ShareSong"; 
 import TryPremium from "./TryPremium";
+import CustomDoneIcon from "./CustomDoneIcon";
 
 
-function SadSongsSeeAll({state, state1, dispatch, dispatch1, divRef}){
+function SadSongsSeeAll({state, state1, dispatch, dispatch1, loggedin, favoriteSongs, addToFavorites, divRef}){
 
     let [playlists, setPlayLists] = useState([]);
     let [limit, setLimit] = useState(100);
@@ -92,6 +93,9 @@ function SadSongsSeeAll({state, state1, dispatch, dispatch1, divRef}){
       //     }; 
       // }, []);
 
+      const token = localStorage.getItem('token');
+
+
       if (loading) {
         return (
           // <div className="Main-section">
@@ -117,9 +121,16 @@ function SadSongsSeeAll({state, state1, dispatch, dispatch1, divRef}){
                     <div className="image-container">
                     <img className="imgtab" src={song.thumbnail} alt={song.title}></img>
                     <div className="icon-container">
-                <div onClick={()=> dispatch({type: "showpremium"})}>
-                <ActionAddIcon />
-                </div>
+                    {!loggedin ? (<div onClick={()=> dispatch({type : "showpremium"})}>
+              <ActionAddIcon style={{ color: 'white' }}/>
+              </div>)
+         : (<div onClick={() => addToFavorites(song._id, token, "me4h9cfxcu8g")}>
+         {favoriteSongs.includes(song._id) ? (
+           <CustomDoneIcon style={{ color: 'white' }} />
+         ) : (
+           <ActionAddIcon style={{ color: 'white' }} />
+         )}
+       </div>) }
                         <div onClick={()=> {if (song.audio_url) {dispatch({type : "playandpause", 
                                             songTitle : song.title, 
                                             songImg : song.thumbnail, 

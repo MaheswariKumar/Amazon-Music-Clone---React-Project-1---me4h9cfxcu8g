@@ -586,6 +586,9 @@ function Main({opensearch,
                                state1={state1}
                                dispatch={dispatch}
                                dispatch1={dispatch1}
+                               loggedin={loggedin}
+                               favoriteSongs={favoriteSongs}
+                               addToFavorites={addToFavorites}
                                divRef={divRef} /> }
             {showartists && <ArtistShowcase artistlists={artistlists} 
                                handleLeftIcon={handleLeftIcon} 
@@ -616,6 +619,9 @@ function Main({opensearch,
                                state1={state1}
                                dispatch={dispatch}
                                dispatch1={dispatch1}
+                               loggedin={loggedin}
+                               favoriteSongs={favoriteSongs}
+                               addToFavorites={addToFavorites}
                                divRef={divRef} />}
             {shownewrelease && <NewMusicShowcase newlists={newlists}
                                handleLeftIcon={handleLeftIcon}
@@ -631,6 +637,9 @@ function Main({opensearch,
                                state1={state1}
                                dispatch={dispatch}
                                dispatch1={dispatch1}
+                               loggedin={loggedin}
+                               favoriteSongs={favoriteSongs}
+                               addToFavorites={addToFavorites}
                                divRef={divRef} />}
             {showsadsongs && <SoulfulHealing sadlists={sadlists}
                                handleLeftIcon={handleLeftIcon}
@@ -646,6 +655,9 @@ function Main({opensearch,
                                state1={state1}
                                dispatch={dispatch}
                                dispatch1={dispatch1}
+                               loggedin={loggedin}
+                               favoriteSongs={favoriteSongs}
+                               addToFavorites={addToFavorites}
                                divRef={divRef} />}
             {showromanticsongs && <RomanticRhythms romanticlists={romanticlists}
                                handleLeftIcon={handleLeftIcon}
@@ -661,6 +673,9 @@ function Main({opensearch,
                                state1={state1}
                                dispatch={dispatch}
                                dispatch1={dispatch1}
+                               loggedin={loggedin}
+                               favoriteSongs={favoriteSongs}
+                               addToFavorites={addToFavorites}
                                divRef={divRef}/>}
             {state.showmusiccomp && <MusicComponent state={state} 
                                dispatch={dispatch} 

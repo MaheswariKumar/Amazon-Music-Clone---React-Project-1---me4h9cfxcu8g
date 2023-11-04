@@ -7,6 +7,7 @@ import ActionMoreIcon from "./ActionMoreIcon";
 import ActionAddIcon from "./ActionAddIcon";
 import MyCustomPauseIcon from "./MyCustomPauseIcon";
 import AddOptions from "./AddOptions";
+import CustomDoneIcon from "./CustomDoneIcon";
 
 function HappyHarmonies({happylists, 
                          handleLeftIcon, 
@@ -22,6 +23,9 @@ function HappyHarmonies({happylists,
                          state1,
                          dispatch,
                          dispatch1,
+                         loggedin,
+                         favoriteSongs,
+                         addToFavorites,
                          divRef}) {
 
     const [screenWidth, setScreenWidth] = useState(window.innerWidth);
@@ -51,6 +55,8 @@ function HappyHarmonies({happylists,
       return `${selectright[identifier]}`; 
     }
   };
+
+  const token = localStorage.getItem('token');
     return (
         <div className="feature">
             <div className="headertab">
@@ -75,9 +81,16 @@ function HappyHarmonies({happylists,
                     <div className="image-container">
                     <img className="imgtab" src={song.thumbnail} alt={song.title}></img>
                     <div className="icon-container">
-                <div onClick={()=> dispatch({type: "showpremium"})}>
-                <ActionAddIcon />
-                </div>
+                    {!loggedin ? (<div onClick={()=> dispatch({type : "showpremium"})}>
+              <ActionAddIcon style={{ color: 'white' }}/>
+              </div>)
+         : (<div onClick={() => addToFavorites(song._id, token, "me4h9cfxcu8g")}>
+         {favoriteSongs.includes(song._id) ? (
+           <CustomDoneIcon style={{ color: 'white' }} />
+         ) : (
+           <ActionAddIcon style={{ color: 'white' }} />
+         )}
+       </div>) }
                         <div onClick={()=> {if (song.audio_url) {dispatch({type : "playandpause", 
                                             songTitle : song.title, 
                                             songImg : song.thumbnail, 

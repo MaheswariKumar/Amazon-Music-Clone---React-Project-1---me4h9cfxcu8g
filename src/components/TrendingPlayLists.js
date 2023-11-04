@@ -75,13 +75,13 @@ function TrendingPlayLists({ playlists,
           <span className="all">SEE ALL</span>
         </div> : null }</Link>
       </div>
-      <div className={selectall ? "wrapper-all" : "wrapper"} ref={containerRef}>
+      <div className={selectall ? "wrapper-all" : "wrappertwk"} ref={containerRef}>
         {playlists.map((song, idx) => (
           <div className={selectall ? "collections-all" : "collections"} key={idx}>
             <div className="image-container">
               <img className="imgtab" src={song.image} alt={song.title}></img>
               <div className="icon-container">
-              {!loggedin ? <div onClick={()=> dispatch({type : "showpremium"})}>
+              {song.songs && song.songs[0] ? (!loggedin ? <div onClick={()=> dispatch({type : "showpremium"})}>
               <ActionAddIcon style={{ color: 'white' }}/>
               </div>
          : <div onClick={() => addToFavorites(song.songs && song.songs[0] && song.songs[0]._id, token, "me4h9cfxcu8g")}>
@@ -91,7 +91,7 @@ function TrendingPlayLists({ playlists,
            <ActionAddIcon style={{ color: 'white' }} />
          )}
        </div>
-        }
+        ) : null }
                 <div onClick={()=> {if (song.songs && song.songs.length > 0 && song.songs[0].audio_url) {dispatch({type : "playandpause", 
                                             songTitle : song.title, 
                                             songImg : song.image, 

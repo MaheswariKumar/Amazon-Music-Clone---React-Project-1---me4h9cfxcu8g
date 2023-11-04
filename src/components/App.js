@@ -549,6 +549,9 @@ const App = () => {
                   state1={state1}
                   dispatch={dispatch}
                   dispatch1={dispatch1}
+                  loggedin={loggedin}
+                  favoriteSongs={favoriteSongs}
+                  addToFavorites={addToFavorites}
                   divRef={divRef}
                 />
                 {state.showmusiccomp && (
@@ -587,6 +590,9 @@ const App = () => {
                   state1={state1}
                   dispatch={dispatch}
                   dispatch1={dispatch1}
+                  loggedin={loggedin}
+                  favoriteSongs={favoriteSongs}
+                  addToFavorites={addToFavorites}
                   divRef={divRef}
                 />
                 {state.showmusiccomp && (
@@ -663,6 +669,9 @@ const App = () => {
                   state1={state1}
                   dispatch={dispatch}
                   dispatch1={dispatch1}
+                  loggedin={loggedin}
+                  favoriteSongs={favoriteSongs}
+                  addToFavorites={addToFavorites}
                   divRef={divRef}
                 />
                 {state.showmusiccomp && (
@@ -701,6 +710,9 @@ const App = () => {
                   state1={state1}
                   dispatch={dispatch}
                   dispatch1={dispatch1}
+                  loggedin={loggedin}
+                  favoriteSongs={favoriteSongs}
+                  addToFavorites={addToFavorites}
                   divRef={divRef}
                 />
                 {state.showmusiccomp && (
@@ -739,6 +751,9 @@ const App = () => {
                   state1={state1}
                   dispatch={dispatch}
                   dispatch1={dispatch1}
+                  loggedin={loggedin}
+                  favoriteSongs={favoriteSongs}
+                  addToFavorites={addToFavorites}
                   divRef={divRef}
                 />
                 {state.showmusiccomp && (
@@ -777,6 +792,9 @@ const App = () => {
                   state1={state1}
                   dispatch={dispatch}
                   dispatch1={dispatch1}
+                  loggedin={loggedin}
+                  favoriteSongs={favoriteSongs}
+                  addToFavorites={addToFavorites}
                   divRef={divRef}
                 />
                 {state.showmusiccomp && (
