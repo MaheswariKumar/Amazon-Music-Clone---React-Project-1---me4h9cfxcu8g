@@ -75,7 +75,7 @@ function TrendingPlayLists({ playlists,
           <span className="all">SEE ALL</span>
         </div> : null }</Link>
       </div>
-      <div className={selectall ? "wrapper-all" : "wrappertwk"} ref={containerRef}>
+      <div className={selectall ? "wrapper-all" : "wrapper"} ref={containerRef}>
         {playlists.map((song, idx) => (
           <div className={selectall ? "collections-all" : "collections"} key={idx}>
             <div className="image-container">
