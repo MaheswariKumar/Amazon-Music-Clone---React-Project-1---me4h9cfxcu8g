@@ -6,8 +6,10 @@ import ActionMoreIcon from "./ActionMoreIcon";
 import ActionAddIcon from "./ActionAddIcon";
 import CustomChevronRightIcon from "./CustomChevronRightIcon";
 import AddOptions from "./AddOptions";
+import CustomDoneIcon from "./CustomDoneIcon";
 
-function ShowResults({result, state, dispatch, state1, dispatch1, divRef}) {
+function ShowResults({result, state, dispatch, state1, dispatch1, loggedin, favoriteSongs, addToFavorites, divRef}) {
+  const token = localStorage.getItem('token');
     return (
     // <div className="Main-section">
     //     <div className="categories"></div>
@@ -20,9 +22,16 @@ function ShowResults({result, state, dispatch, state1, dispatch1, divRef}) {
                       <div className="image-container">
                       <img className="imgtab" src={result.thumbnail} alt={result.title}></img>
                       <div className="icon-container">
-                      <div onClick={()=> dispatch({type : "showpremium"})}>
+                      {!loggedin ? (<div onClick={()=> dispatch({type : "showpremium"})}>
               <ActionAddIcon style={{ color: 'white' }}/>
-              </div>
+              </div>)
+         : (<div onClick={() => addToFavorites(result._id, token, "me4h9cfxcu8g")}>
+         {favoriteSongs.includes(result._id) ? (
+           <CustomDoneIcon style={{ color: 'white' }} />
+         ) : (
+           <ActionAddIcon style={{ color: 'white' }} />
+         )}
+       </div>) }
                           <div onClick={()=> {if (result.audio_url) {dispatch({type : "playandpause", 
                                               songTitle : result.title, 
                                               songImg : result.thumbnail, 
