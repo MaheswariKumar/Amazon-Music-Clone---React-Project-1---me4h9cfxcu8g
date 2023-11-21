@@ -133,7 +133,6 @@ function RomanticRhythms({romanticlists,
                         <span className="link">{song.title}</span>
                     </div></Link>
                     <div className="content-container">
-                        {/* <span className="content">{song.artist[0].name}</span> */}
                           {song.artist.map((artist, idx) => (
                             <span className="content" key={idx}>
                             {artist.name}

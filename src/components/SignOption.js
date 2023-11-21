@@ -9,7 +9,6 @@ function SignOption({dispatch2, divRef, loggedin, setLoggedIn}){
 
     return (
       <div className={loggedin ? "signout" : "sign-option"} ref={divRef} onClick={()=> dispatch2({type : "signoption", opensignoption : false})}>
-        {/* <Link className="signlink" to="/signup"> */}
          {!loggedin ?  <><div className="sign">
           <Link to="/signin"><nav>Sign In</nav></Link>
         </div>
